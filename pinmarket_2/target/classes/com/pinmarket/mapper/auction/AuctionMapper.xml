@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pinmarket.mapper.auction.AuctionMapper">
+	<resultMap id="attachmentVO" type="com.pinmarket.vo.AttachmentVO">
+	  <result property="id" column="ATID"/>
+	  <result property="fk_id" column="FK_ID"/>
+	  <result property="file_type" column="FILE_TYPE"/>
+	  <result property="save_name" column="SAVE_NAME"/>
+	  <result property="real_name" column="REAL_NAME"/>
+	  <result property="file_path" column="FILE_PATH"/>
+	  <result property="file_size" column="FILE_SIZE"/>
+	  <result property="thumbnail_name" column="THUMBNAIL_NAME"/>
+	  <result property="file_ext" column="FILE_EXT"/>
+	</resultMap>
+	<resultMap id="getRankList" type="com.pinmarket.vo.RankingVO">
+	  <result property="id" column="ID" />
+	  <result property="member_id" column="MEMBER_ID"/>
+	  <result property="str_id" column="STR_ID"/>
+	  <result property="auction_id" column="AUCTION_ID"/>
+	  <result property="title" column="TITLE"/>
+	  <result property="content" column="CONTENT"/>
+	  <result property="payment_status" column="PAYMENT_STATUS"/>
+	  <result property="regDate" column="REGDATE"/>
+	  <collection property="attachmentVO" resultMap="attachmentVO" />
+	</resultMap>
+	<resultMap id="auctionList" type="com.pinmarket.vo.AuctionVO">
+		<result property="id" column="ID" />
+		<result property="member_id" column="MEMBER_ID" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="address1" column="ADDRESS1" />
+		<result property="address2" column="ADDRESS2" />
+		<result property="status" column="STATUS" />
+		<result property="regDate" column="REGDATE" />
+		<result property="startDate" column="STARTDATE" />
+		<result property="endDate" column="ENDDATE" />
+		<result property="latitude" column="LATITUDE" />
+		<result property="longitude" column="LONGITUDE" />
+		<result property="str_id" column="STR_ID" />
+		<result property="rt_cnt" column="RT_CNT" />
+		<collection property="attachmentVO" resultMap="attachmentVO" />
+	</resultMap>
+	
+	<insert id="write">
+		INSERT INTO AUCTION_TB (ID, MEMBER_ID, TITLE, CONTENT, ADDRESS1, ADDRESS2, STATUS, REGDATE, STARTDATE, ENDDATE, LATITUDE,LONGITUDE) 
+		VALUES(SEQ_AUCTION_TB_ID.nextval,#{member_id},#{title},#{content},#{address1},#{address2},#{status},sysdate,#{startDate},#{endDate},#{latitude},#{longitude})  
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+        	SELECT SEQ_AUCTION_TB_ID.currval FROM dual
+    	</selectKey>
+	</insert>
+	<insert id="profileSave">
+	 	INSERT INTO ATTACHMENT_TB (ID, FK_ID, FILE_TYPE, SAVE_NAME, REAL_NAME, FILE_PATH, FILE_SIZE, FILE_EXT, REGDATE, THUMBNAIL_NAME)
+		VALUES(SEQ_ATTACHMENT_ID.nextval, #{fk_id}, #{file_type}, #{save_name},#{real_name},#{file_path},#{file_size},#{file_ext},sysdate, #{thumbnail_name})
+	</insert>
+	
+	<select id="list" resultMap="auctionList">
+		SELECT T2.*
+		FROM (
+			SELECT
+				ROWNUM RNUM, T1.*
+			FROM(
+				SELECT count(rt.ID) as RT_CNT ,at2.THUMBNAIL_NAME ,act.ID, act.MEMBER_ID, act.TITLE, SUBSTR(act.CONTENT,1, 15) as CONTENT, act.ADDRESS1, act.ADDRESS2, act.STATUS, act.REGDATE,
+				TO_CHAR(act.STARTDATE, 'YYYY-MM-DD') as startDate, TO_CHAR(act.ENDDATE, 'YYYY-MM-DD') as endDate, mt.STR_ID
+				FROM AUCTION_TB act LEFT JOIN MEMBER_TB mt ON act.MEMBER_ID = mt.ID 
+				LEFT JOIN ATTACHMENT_TB at2 ON act.ID = at2.FK_ID AND at2.FILE_TYPE = 'auction' AND at2.THUMBNAIL_NAME IS NOT NULL
+				LEFT JOIN RANKING_TB rt ON act.ID = rt.AUCTION_ID 
+				<where>
+					<if test="title != '' and title != null">
+					(act.TITLE like '%' || #{title} || '%') AND
+					</if>
+					<if test="district1 != '' and district1 != null">
+					(act.ADDRESS1 like '%' || #{district1} || '%') AND (act.ADDRESS1 like '%' || #{district2} || '%') AND
+					</if>
+					(act.STATUS = 'open' OR act.STATUS = 'comp')
+				</where>
+				GROUP BY at2.THUMBNAIL_NAME ,act.ID, act.MEMBER_ID, act.TITLE, act.CONTENT, act.ADDRESS1, act.ADDRESS2, act.STATUS, act.REGDATE,
+				act.startDate, act.ENDDATE, mt.STR_ID
+				<choose>
+					<when  test="title == '' or title == null">
+						ORDER BY RT_CNT DESC, act.ID DESC
+					</when>
+					<when  test="title != '' and title != null">
+						ORDER BY act.ID DESC
+					</when>
+				</choose>
+			) T1
+		) T2
+		<where>
+			T2.RNUM between #{startIndex} and #{endIndex}
+		</where>
+	</select>
+	
+	<select id="getImageFile" resultType="com.pinmarket.vo.AttachmentVO">
+		SELECT * FROM ATTACHMENT_TB WHERE FILE_TYPE = 'auction'
+		<foreach collection="array" open="and" separator="or" item="at">
+			FK_ID = #{at.value}
+		</foreach>
+	</select>
+	
+	<select id="view" resultType="com.pinmarket.vo.AuctionVO">
+		SELECT 
+		ATB.ID, ATB.MEMBER_ID, ATB.TITLE, ATB.CONTENT, ATB.ADDRESS1, ATB.ADDRESS2, ATB.STATUS, ATB.REGDATE, 
+		TO_CHAR(ATB.STARTDATE, 'YYYY-MM-DD') AS STARTDATE, TO_CHAR(ATB.ENDDATE, 'YYYY-MM-DD') AS ENDDATE, ATB.LATITUDE, ATB.LONGITUDE, MT.STR_ID 
+		FROM AUCTION_TB ATB LEFT JOIN MEMBER_TB MT ON ATB.MEMBER_ID = MT.ID 
+		WHERE ATB.ID = #{id}
+	</select>
+	
+	<insert id="rankInsert">
+		INSERT INTO RANKING_TB (ID, MEMBER_ID, AUCTION_ID, TITLE, CONTENT, PAYMENT_STATUS, REGDATE)
+		VALUES (SEQ_RANK_TB_ID.nextval, #{member_id},#{auction_id},#{title},#{content},#{payment_status},sysDate)
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+        	SELECT SEQ_RANK_TB_ID.currval FROM dual
+    	</selectKey>
+	</insert>
+	
+	<select id="getRankList" resultMap="getRankList">
+		SELECT R2.* 
+		FROM (
+			SELECT ROWNUM RNUM, R1.*
+			FROM(
+				SELECT RT.ID, RT.MEMBER_ID, RT.AUCTION_ID, RT.TITLE, RT.CONTENT, RT.PAYMENT_STATUS, TO_CHAR(RT.REGDATE, 'YYYY-MM-DD') AS REGDATE,
+				AT.ID AS ATID, AT.FK_ID, AT.FILE_TYPE, AT.SAVE_NAME, AT.REAL_NAME, AT.FILE_PATH, AT.FILE_SIZE, AT.THUMBNAIL_NAME, AT.FILE_EXT,
+				MT.STR_ID 
+				FROM RANKING_TB RT LEFT JOIN ATTACHMENT_TB AT ON RT.ID = AT.FK_ID AND FILE_TYPE = 'rank' 
+				LEFT JOIN MEMBER_TB MT ON RT.MEMBER_ID = MT.ID
+				WHERE AUCTION_ID = #{auction_id}
+				ORDER BY RT.PAYMENT_STATUS ASC, RT.ID ASC
+			) R1
+		) R2
+		<where>
+			R2.RNUM between #{startIndex} and #{endIndex}
+		</where>
+	</select>
+	
+	<select id="memberCheck" resultType="int">
+		SELECT COUNT(*) 
+		FROM RANKING_TB 
+		WHERE MEMBER_ID = #{member_id} AND AUCTION_ID = #{auction_id}
+	</select>
+	
+	<insert id="aucStatusInsert">
+		INSERT INTO AUC_STATUS_TB (ID, AUCTION_ID, RANKING_ID, STATUS, REGDATE)
+		VALUES(SEQ_AUC_STATUS_TB_ID.nextval, #{auction_id}, #{id}, 'wait', sysdate)
+	</insert>
+	
+	<update id="auctionComp">
+		UPDATE AUCTION_TB SET STATUS = 'comp'
+		WHERE ID = #{auction_id}
+	</update>
+	
+	<update id="rankComp">
+		UPDATE AUC_STATUS_TB SET STATUS = 'comp'
+		WHERE AUCTION_ID = #{auction_id} and RANKING_ID = #{rank_id}
+	</update>
+	
+	<!-- auction status가 comp로 되면 채팅방 생성 -->
+	<insert id="addChatRoom">
+		<selectKey resultType="int" keyProperty="status_id" order="BEFORE">
+        	SELECT MAX(id) AS status_id FROM auc_status_tb
+    	</selectKey>
+		INSERT INTO CHATROOM_TB (ROOM_ID, HOST_ID, GUEST_ID, ROOM_STATUS, AUC_STATUS_ID, REGDATE) 
+		VALUES(SEQ_CHATROOM_TB_ROOM_ID.nextval, #{host_id}, #{guest_id}, 'ing', #{status_id}, sysdate)
+	</insert>
+	
+	<select id="getAucStatus" resultType="com.pinmarket.vo.MemberVO">
+		SELECT mt.STR_ID 
+		FROM AUC_STATUS_TB ast LEFT JOIN RANKING_TB rt ON ast.RANKING_ID = rt.ID 
+		LEFT JOIN MEMBER_TB mt ON rt.MEMBER_ID = mt.ID 
+		WHERE ast.AUCTION_ID = #{auction_id} AND ast.STATUS = 'comp'
+		
+	</select>
+	
+	<!-- 완료된 랭킹 겟 -->
+	<select id="rankCompList" resultMap="getRankList">
+		SELECT rt.ID, rt.MEMBER_ID, mt.STR_ID , rt.AUCTION_ID, rt.TITLE, rt.CONTENT, rt.PAYMENT_STATUS, TO_CHAR(rt.REGDATE, 'YYYY-MM-DD') AS REGDATE,
+		atm.SAVE_NAME ,atm.REAL_NAME ,atm.FILE_PATH ,atm.THUMBNAIL_NAME
+		FROM AUC_STATUS_TB ast LEFT JOIN RANKING_TB rt ON ast.RANKING_ID = rt.ID 
+		LEFT JOIN ATTACHMENT_TB atm ON rt.ID = atm.FK_ID AND atm.FILE_TYPE = 'rank' 
+		LEFT JOIN MEMBER_TB mt ON mt.ID = rt.MEMBER_ID 
+		WHERE ast.AUCTION_ID = #{auction_id} and ast.STATUS = 'comp'
+	</select>
+	
+	<!-- 도 정보 추출 -->
+	<select id="getDistrictList" resultType="com.pinmarket.vo.DistrictVO">
+		SELECT * FROM DISTRICT_TB WHERE LOCATION_LEVEL = 1
+	</select>
+	
+	<!-- 도 정보를 이용한 level 2 정보 추출 -->
+	<select id="getSiGuGun" resultType="com.pinmarket.vo.DistrictVO">
+		SELECT * FROM DISTRICT_TB WHERE LOCATION_LEVEL = 2 AND PARENT_CODE = #{doCode}
+	</select>
+	
+	<!-- 스케줄러로 옥션 매일 0시 05분에 status값 수정 -->
+	<update id="updateStatus">
+		UPDATE AUCTION_TB SET STATUS =
+		<![CDATA[
+			CASE 
+			WHEN TO_DATE(STARTDATE,'YYYY-MM-DD') > TO_DATE(SYSDATE ,'YYYY-MM-DD') THEN 'wait'
+			WHEN TO_DATE(ENDDATE,'YYYY-MM-DD') < TO_DATE(SYSDATE ,'YYYY-MM-DD') THEN 'end'
+			WHEN TO_DATE(STARTDATE,'YYYY-MM-DD') <= TO_DATE(SYSDATE ,'YYYY-MM-DD') AND TO_DATE(ENDDATE,'YYYY-MM-DD') >= TO_DATE(SYSDATE ,'YYYY-MM-DD') THEN 'open'
+			END
+		]]>
+		WHERE STATUS = 'open' OR STATUS = 'wait'
+	</update>
+</mapper>
+
+
+
+

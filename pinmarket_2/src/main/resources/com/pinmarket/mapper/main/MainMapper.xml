@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pinmarket.mapper.main.MainMapper">
+	<resultMap id="attachmentVO" type="com.pinmarket.vo.AttachmentVO">
+	  <result property="id" column="ATID"/>
+	  <result property="fk_id" column="FK_ID"/>
+	  <result property="file_type" column="FILE_TYPE"/>
+	  <result property="save_name" column="SAVE_NAME"/>
+	  <result property="real_name" column="REAL_NAME"/>
+	  <result property="file_path" column="FILE_PATH"/>
+	  <result property="file_size" column="FILE_SIZE"/>
+	  <result property="thumbnail_name" column="THUMBNAIL_NAME"/>
+	  <result property="file_ext" column="FILE_EXT"/>
+	</resultMap>
+	<resultMap id="auctionList" type="com.pinmarket.vo.AuctionVO">
+		<result property="id" column="ID" />
+		<result property="member_id" column="MEMBER_ID" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="address1" column="ADDRESS1" />
+		<result property="address2" column="ADDRESS2" />
+		<result property="status" column="STATUS" />
+		<result property="regDate" column="REGDATE" />
+		<result property="startDate" column="STARTDATE" />
+		<result property="endDate" column="ENDDATE" />
+		<result property="latitude" column="LATITUDE" />
+		<result property="longitude" column="LONGITUDE" />
+		<result property="str_id" column="STR_ID" />
+		<result property="rt_cnt" column="RT_CNT" />
+		<collection property="attachmentVO" resultMap="attachmentVO" />
+	</resultMap>
+	<select id="getTopAuction" resultMap="auctionList">
+	SELECT T2.*
+		FROM (
+			SELECT
+				ROWNUM RNUM, T1.*
+			FROM(
+				SELECT 
+					count(RT.ID) as RT_CNT, ATT.THUMBNAIL_NAME, AT2.ID,AT2.MEMBER_ID,AT2.TITLE,AT2.CONTENT,AT2.ADDRESS1,AT2.REGDATE,
+					TO_CHAR(AT2.STARTDATE, 'YYYY-MM-DD') as startDate, TO_CHAR(AT2.ENDDATE, 'YYYY-MM-DD') as endDate
+				FROM 
+					AUCTION_TB AT2 LEFT JOIN RANKING_TB RT ON AT2.ID = RT.AUCTION_ID 
+					LEFT JOIN ATTACHMENT_TB ATT ON AT2.ID = ATT.FK_ID AND ATT.FILE_TYPE = 'auction' AND ATT.THUMBNAIL_NAME IS NOT NULL
+				<!-- WHERE 
+					AT2.STATUS = 'open' -->
+				GROUP BY 
+					ATT.THUMBNAIL_NAME,AT2.ID,AT2.MEMBER_ID,AT2.TITLE,AT2.CONTENT,AT2.ADDRESS1,AT2.REGDATE,
+					AT2.STARTDATE, AT2.ENDDATE
+				ORDER BY 
+					RT_CNT DESC, AT2.ID DESC
+				) T1
+		) T2
+	<where>
+		T2.RNUM between #{startRow} and #{endRow}
+	</where>
+	</select>
+</mapper>

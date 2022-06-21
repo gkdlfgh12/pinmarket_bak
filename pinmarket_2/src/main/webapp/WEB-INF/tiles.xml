@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+  <!-- 회원 관련 -->
+  <definition name="member.*" template="/WEB-INF/views/member/inc/layout.jsp">
+    <put-attribute name="title" value="멤버" />
+    <put-attribute name="header" value="/WEB-INF/views/member/inc/header.jsp" />
+    <put-attribute name="body" value="/WEB-INF/views/member/{1}.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/views/member/inc/footer.jsp" />
+  </definition>
+  
+  <!-- 메인 -->
+  <definition name="main.*" template="/WEB-INF/views/inc/layout.jsp">
+    <put-attribute name="title" value="멤버" />
+    <put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
+    <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp" />
+  </definition>
+  
+  <!-- 경매 -->
+  <definition name="auction.*" template="/WEB-INF/views/auction/inc/layout.jsp">
+    <put-attribute name="title" value="경매" />
+    <put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
+    <put-attribute name="body" value="/WEB-INF/views/auction/{1}.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp" />
+  </definition>
+  
+  <!-- FAQ -->
+  <definition name="notice.*" template="/WEB-INF/views/notice/inc/layout.jsp">
+    <put-attribute name="title" value="경매" />
+    <put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
+    <put-attribute name="body" value="/WEB-INF/views/notice/{1}.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp" />
+  </definition>
+  
+  <!-- 상품 -->
+  <definition name="product.*" template="/WEB-INF/views/product/inc/layout.jsp">
+    <put-attribute name="title" value="경매" />
+    <put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
+    <put-attribute name="body" value="/WEB-INF/views/product/{1}.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp" />
+  </definition>
+  
+  <!-- 내 정보 -->
+  <definition name="mypage.*" template="/WEB-INF/views/mypage/inc/layout.jsp">
+    <put-attribute name="title" value="내 정보" />
+    <put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
+    <put-attribute name="body" value="/WEB-INF/views/mypage/{1}.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp" />
+  </definition>
+</tiles-definitions>

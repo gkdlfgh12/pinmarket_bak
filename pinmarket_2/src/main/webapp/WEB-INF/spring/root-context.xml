@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean class="com.zaxxer.hikari.HikariConfig" id="hikariConfig">
+		<!-- <property value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" name="driverClassName"/> -->
+		<property value="oracle.jdbc.driver.OracleDriver" name="driverClassName"/>
+		<!-- <property value="jdbc:log4jdbc:oracle:thin:@localhost:1521/XEPDB1" name="jdbcUrl"/> -->
+		<property value="jdbc:oracle:thin:@localhost:1521/XEPDB1" name="jdbcUrl"/>
+		<property value="PINMARKET" name="username"/>
+		<property value="PINMARKET" name="password"/>
+	</bean>
+	<bean class="com.zaxxer.hikari.HikariDataSource" id="dataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig"/>
+	</bean>
+
+	<!-- mybatis-Spring Mybatis와 Spring을 연결해 주는 객체 : dataSource에서 연결정보를 가져와서--> 
+	<!--spring과 mybatis을 연결후, 연결된 객체를 생성한다. -->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- root xml -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> 
+		<property name="dataSource" ref="dataSource"/> 
+	</bean> 
+
+	<!-- 트랜잭션 어노테이션을 찾는다. -->
+	<tx:annotation-driven/>
+	
+	<mybatis-spring:scan base-package="com.pinmarket.mapper"/>
+</beans>

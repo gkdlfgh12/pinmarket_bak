@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pinmarket.mapper.member.MemberMapper">
+	<select id="login" resultType="com.pinmarket.vo.MemberVO">
+		SELECT ID,STR_ID,NAME,GENDER,EMAIL,ITEM_CNT,MEMBER_LEVEL FROM MEMBER_TB WHERE STATUS = '정상' AND (STR_ID = #{str_id} AND PW = #{pw})
+	</select>
+	<insert id="join">
+		INSERT INTO MEMBER_TB (ID, STR_ID, PW, NAME, BIRTH, GENDER, ADDRESS1, ADDRESS2, ZIPCODE,TEL, EMAIL) 
+		VALUES(SEQ_MEMBER_TB_ID.nextval,#{str_id},#{pw},#{name},#{birth},#{gender},#{address1},#{address2},#{zipcode},#{tel},#{email})
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+        	SELECT SEQ_MEMBER_TB_ID.currval FROM dual
+    	</selectKey>  
+	</insert>
+	<insert id="profileSave">
+	 	INSERT INTO ATTACHMENT_TB (ID, FK_ID, FILE_TYPE, SAVE_NAME, REAL_NAME, FILE_PATH, FILE_SIZE, FILE_EXT, REGDATE,THUMBNAIL_NAME)
+		VALUES(SEQ_ATTACHMENT_ID.nextval, #{fk_id}, #{file_type}, #{save_name},#{real_name},#{file_path},#{file_size},#{file_ext},sysdate,#{thumbnail_name})
+	</insert>
+	
+	<!-- 네아로 callback 처리 -->
+	<!-- id 중복 처리 -->
+	<select id="joinCheck" resultType="com.pinmarket.vo.MemberVO">
+		SELECT ID,STR_ID,NAME,GENDER,EMAIL,ITEM_CNT,MEMBER_LEVEL
+		FROM MEMBER_TB
+		WHERE STATUS = '정상' AND (STR_ID = #{str_id} AND LOGIN_TYPE = 'naver' AND SNS_ID = #{sns_id})
+	</select>
+	<insert id="snsjoin">
+		INSERT INTO MEMBER_TB (ID, STR_ID, NAME, GENDER, BIRTH, TEL, EMAIL, LOGIN_TYPE, STATUS, SNS_ID) 
+		VALUES(SEQ_MEMBER_TB_ID.nextval,#{str_id},#{name},#{gender},#{birth},#{tel}, #{email}, 'naver', '정상', #{sns_id})
+	</insert>
+	
+	<!-- rest -->
+	<select id="idDupleCheck" resultType="int">
+		SELECT COUNT(*) FROM MEMBER_TB WHERE STR_ID = #{str_id}
+	</select>
+	
+	<update id="addItemCnt">
+		UPDATE MEMBER_TB SET ITEM_CNT = ITEM_CNT + #{cnt}
+		WHERE ID = #{member_id}
+	</update>
+	
+	<update id="minusItemCnt">
+		UPDATE MEMBER_TB SET ITEM_CNT = ITEM_CNT - 1
+		WHERE ID = #{member_id}
+	</update>
+</mapper>

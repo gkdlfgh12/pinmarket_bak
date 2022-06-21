@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pinmarket.mapper.notice.NoticeMapper">
+	
+	<select id="getFreeFaqTotal" resultType="int">
+		select count(*) from BOARD_TB WHERE BOARD_TYPE = 'freeFaq' and STATUS = 'none'
+	</select>
+
+	<select id="getFreeFaqList" resultType="com.pinmarket.vo.BoardVO">
+	SELECT T2.*
+		FROM (
+			SELECT ROWNUM RNUM, T1.* 
+			FROM(
+				SELECT 
+					mt.STR_ID, bt.ID, bt.MEMBER_ID, bt.CONTENT, bt.TITLE, bt.BOARD_TYPE, bt.HIT, bt.STATUS, TO_CHAR(bt.REGDATE,'YYYY-MM-DD') AS REGDATE
+				FROM 
+					BOARD_TB bt LEFT JOIN MEMBER_TB mt ON bt.MEMBER_ID = mt.ID
+				WHERE 
+					bt.BOARD_TYPE = 'freeFaq' and bt.status = 'none'
+				ORDER BY 
+					bt.ID DESC
+			) T1
+	) T2
+	<where>
+		T2.RNUM between #{startRow} and #{endRow}
+	</where>
+	</select>
+	
+	<insert id="wrtieFreeFaq">
+	INSERT INTO BOARD_TB (ID,MEMBER_ID, CONTENT, TITLE, BOARD_TYPE, REGDATE) 
+	VALUES (SEQ_BOARD_TB_ID.nextval, #{member_id},#{content},#{title},#{board_type}, sysdate)
+	</insert>
+	
+	<select id="getFaq" resultType="com.pinmarket.vo.BoardVO">
+	SELECT * FROM BOARD_TB WHERE ID = #{id}
+	</select>
+	
+	<update id="modifyFaq">
+	UPDATE BOARD_TB SET TITLE = #{title}, CONTENT = #{content}
+	WHERE ID = #{id}
+	</update>
+	
+	<update id="deleteFaq">
+	UPDATE BOARD_TB SET STATUS = 'del'
+	WHERE ID = #{id}
+	</update>
+	
+	<select id="getFreeReplyList" resultType="com.pinmarket.vo.ReplyVO">
+	SELECT T2.*
+		FROM (
+			SELECT ROWNUM RNUM, T1.* 
+			FROM(
+				SELECT * FROM REPLY_TB WHERE BOARD_ID = #{board_id} AND STATUS = 'none'
+				ORDER BY ID DESC
+		) T1
+	) T2
+	<where>
+		T2.RNUM between #{startIndex} and #{endIndex}
+	</where>
+	</select>
+	
+	<!-- 답변 달기 -->
+	<insert id="freeReplyWrite">
+	INSERT INTO REPLY_TB (ID, BOARD_ID, MEMBER_ID, CONTENT, REGDATE)
+	VALUES (SEQ_REPLY_TB_ID.nextval, #{board_id}, #{member_id}, #{content}, sysdate)
+	</insert>
+	
+	<update id="freeReplyDel">
+	UPDATE REPLY_TB SET STATUS = 'del'
+	WHERE ID = #{reply_id}
+	</update>
+	
+	<select id="getBestFaqList" resultType="com.pinmarket.vo.BoardVO">
+	SELECT * FROM BOARD_TB WHERE BOARD_TYPE = 'bestFaq'
+	</select>
+</mapper>

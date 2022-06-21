@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pinmarket.mapper.mypage.MypageMapper">
+	<resultMap id="attachmentVO" type="com.pinmarket.vo.AttachmentVO">
+	  <result property="id" column="ATID"/>
+	  <result property="fk_id" column="FK_ID"/>
+	  <result property="file_type" column="FILE_TYPE"/>
+	  <result property="save_name" column="SAVE_NAME"/>
+	  <result property="real_name" column="REAL_NAME"/>
+	  <result property="file_path" column="FILE_PATH"/>
+	  <result property="file_size" column="FILE_SIZE"/>
+	  <result property="thumbnail_name" column="THUMBNAIL_NAME"/>
+	  <result property="file_ext" column="FILE_EXT"/>
+	</resultMap>
+	<resultMap type="com.pinmarket.vo.MemberVO" id="memberVO">
+		<result property="id" column="ID"/>
+		<result property="name" column="NAME"/>
+		<result property="birth" column="BIRTH"/>
+		<result property="gender" column="GENDER"/>
+		<result property="address1" column="ADDRESS1"/>
+		<result property="address2" column="ADDRESS2"/>
+		<result property="zipcode" column="ZIPCODE"/>
+		<result property="tel" column="TEL"/>
+		<result property="email" column="EMAIL"/>
+		<result property="login_type" column="LOGIN_TYPE"/>
+		<result property="str_id" column="STR_ID"/>
+		<result property="item_cnt" column="ITEM_CNT"/>
+		<collection property="attachmentVO" resultMap="attachmentVO" />
+	</resultMap>
+	<select id="getMyInfo" resultMap="memberVO">
+		SELECT MT.*, AT2.THUMBNAIL_NAME 
+		FROM MEMBER_TB MT LEFT JOIN ATTACHMENT_TB AT2 ON MT.ID = AT2.FK_ID AND AT2.FILE_TYPE = 'member'
+		WHERE MT.ID = #{id}
+	</select>
+	
+	<select id="chkPwd" resultType="int">
+		SELECT COUNT(*) FROM MEMBER_TB WHERE ID = #{id} and PW = #{password}
+	</select>
+	
+	<update id="changePwd">
+		UPDATE MEMBER_TB SET PW = #{newPassword} WHERE ID = #{id}
+	</update>
+	
+	<update id="changeInfo">
+		UPDATE MEMBER_TB SET NAME = #{name}, ADDRESS1 = #{address1}, ADDRESS2 = #{address2}, ZIPCODE = #{zipcode}, TEL = #{tel}, EMAIL = #{email}
+		WHERE ID = #{id}
+	</update>
+	
+	<update id="changeProfile">
+		UPDATE ATTACHMENT_TB SET 
+		SAVE_NAME = #{save_name}, 
+		REAL_NAME = #{real_name}, 
+		FILE_PATH = #{file_path}, 
+		FILE_SIZE = #{file_size}, 
+		FILE_EXT = #{file_ext}, 
+		REGDATE = sysdate,
+		THUMBNAIL_NAME = #{thumbnail_name}
+		WHERE FK_ID = #{fk_id} and FILE_TYPE = 'member'
+	</update>
+	
+	<insert id="insertProfile">
+		INSERT INTO ATTACHMENT_TB (ID, FK_ID, FILE_TYPE, SAVE_NAME, REAL_NAME, FILE_PATH, FILE_SIZE, FILE_EXT, REGDATE,THUMBNAIL_NAME)
+		VALUES(SEQ_ATTACHMENT_ID.nextval, #{fk_id}, #{file_type}, #{save_name},#{real_name},#{file_path},#{file_size},#{file_ext},sysdate,#{thumbnail_name})
+	</insert>
+</mapper>

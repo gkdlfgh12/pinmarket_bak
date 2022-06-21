@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pinmarket.mapper.chatting.ChattingMapper">
+	<select id="getRoomList" resultType="com.pinmarket.vo.RoomVO">
+		SELECT ct.ROOM_ID ,ct.HOST_ID ,ct.GUEST_ID,ct.ROOM_STATUS,ct.AUC_STATUS_ID,TO_CHAR(ct.REGDATE,'YYYY-MM-DD') AS REGDATE,
+		ast.AUCTION_ID, at2.TITLE AS AUCTION_TITLE, mt.STR_ID AS HOST_STR, mt2.STR_ID AS GUEST_STR
+		FROM CHATROOM_TB ct LEFT JOIN AUC_STATUS_TB ast ON ct.AUC_STATUS_ID = ast.ID 
+		LEFT JOIN AUCTION_TB at2 ON at2.ID = ast.AUCTION_ID
+		LEFT JOIN MEMBER_TB mt ON ct.HOST_ID = mt.ID 
+		LEFT JOIN MEMBER_TB mt2 ON ct.GUEST_ID = mt2.ID 
+		WHERE (HOST_ID = #{host_id} OR GUEST_ID = #{host_id})
+		AND (at2.TITLE like '%' || #{auction_title} || '%')
+		AND ROOM_STATUS = 'ing'
+	</select>
+	
+	<select id="getMsgList" resultType="com.pinmarket.vo.MsgVO">
+		SELECT ct.ROOM_ID,ct.MESSAGE,TO_CHAR(ct.REGDATE, 'YYYY-MM-DD hh:MI:SS') AS REGDATE,ct.MEMBER_ID,mt.STR_ID 
+		FROM CHATMESSAGE_TB ct LEFT JOIN MEMBER_TB mt ON ct.MEMBER_ID = mt.ID 
+		WHERE ROOM_ID = #{room_id}
+		ORDER BY ct.REGDATE asc
+	</select>
+	
+	<insert id="insertMsg">
+		INSERT INTO CHATMESSAGE_TB(ROOM_ID, MESSAGE, REGDATE, MEMBER_ID) 
+		VALUES (#{room_id},#{real_msg}, SYSDATE, #{member_id})
+	</insert>
+	
+	<update id="roomDelete">
+		UPDATE CHATROOM_TB SET ROOM_STATUS = 'end'
+		WHERE ROOM_ID = #{room_id}
+	</update>
+</mapper>
