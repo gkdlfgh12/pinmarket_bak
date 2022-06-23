@@ -3,9 +3,29 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.pinmarket.mapper.product.ProductMapper">
+	<resultMap id="attachmentVO" type="com.pinmarket.vo.AttachmentVO">
+		 <result property="id" column="ATID"/>
+		 <result property="fk_id" column="FK_ID"/>
+		 <result property="file_type" column="FILE_TYPE"/>
+		 <result property="save_name" column="SAVE_NAME"/>
+		 <result property="real_name" column="REAL_NAME"/>
+		 <result property="file_path" column="FILE_PATH"/>
+		 <result property="file_size" column="FILE_SIZE"/>
+		 <result property="thumbnail_name" column="THUMBNAIL_NAME"/>
+		 <result property="file_ext" column="FILE_EXT"/>
+	</resultMap>
+	<resultMap id="productVO" type="com.pinmarket.vo.ProductVO">
+		 <result property="id" column="ID"/>
+		 <result property="product_name" column="PRODUCT_NAME"/>
+		 <result property="product_price" column="PRODUCT_PRICE"/>
+		 <result property="descript" column="DESCRIPT"/>
+		 <result property="status" column="STATUS"/>
+		 <collection property="attachmentVO" resultMap="attachmentVO" />
+	</resultMap>
 	
-	<select id="getProductList" resultType="com.pinmarket.vo.ProductVO">
-		select * from PRODUCT_TB
+	<select id="getProductList" resultMap="productVO">
+		select * from PRODUCT_TB PT 
+		LEFT JOIN ATTACHMENT_TB AT2 ON PT.ID = AT2.FK_ID AND AT2.FILE_TYPE = 'product'
 	</select>
 	
 	<insert id="createOrder">

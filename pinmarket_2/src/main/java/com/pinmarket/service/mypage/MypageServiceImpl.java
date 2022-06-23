@@ -1,6 +1,7 @@
 package com.pinmarket.service.mypage;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.pinmarket.mapper.mypage.MypageMapper;
 import com.pinmarket.vo.AttachmentVO;
 import com.pinmarket.vo.MemberVO;
+import com.pinmarket.vo.OrderVO;
+import com.pinmarket.vo.ProductVO;
 
 @Service
 public class MypageServiceImpl implements MypageService{
@@ -22,6 +25,11 @@ public class MypageServiceImpl implements MypageService{
 		return mapper.getMyInfo(id);
 	}
 
+	@Override
+	public List<OrderVO> getPaymentInfo(int id) {
+		return mapper.getPaymentInfo(id);
+	}
+	
 	@Override
 	public int chkPwd(String password, int id) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -62,5 +70,6 @@ public class MypageServiceImpl implements MypageService{
 		attachmentVO.setFile_ext(profileImg.getContentType().split("/")[1]);
 		mapper.insertProfile(attachmentVO);
 	}
+
 
 }

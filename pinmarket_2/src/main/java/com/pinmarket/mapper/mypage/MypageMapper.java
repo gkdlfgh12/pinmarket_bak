@@ -1,15 +1,18 @@
 package com.pinmarket.mapper.mypage;
 
+import java.util.List;
 import java.util.Map;
-
-import org.springframework.web.multipart.MultipartFile;
 
 import com.pinmarket.vo.AttachmentVO;
 import com.pinmarket.vo.MemberVO;
+import com.pinmarket.vo.OrderVO;
 
 public interface MypageMapper {
 	//내 정보 추출
 	MemberVO getMyInfo(int id);
+	
+	//내 결제 정보 추출
+	List<OrderVO> getPaymentInfo(int id);
 	
 	//비밀번호 변경시 기존 비밀번호 체크
 	int chkPwd(Map<String, Object> map);

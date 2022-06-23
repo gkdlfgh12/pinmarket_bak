@@ -33,6 +33,7 @@
 		      <div class="card-header">
 		        <h4 class="my-0 font-weight-normal">${vo.product_name}</h4>
 		      </div>
+		      <img class="card-img-top" src="${vo.attachmentVO.file_path}${vo.attachmentVO.save_name}" alt="Card image">
 		      <div class="card-body">
 		        <h1 class="card-title pricing-card-title"><small class="text-muted">￦</small>${vo.product_price}</h1>
 		        <ul class="list-unstyled mt-3 mb-4">

@@ -25,7 +25,7 @@
 	          <a class="nav-link active dropdown-toggle" href="" id="dropdown02" data-toggle="dropdown" aria-expanded="false">마이페이지</a>
 	          <div class="dropdown-menu" aria-labelledby="dropdown02">
 		         <a class="dropdown-item" href="/mypage/myInfo">내 정보</a>
-		         <a class="dropdown-item" href="/mypage/">내 결제 정보</a>
+		         <a class="dropdown-item" href="/mypage/paymentInfo">내 결제 정보</a>
 		         <a class="dropdown-item" href="/mypage/">내가 올린 정보</a>
 		         <a class="dropdown-item" href="/mypage/">내가 신청한 경매</a>
 	          </div>
