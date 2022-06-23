@@ -14,7 +14,7 @@
                  	<div class="row">
                  		<div class="col-12">
 		                  	<div class="text-center mt-3">
-		                  		<button type="submit" class="btn btn-dark">Login</button> 
+		                  		<button type="submit" class="btn btn-dark login-btn">Login</button> 
 		                  		<a href="${naver_url}"><img src="/resources/image/naver_btnG.png" style="width: 143px;"></a>
 		                  	</div>
                   		</div>
@@ -28,15 +28,21 @@
       </div>
     </section>
 <script type="text/javascript">
-	 var isMsg = true;
-	 <c:if test="${!empty msg}">
-	 	if(isMsg){
-	 		setTimeout(function() {
-	 				alert("${msg}");
-	 			}, 
-	 			200
-	 		);
-	 		isMsg = false;
-	 	}
-	 </c:if>
+var isMsg = true;
+<c:if test="${!empty msg}">
+	if(isMsg){
+		setTimeout(function() {
+				alert("${msg}");
+			}, 
+			200
+		);
+		isMsg = false;
+	}
+</c:if>
+
+$(".login-btn").on("click",function(){
+	if($("#str_id").val() == ""){ alert("아이디를 입력하세요."); return false; }
+	if($("#pw").val() == ""){ alert("비밀번호를 입력하세요."); return false; }
+});
+
 </script>
