@@ -20,4 +20,9 @@ public class OrderVO {
 	
 	private String requested_at;
 	private String purchased_at;
+	
+	
+	//상품
+	private ProductVO productVO;
+	private AttachmentVO attachmentVO;
 }
