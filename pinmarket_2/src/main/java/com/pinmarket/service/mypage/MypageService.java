@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pinmarket.util.PageCreator;
 import com.pinmarket.vo.AttachmentVO;
 import com.pinmarket.vo.AuctionVO;
 import com.pinmarket.vo.MemberVO;
@@ -20,7 +21,7 @@ public interface MypageService {
 	List<OrderVO> getPaymentInfo(int id);
 	
 	//내가 올린 옥션 리스트
-	List<AuctionVO> getMyAutionList(int id);
+	List<AuctionVO> getMyAutionList(int id, PageCreator pc);
 	
 	//////////rest
 	
@@ -38,6 +39,9 @@ public interface MypageService {
 
 	//프로필 없을 시 추가
 	void insertProfile(MultipartFile profileImg, AttachmentVO attachmentVO);
+
+	//내가 올린 경매 총 게시글 수
+	int getMyAutionTotal(int member_id);
 
 
 
