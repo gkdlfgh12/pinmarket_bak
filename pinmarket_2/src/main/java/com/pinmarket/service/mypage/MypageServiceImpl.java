@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pinmarket.mapper.mypage.MypageMapper;
+import com.pinmarket.util.PageCreator;
 import com.pinmarket.vo.AttachmentVO;
 import com.pinmarket.vo.AuctionVO;
 import com.pinmarket.vo.MemberVO;
@@ -37,10 +38,13 @@ public class MypageServiceImpl implements MypageService{
 	}
 
 	@Override
-	public List<AuctionVO> getMyAutionList(int id) {
-		List<AuctionVO> auctionVO = mapper.getMyAutionList(id);
-		
+	public List<AuctionVO> getMyAutionList(int id, PageCreator pc) {
+		//경매 리스트 가져오기
 		HashMap<String, Object> mapVO = new HashMap<String, Object>();
+		mapVO.put("id", id);
+		mapVO.put("pc", pc);
+		List<AuctionVO> auctionVO = mapper.getMyAutionList(mapVO);
+		
 		
 		//여기서 각각의 auction id로 랭크 검색해서 hash에 넣어서 표출
 		if(auctionVO != null) {
@@ -124,6 +128,12 @@ public class MypageServiceImpl implements MypageService{
 		attachmentVO.setFile_size(profileImg.getSize());
 		attachmentVO.setFile_ext(profileImg.getContentType().split("/")[1]);
 		mapper.insertProfile(attachmentVO);
+	}
+
+	@Override
+	public int getMyAutionTotal(int member_id) {
+		
+		return mapper.getMyAutionTotal(member_id);
 	}
 
 

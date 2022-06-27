@@ -2,7 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <section id="wrapper">
-	<div class="container mt-5 pt-5">
+	<div class="container">
+	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+		<h1 class="display-5">내가 올린 경매</h1>
+	</div>
 	<c:if test="${listSet != null}">
 		<c:forEach items="${listSet}" var="vo" varStatus="i">
 			<div class="card mb-3">
@@ -36,11 +39,16 @@
 							<c:set value="<span class='text-danger'>기간만료</span>" var="status"></c:set>
 						</c:when>
 					</c:choose>
-							<p class="card-text"><small class="text-muted">상태 : ${status}</small></p>
+					<p class="card-text"><small class="text-muted">상태 : ${status}</small></p>
 					<div>
 					</div>
 			      </div>
 			    </div>
+			</div>
+			<div class="row g-0">
+				<div class="col-md-12">
+					<button class="btn btn-dark float-right mr-3" onclick="goDetail(${vo.id});">자세히 보기</button>
+				</div>
 			</div>
 			<hr>
 			<div class="row g-0">
@@ -82,4 +90,29 @@
 		</c:forEach>
 	</c:if>
 	</div>
+	<div aria-label="Page navigation example" style="margin-left: 50%;"> 
+		<ul class="pagination">
+			<c:if test="${pc.prev }">
+				<li class="page-item">
+				    <a class="page-link" href="/mypage/myAutionList?page=${pc.beginPage - 1}&countPerPage=${pc.countPerPage}">
+				    	Next
+				    </a>
+			   	</li>
+			</c:if>
+			<c:forEach begin="${pc.beginPage }" end="${pc.endPage}" var="i">
+				<li class="page-item ${ pc.page == i ? ' active' : ' '}"><a class="page-link" href="/mypage/myAutionList?page=${i}&countPerPage=${pc.countPerPage}">${i}</a></li>
+			</c:forEach>
+			<c:if test="${pc.next }">
+			<li class="page-item">
+				<a class="page-link" href="/mypage/myAutionList?page=${pc.endPage + 1}&countPerPage=${pc.countPerPage}">Next</a>
+			</li>
+			</c:if>
+		</ul>
+	</div>
 </section>
+
+<script type="text/javascript">
+	function goDetail(id){
+		location.href="/auction/detailForm?id="+id;
+	}
+</script>

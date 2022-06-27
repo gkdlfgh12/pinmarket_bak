@@ -141,13 +141,13 @@
 				LEFT JOIN ATTACHMENT_TB at2 ON act.ID = at2.FK_ID AND at2.FILE_TYPE = 'auction' AND at2.THUMBNAIL_NAME IS NOT NULL
 				<where>
 					act.MEMBER_ID = #{id} AND
-					(act.STATUS = 'open' OR act.STATUS = 'comp')
+					(act.STATUS = 'open' OR act.STATUS = 'comp' OR act.STATUS = 'end' OR act.STATUS = 'wait')
 				</where>
 				ORDER BY act.ID DESC
 			) T1
 		) T2
 		<where>
-			T2.RNUM between 1 and 5
+			T2.RNUM between #{pc.startRow} and #{pc.endRow}
 		</where>
 	</select>
 	
@@ -181,5 +181,10 @@
 		WHERE
 			AUCTION_ID = #{id} AND STATUS = 'comp'
 		GROUP BY RANKING_ID
+	</select>
+	
+	<select id="getMyAutionTotal" resultType="int">
+		SELECT COUNT(*) FROM AUCTION_TB
+		WHERE MEMBER_ID = #{member_id} AND (STATUS = 'open' OR STATUS = 'comp' OR STATUS = 'end' OR STATUS = 'wait')
 	</select>
 </mapper>

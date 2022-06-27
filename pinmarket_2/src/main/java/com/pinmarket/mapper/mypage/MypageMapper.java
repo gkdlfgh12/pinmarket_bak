@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.pinmarket.util.PageCreator;
 import com.pinmarket.vo.AttachmentVO;
 import com.pinmarket.vo.AuctionVO;
 import com.pinmarket.vo.MemberVO;
@@ -18,7 +19,7 @@ public interface MypageMapper {
 	List<OrderVO> getPaymentInfo(int id);
 	
 	//내가 올린 옥션 리스트
-	List<AuctionVO> getMyAutionList(int id);
+	List<AuctionVO> getMyAutionList(HashMap<String, Object> mapVO);
 	
 	//비밀번호 변경시 기존 비밀번호 체크
 	int chkPwd(Map<String, Object> map);
@@ -40,4 +41,7 @@ public interface MypageMapper {
 	
 	//경매 랭크 상태값 확인
 	RankingVO getAuctionRankStatus(int id);
+
+	//내가 올린 경매 총 게시글 수
+	int getMyAutionTotal(int member_id);
 }
