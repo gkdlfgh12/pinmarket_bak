@@ -17,4 +17,6 @@ public class RankingVO {
 	private MultipartFile profile;
 	
 	private AttachmentVO attachmentVO;
+	
+	private int rank_cnt;
 }
