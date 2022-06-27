@@ -45,7 +45,7 @@
 	
 	<insert id="write">
 		INSERT INTO AUCTION_TB (ID, MEMBER_ID, TITLE, CONTENT, ADDRESS1, ADDRESS2, STATUS, REGDATE, STARTDATE, ENDDATE, LATITUDE,LONGITUDE) 
-		VALUES(SEQ_AUCTION_TB_ID.nextval,#{member_id},#{title},#{content},#{address1},#{address2},#{status},sysdate,#{startDate},#{endDate},#{latitude},#{longitude})  
+		VALUES(SEQ_AUCTION_TB_ID.nextval,#{member_id},#{title},#{content},#{address1},#{address2},#{status},sysdate,TO_DATE(#{startDate},'YYYY-MM-DD'),TO_DATE(#{endDate},'YYYY-MM-DD'),#{latitude},#{longitude})
 		<selectKey resultType="int" keyProperty="id" order="AFTER">
         	SELECT SEQ_AUCTION_TB_ID.currval FROM dual
     	</selectKey>

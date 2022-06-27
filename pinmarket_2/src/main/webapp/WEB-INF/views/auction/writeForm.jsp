@@ -99,8 +99,13 @@
                 // yyy의 minDate를 xxx의 날짜로 설정
                 let date = new Date(selectedDate.split("-")[0],selectedDate.split("-")[1],selectedDate.split("-")[2]);
                 date.setDate(date.getDate() + 7);
-                //$("#endDate").datepicker("option", "maxDate", date.getFullYear()+"-"+(date.getMonth())+"-"+date.getDate());
-                $("#endDate").val(date.getFullYear()+"-"+(date.getMonth())+"-"+date.getDate());
+                var month;
+                if(date.getMonth() < 10){
+                	month = 0+''+date.getMonth();
+                }else{
+                	month = date.getMonth();
+                }
+                $("#endDate").val(date.getFullYear()+"-"+(month)+"-"+date.getDate());
             }
         },
 		minDate: 0,

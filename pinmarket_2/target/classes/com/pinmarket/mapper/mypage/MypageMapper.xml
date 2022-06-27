@@ -54,6 +54,36 @@
 	  <collection property="productVO" resultMap="productVO" />
 	  <collection property="attachmentVO" resultMap="attachmentVO" />
 	</resultMap>
+	
+	<resultMap id="rankingVO" type="com.pinmarket.vo.RankingVO">
+	  <result property="id" column="ID" />
+	  <result property="member_id" column="MEMBER_ID"/>
+	  <result property="str_id" column="STR_ID"/>
+	  <result property="auction_id" column="AUCTION_ID"/>
+	  <result property="title" column="TITLE"/>
+	  <result property="content" column="CONTENT"/>
+	  <result property="payment_status" column="PAYMENT_STATUS"/>
+	  <result property="regDate" column="REGDATE"/>
+	  <collection property="attachmentVO" resultMap="attachmentVO" />
+	</resultMap>
+	<resultMap id="auctionList" type="com.pinmarket.vo.AuctionVO">
+		<result property="id" column="ID" />
+		<result property="member_id" column="MEMBER_ID" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="address1" column="ADDRESS1" />
+		<result property="address2" column="ADDRESS2" />
+		<result property="status" column="STATUS" />
+		<result property="regDate" column="REGDATE" />
+		<result property="startDate" column="STARTDATE" />
+		<result property="endDate" column="ENDDATE" />
+		<result property="latitude" column="LATITUDE" />
+		<result property="longitude" column="LONGITUDE" />
+		<result property="str_id" column="STR_ID" />
+		<result property="rt_cnt" column="RT_CNT" />
+		<collection property="attachmentVO" resultMap="attachmentVO" />
+	</resultMap>
+	
 	<select id="getMyInfo" resultMap="memberVO">
 		SELECT MT.*, AT2.THUMBNAIL_NAME 
 		FROM MEMBER_TB MT LEFT JOIN ATTACHMENT_TB AT2 ON MT.ID = AT2.FK_ID AND AT2.FILE_TYPE = 'member'
@@ -97,5 +127,64 @@
 		FROM ORDER_TB OT LEFT JOIN PRODUCT_TB PT ON OT.PRODUCT_ID = PT.ID 
 		LEFT JOIN ATTACHMENT_TB AT2 ON OT.PRODUCT_ID = AT2.FK_ID AND AT2.FILE_TYPE = 'product'
 		WHERE OT.MEMBER_ID = #{id} AND OT.STATUS = 'comp'
+	</select>
+	
+	<select id="getMyAutionList" resultMap="auctionList">
+		SELECT T2.*
+		FROM (
+			SELECT
+				ROWNUM RNUM, T1.*
+			FROM(
+				SELECT at2.THUMBNAIL_NAME ,act.ID, act.MEMBER_ID, act.TITLE, SUBSTR(act.CONTENT,1, 15) as CONTENT, act.ADDRESS1, act.ADDRESS2, act.STATUS, act.REGDATE,
+				TO_CHAR(act.STARTDATE, 'YYYY-MM-DD') as startDate, TO_CHAR(act.ENDDATE, 'YYYY-MM-DD') as endDate, mt.STR_ID
+				FROM AUCTION_TB act LEFT JOIN MEMBER_TB mt ON act.MEMBER_ID = mt.ID 
+				LEFT JOIN ATTACHMENT_TB at2 ON act.ID = at2.FK_ID AND at2.FILE_TYPE = 'auction' AND at2.THUMBNAIL_NAME IS NOT NULL
+				<where>
+					act.MEMBER_ID = #{id} AND
+					(act.STATUS = 'open' OR act.STATUS = 'comp' OR act.STATUS = 'end' OR act.STATUS = 'wait')
+				</where>
+				ORDER BY act.ID DESC
+			) T1
+		) T2
+		<where>
+			T2.RNUM between #{pc.startRow} and #{pc.endRow}
+		</where>
+	</select>
+	
+	<select id="getAuctionRankList" resultType="com.pinmarket.vo.RankingVO">
+		SELECT 
+			RT.ID, RT.MEMBER_id, RT.AUCTION_ID,RT.TITLE,  SUBSTR(RT.CONTENT, 1,7) AS CONTENT
+			,RT.PAYMENT_STATUS, TO_CHAR(RT.REGDATE ,'YYYY-MM-DD') as REGDATE, MT.STR_ID 
+		FROM 
+			RANKING_TB RT LEFT JOIN MEMBER_TB MT ON RT.MEMBER_ID = MT.ID
+		<where>
+			<choose>
+				<when test="#{rankId == 0}">
+					<![CDATA[
+						RT.AUCTION_ID = #{id} AND ROWNUM <= 6
+					]]>
+				</when>
+				<when test="#{rankId != 0}">
+					<![CDATA[
+						RT.AUCTION_ID = #{id} AND RT.ID = #{rankId}
+					]]>
+				</when>
+			</choose>
+		</where>
+	</select>
+	
+	<select id="getAuctionRankStatus" resultType="com.pinmarket.vo.RankingVO">
+		SELECT 
+			COUNT(*) as RANK_CNT, RANKING_ID
+		FROM 
+			AUC_STATUS_TB
+		WHERE
+			AUCTION_ID = #{id} AND STATUS = 'comp'
+		GROUP BY RANKING_ID
+	</select>
+	
+	<select id="getMyAutionTotal" resultType="int">
+		SELECT COUNT(*) FROM AUCTION_TB
+		WHERE MEMBER_ID = #{member_id} AND (STATUS = 'open' OR STATUS = 'comp' OR STATUS = 'end' OR STATUS = 'wait')
 	</select>
 </mapper>

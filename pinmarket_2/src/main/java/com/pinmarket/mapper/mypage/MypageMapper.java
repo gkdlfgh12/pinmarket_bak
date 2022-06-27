@@ -1,11 +1,15 @@
 package com.pinmarket.mapper.mypage;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.pinmarket.util.PageCreator;
 import com.pinmarket.vo.AttachmentVO;
+import com.pinmarket.vo.AuctionVO;
 import com.pinmarket.vo.MemberVO;
 import com.pinmarket.vo.OrderVO;
+import com.pinmarket.vo.RankingVO;
 
 public interface MypageMapper {
 	//내 정보 추출
@@ -13,6 +17,9 @@ public interface MypageMapper {
 	
 	//내 결제 정보 추출
 	List<OrderVO> getPaymentInfo(int id);
+	
+	//내가 올린 옥션 리스트
+	List<AuctionVO> getMyAutionList(HashMap<String, Object> mapVO);
 	
 	//비밀번호 변경시 기존 비밀번호 체크
 	int chkPwd(Map<String, Object> map);
@@ -28,4 +35,13 @@ public interface MypageMapper {
 	
 	//프로필 없을 시 추가
 	void insertProfile(AttachmentVO attachmentVO);
+	
+	//내가 올린 옥션의 랭크 리스트 출력
+	List<RankingVO> getAuctionRankList(HashMap<String, Object> map);
+	
+	//경매 랭크 상태값 확인
+	RankingVO getAuctionRankStatus(int id);
+
+	//내가 올린 경매 총 게시글 수
+	int getMyAutionTotal(int member_id);
 }

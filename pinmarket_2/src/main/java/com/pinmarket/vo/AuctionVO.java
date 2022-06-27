@@ -1,5 +1,7 @@
 package com.pinmarket.vo;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
@@ -22,9 +24,9 @@ public class AuctionVO {
 
 	//임시 옥션의 사용자 STR_ID를 가져온다
 	private String str_id;
-	
 	//각 옥션에 붙은 랭크의 개수
 	private int rt_cnt;
-	
 	private AttachmentVO attachmentVO;
+	
+	private List<RankingVO> rankingVO;
 }
