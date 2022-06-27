@@ -3,9 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <div id="wrapper">
-	<div class="container mt-5 mb-5">
-		<div class="col-auto my-3 " style="text-align: center;">
-		<h2>내 정보</h2>
+	<div class="container">
+		<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+			<h1 class="display-5">내 정보</h1>
 		</div>
 		<div class="row">
 			<div class="col">
