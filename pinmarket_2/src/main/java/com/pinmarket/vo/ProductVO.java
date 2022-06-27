@@ -9,4 +9,6 @@ public class ProductVO {
 	private int product_price;
 	private String descript;
 	private String status;
+	
+	private AttachmentVO attachmentVO;
 }

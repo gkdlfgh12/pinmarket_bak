@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<div class="container">
+<div class="container mb-3">
 	<a href="/member/logout">로그아웃</a>
 	<form action="/member/join" name="joinForm" method="post" enctype="multipart/form-data">
 	<input type="hidden" id="idDupleChk" value="false">

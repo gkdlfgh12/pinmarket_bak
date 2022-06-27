@@ -147,10 +147,12 @@ public class AuctionController {
 			log.info("auctionInfo : "+auctionInfo);
 			//옥션 id를 이용해서 status_tb 조회 후 guest_id를 구해 온다.
 			AuctionVO vo = (AuctionVO)auctionInfo.get("auction");
+			log.info("auctionInfo vo : "+vo);
 			//경매 완료시 여기서 guest_id 구함
 			if(vo.getStatus().equals("comp")) {
 				MemberVO statusVO = service.getAucStatus(vo.getId());
 				model.addAttribute("guest_id",statusVO.getStr_id());
+				log.info("여긴 오나??? ~ 22");
 			}
 		}
 		HttpSession session = request.getSession();
