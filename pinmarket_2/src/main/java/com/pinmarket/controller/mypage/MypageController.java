@@ -19,6 +19,7 @@ import com.pinmarket.vo.MemberVO;
 import com.pinmarket.vo.OrderVO;
 import com.pinmarket.vo.PageVO;
 import com.pinmarket.vo.ProductVO;
+import com.pinmarket.vo.RankingVO;
 
 import lombok.extern.log4j.Log4j;
 
@@ -84,5 +85,32 @@ public class MypageController {
 		log.info("myAutionList list : ~ "+listSet);
 		
 		return "mypage.myAutionInfo";
+	}
+	
+	@GetMapping("/myRankList")
+	public String myRankList(HttpServletRequest request, Model model, PageVO pageVO) {
+		//페이징 버튼을 클릭하지 않았다면 페이징 정보 내가 올린 게시글에 맞게 수정
+		if(pageVO.getPage() == 1) {
+			pageVO.setPaging("myAutionList");
+		}
+		
+		MemberVO loginVO = SessionCreater.getSession(request);
+		
+		//아직 소스 완성 안됨!!
+		//랭크의 토탈 구하기
+		int totalCnt = service.getMyRankTotal(loginVO.getId());
+		log.info("totalCnt : ~~ "+totalCnt);
+		model.addAttribute("totalCnt",totalCnt);
+		PageCreator pc = new PageCreator();
+		pc.setPaging(pageVO);
+		pc.setArticleTotalCount(totalCnt);
+		model.addAttribute("pc",pc);
+		
+		//랭크리스트와 그에 대응 되는 옥션을 같이 가져오는 코드
+		List<RankingVO> listSet = service.getMyRankList(loginVO.getId(),pc);
+		model.addAttribute("listSet",listSet);
+		log.info("listSet : ~~ "+listSet);
+		
+		return "mypage.myRankList";
 	}
 }

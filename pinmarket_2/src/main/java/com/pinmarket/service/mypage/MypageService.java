@@ -11,6 +11,7 @@ import com.pinmarket.vo.AuctionVO;
 import com.pinmarket.vo.MemberVO;
 import com.pinmarket.vo.OrderVO;
 import com.pinmarket.vo.ProductVO;
+import com.pinmarket.vo.RankingVO;
 
 public interface MypageService {
 
@@ -42,6 +43,12 @@ public interface MypageService {
 
 	//내가 올린 경매 총 게시글 수
 	int getMyAutionTotal(int member_id);
+
+	//내가 올린 랭크의 수
+	int getMyRankTotal(int member_id);
+	
+	//내가 올린 랭크와 옥션 정보 겟
+	List<RankingVO> getMyRankList(int member_id, PageCreator pc);
 
 
 

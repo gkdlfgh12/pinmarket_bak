@@ -65,8 +65,9 @@
 	  <result property="payment_status" column="PAYMENT_STATUS"/>
 	  <result property="regDate" column="REGDATE"/>
 	  <collection property="attachmentVO" resultMap="attachmentVO" />
+	  <collection property="auctionVO" resultMap="auctionVO" />
 	</resultMap>
-	<resultMap id="auctionList" type="com.pinmarket.vo.AuctionVO">
+	<resultMap id="auctionVO" type="com.pinmarket.vo.AuctionVO">
 		<result property="id" column="ID" />
 		<result property="member_id" column="MEMBER_ID" />
 		<result property="title" column="TITLE" />
@@ -129,7 +130,7 @@
 		WHERE OT.MEMBER_ID = #{id} AND OT.STATUS = 'comp'
 	</select>
 	
-	<select id="getMyAutionList" resultMap="auctionList">
+	<select id="getMyAutionList" resultMap="auctionVO">
 		SELECT T2.*
 		FROM (
 			SELECT
@@ -173,6 +174,7 @@
 		</where>
 	</select>
 	
+	<!-- 내가 올린 경매글 전용 -->
 	<select id="getAuctionRankStatus" resultType="com.pinmarket.vo.RankingVO">
 		SELECT 
 			COUNT(*) as RANK_CNT, RANKING_ID
@@ -183,8 +185,45 @@
 		GROUP BY RANKING_ID
 	</select>
 	
+	<!-- 내가 올린 랭크 전용 -->
+	<select id="getAuctionRankStatus2" resultType="com.pinmarket.vo.RankingVO">
+		SELECT 
+			COUNT(*) as RANK_CNT, RANKING_ID
+		FROM 
+			AUC_STATUS_TB
+		WHERE
+			RANKING_ID = #{id} AND STATUS = 'comp'
+		GROUP BY RANKING_ID
+	</select>
+	
 	<select id="getMyAutionTotal" resultType="int">
 		SELECT COUNT(*) FROM AUCTION_TB
 		WHERE MEMBER_ID = #{member_id} AND (STATUS = 'open' OR STATUS = 'comp' OR STATUS = 'end' OR STATUS = 'wait')
+	</select>
+	
+	<select id="getMyRankTotal" resultType="int">
+		SELECT COUNT(*) FROM RANKING_TB WHERE MEMBER_ID = #{member_id}
+	</select>
+	
+	<select id="getMyRankList" resultMap="rankingVO">
+	SELECT T2.*
+	FROM (
+		SELECT
+			ROWNUM RNUM, T1.*
+		FROM(
+			SELECT RT.*, ATT.THUMBNAIL_NAME
+			FROM RANKING_TB RT LEFT JOIN ATTACHMENT_TB ATT ON RT.ID = ATT.FK_ID AND ATT.FILE_TYPE = 'rank'
+			WHERE RT.MEMBER_ID = #{member_id}
+		) T1
+	) T2
+	<where>
+		T2.RNUM between #{pc.startRow} and #{pc.endRow}
+	</where>
+	</select>
+	
+	<select id="getAuctionInfo" resultMap="auctionVO">
+	 		SELECT * 
+	 	FROM AUCTION_TB AT2 LEFT JOIN ATTACHMENT_TB ATB ON AT2.ID = ATB.FK_ID AND ATB.FILE_TYPE = 'auction' AND ATB.THUMBNAIL_NAME IS NOT NULL 
+	 	WHERE AT2.ID = #{auction_id}
 	</select>
 </mapper>
