@@ -160,12 +160,12 @@
 			RANKING_TB RT LEFT JOIN MEMBER_TB MT ON RT.MEMBER_ID = MT.ID
 		<where>
 			<choose>
-				<when test="#{rankId == 0}">
+				<when test="rankId == 0">
 					<![CDATA[
 						RT.AUCTION_ID = #{id} AND ROWNUM <= 6
 					]]>
 				</when>
-				<when test="#{rankId != 0}">
+				<when test="rankId != 0">
 					<![CDATA[
 						RT.AUCTION_ID = #{id} AND RT.ID = #{rankId}
 					]]>
@@ -177,7 +177,7 @@
 	<!-- 내가 올린 경매글 전용 -->
 	<select id="getAuctionRankStatus" resultType="com.pinmarket.vo.RankingVO">
 		SELECT 
-			COUNT(*) as RANK_CNT, RANKING_ID
+			COUNT(*) as RANK_CNT, RANKING_ID AS ID
 		FROM 
 			AUC_STATUS_TB
 		WHERE
