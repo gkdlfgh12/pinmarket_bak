@@ -56,4 +56,7 @@ public interface MypageMapper {
 
 	AuctionVO getAuctionInfo(int auction_id);
 
+	//내가 올린 랭크 결과
+	int checkAucRankStatus(RankingVO rankingVO);
+
 }

@@ -91,7 +91,7 @@ public class MypageController {
 	public String myRankList(HttpServletRequest request, Model model, PageVO pageVO) {
 		//페이징 버튼을 클릭하지 않았다면 페이징 정보 내가 올린 게시글에 맞게 수정
 		if(pageVO.getPage() == 1) {
-			pageVO.setPaging("myAutionList");
+			pageVO.setPaging("myRankList");
 		}
 		
 		MemberVO loginVO = SessionCreater.getSession(request);
@@ -109,8 +109,9 @@ public class MypageController {
 		//랭크리스트와 그에 대응 되는 옥션을 같이 가져오는 코드
 		List<RankingVO> listSet = service.getMyRankList(loginVO.getId(),pc);
 		model.addAttribute("listSet",listSet);
-		log.info("listSet : ~~ "+listSet);
-		
+		for(int i=0;i<listSet.size();i++) {
+			log.info("listSet : ~~ "+listSet.get(i));
+		}
 		return "mypage.myRankList";
 	}
 }

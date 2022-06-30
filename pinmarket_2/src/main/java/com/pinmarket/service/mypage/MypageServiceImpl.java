@@ -159,15 +159,13 @@ public class MypageServiceImpl implements MypageService{
 				
 				//log.info("tmpAuctionVO : ~ tmpAuctionVO : "+tmpAuctionVO);
 				
+				int result = mapper.checkAucRankStatus(rankVO.get(i));
+				log.info("result : `  ~~ "+rankVO.get(i));
+				log.info("result : `  ~~ "+result);
 				rankVO.get(i).setAuctionVO(tmpAuctionVO);
+				rankVO.get(i).setAucResult(result);
 				log.info("rankVO : rankVOrankVOrankVO : ~~ "+rankVO.get(i));
-				/*List<Object> dataSet = new ArrayList<Object>();
-				dataSet.add(auctionVO.get(i));
-				dataSet.add(rankVO);
-				mapVO.put("auction"+i, dataSet);*/
-				//mapVO.put(i, dataSet);
 				
-				//log.info("rankVO : ~ "+mapVO.get(auctionVO.get(i).getId()));
 			}
 		}
 		
