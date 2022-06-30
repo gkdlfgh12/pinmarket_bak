@@ -132,8 +132,44 @@ public class MypageServiceImpl implements MypageService{
 
 	@Override
 	public int getMyAutionTotal(int member_id) {
-		
 		return mapper.getMyAutionTotal(member_id);
+	}
+
+	@Override
+	public int getMyRankTotal(int member_id) {
+		return mapper.getMyRankTotal(member_id);
+	}
+
+	@Override
+	public List<RankingVO> getMyRankList(int member_id, PageCreator pc) {
+		
+		//자 여기 보세요!!~  일단 랭크 리스트 가져와서 해당 랭크 리스트들의 옥션 아이디를 하나하나 비교해서 가져온 후 랭크vo에 옥션 객체 자체를 저장
+		
+		//랭크 리스트 가져오기
+		HashMap<String, Object> mapVO = new HashMap<String, Object>();
+		mapVO.put("member_id", member_id);
+		mapVO.put("pc", pc);
+		log.info("rankVO : rankVO ~~ rankVO : rankVO ~~  ");
+		List<RankingVO> rankVO = mapper.getMyRankList(mapVO);
+		
+		if(rankVO != null) {
+			for(Integer i=0;i<rankVO.size();i++) {
+				
+				AuctionVO tmpAuctionVO = mapper.getAuctionInfo(rankVO.get(i).getAuction_id());
+				
+				//log.info("tmpAuctionVO : ~ tmpAuctionVO : "+tmpAuctionVO);
+				
+				int result = mapper.checkAucRankStatus(rankVO.get(i));
+				log.info("result : `  ~~ "+rankVO.get(i));
+				log.info("result : `  ~~ "+result);
+				rankVO.get(i).setAuctionVO(tmpAuctionVO);
+				rankVO.get(i).setAucResult(result);
+				log.info("rankVO : rankVOrankVOrankVO : ~~ "+rankVO.get(i));
+				
+			}
+		}
+		
+		return rankVO;
 	}
 
 

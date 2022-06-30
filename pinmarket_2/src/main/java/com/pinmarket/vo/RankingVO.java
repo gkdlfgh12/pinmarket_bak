@@ -15,8 +15,10 @@ public class RankingVO {
 	private int payment_status;
 	private String regDate;
 	private MultipartFile profile;
+	private int aucResult;
 	
 	private AttachmentVO attachmentVO;
+	private AuctionVO auctionVO;
 	
 	private int rank_cnt;
 }

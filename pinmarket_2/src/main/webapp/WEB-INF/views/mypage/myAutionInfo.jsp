@@ -20,11 +20,11 @@
 				<div class="col-md-9">
 			      <div class="card-body">
 			        <h5 class="card-title h4">${vo.str_id}님의 경매</h5>
-			        <p class="card-title"><small class="text-muted">제목 : ${vo.title}</small></p>
+			        <small class="text-muted">제목 : ${vo.title}</small><br>
 					<%-- <c:out value="${vo.RankingVO}"></c:out> --%>
-					<p class="card-text"><small class="text-muted">내용 : ${vo.content}</small></p>
-					<p class="card-text"><small class="text-muted">등록 날짜 : ${vo.regDate}</small></p>
-					<p class="card-text"><small class="text-muted">기간 : ${vo.startDate} ~ ${vo.endDate}</small></p>
+					<small class="text-muted">내용 : ${vo.content}</small><br>
+					<small class="text-muted">등록 날짜 : ${vo.regDate}</small><br>
+					<small class="text-muted">기간 : ${vo.startDate} ~ ${vo.endDate}</small><br>
 					<c:choose>
 						<c:when test="${vo.status == 'open'}">
 							<c:set value="<span class='text-primary'>활동중</span>" var="status"></c:set>
