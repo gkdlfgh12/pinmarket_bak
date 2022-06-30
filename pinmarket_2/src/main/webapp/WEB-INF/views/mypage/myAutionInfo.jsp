@@ -9,9 +9,29 @@
 	<c:if test="${listSet != null}">
 		<c:forEach items="${listSet}" var="vo" varStatus="i">
 			<div class="card mb-3">
-			<c:if test="${vo.status == 'comp'}">
-				<div class="card-header" style="background: #80f0d3;"><span class="fa fa-star" >경매 성사</span><span class="fa fa-star-o" ></span></div>
-			</c:if>
+			
+			<c:choose>
+				<c:when test="${vo.status == 'open'}">
+					<div class="card-header" style="background: #e9ecef;">
+						<span class="fa fa-star" ></span>경매 진행중<span class="fa fa-star-o" ></span>
+					</div>
+				</c:when>
+				<c:when test="${vo.status == 'wait'}">
+					<div class="card-header" style="background: #ecb309;">
+						<span class="fa fa-star" ></span>경매 대기중<span class="fa fa-star-o" ></span>
+					</div>
+				</c:when>
+				<c:when test="${vo.status == 'comp'}">
+					<div class="card-header" style="background: #80f0d3;">
+						<span class="fa fa-star" ></span>경매 성사<span class="fa fa-star-o" ></span>
+					</div>
+				</c:when>
+				<c:when test="${vo.status == 'end'}">
+					<div class="card-header" style="background: #f65464;">
+						<span class="fa fa-star" ></span>경매 불발<span class="fa fa-star-o" ></span>
+					</div>
+				</c:when>
+			</c:choose>
 			<div class="row g-0">
 				<div class="col-md-3">
 			      <img src="${vo.attachmentVO.thumbnail_name}" class="img-fluid rounded-start" alt="...">

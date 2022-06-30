@@ -184,18 +184,7 @@
 			AUCTION_ID = #{id} AND STATUS = 'comp'
 		GROUP BY RANKING_ID
 	</select>
-	
-	<!-- 내가 올린 랭크 전용 -->
-	<select id="getAuctionRankStatus2" resultType="com.pinmarket.vo.RankingVO">
-		SELECT 
-			COUNT(*) as RANK_CNT, RANKING_ID
-		FROM 
-			AUC_STATUS_TB
-		WHERE
-			RANKING_ID = #{id} AND STATUS = 'comp'
-		GROUP BY RANKING_ID
-	</select>
-	
+		
 	<select id="getMyAutionTotal" resultType="int">
 		SELECT COUNT(*) FROM AUCTION_TB
 		WHERE MEMBER_ID = #{member_id} AND (STATUS = 'open' OR STATUS = 'comp' OR STATUS = 'end' OR STATUS = 'wait')
