@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <div id="wrapper">
-<!-- pricing -->
 <a id="back-to-top"></a>
 <a id="back-to-chat"></a>
 <a id="back-to-write"></a>
@@ -107,16 +106,7 @@
           </div>
           <div class="inbox_chat">
           
-            <!-- <div class="chat_list" data-room="test" style="cursor: pointer">
-              <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions 
-                    astrology under one roof.</p>
-                </div>
-              </div>
-            </div> -->
+            
             
           </div>
         </div>

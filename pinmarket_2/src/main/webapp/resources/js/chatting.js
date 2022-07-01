@@ -1,101 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<a id="back-to-top"></a>
-<a id="back-to-chat"></a>
-<a id="back-to-write"></a>
-<div class="container mb-3 mt-3">
-	<h2 class="text-center mb-4 pb-2 text-primary fw-bold">FAQ</h2>
-  <p class="text-center mb-5">
-    	자주 묻는 질문
-  </p>
-	<div class="accordion" id="accordionExample">
-	<c:if test="${list != null}">
-	<c:forEach var="vo" items="${list}" varStatus="i">
-	  <div class="card">
-	    <div class="card-header" id="headingOne">
-	      <h2 class="mb-0">
-	        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse${i.count}" aria-expanded="true" aria-controls="collapse${i.count}">
-	          ${vo.title}
-	        </button>
-	      </h2>
-	    </div>
-	
-	    <div id="collapse${i.count}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-	      <div class="card-body">
-	        ${vo.content}
-	      </div>
-	    </div>
-	  </div>
-	</c:forEach>  
-	</c:if>
-	</div>
-</div>
+/**
+ * 채팅
+ */
 
-<!-- 채팅 Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModal" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">채팅방</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      	<div class="container">
-<h3 class=" text-center">Messaging</h3>
-<div class="messaging">
-      <div class="inbox_msg">
-      
-        <div class="inbox_people">
-          <div class="headind_srch">
-            <div class="recent_heading">
-              <h4>채팅방 목록</h4>
-            </div>
-            <div class="srch_bar">
-              <div class="stylish-input-group">
-                <input type="text" class="search-bar auction-search" placeholder="옥션 제목 입력" >
-                <span class="input-group-addon">
-                <button type="button" class="auction-search-btn"> <i class="fa fa-search " aria-hidden="true"></i> </button>
-                </span> </div>
-            </div>
-          </div>
-          <div class="inbox_chat">
-          
-            
-            
-          </div>
-        </div>
-        
-        <div class="mesgs">
-          <div class="msg_history tmpMsg">
-          
-          <!-- 채팅 msg 출력 -->
-            
-          </div>
-          <div class="del-btn">
-          	<!-- <button type="button" class="btn btn-danger">버튼</button> -->
-          </div>
-          <div class="type_msg" style="display:none;">
-            <div class="input_msg_write">
-              <input type="text" class="write_msg" placeholder="Type a message" />
-              <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-    	</div>
-    	</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script type="text/javascript" src="/resources/js/util.js"></script>
-<script type="text/javascript">
 //채팅 ------------------------------
 //방 나가기 프로세스
 function roomDel(room_id){
@@ -294,4 +200,3 @@ $(".auction-search-btn, #back-to-chat").on("click",function (){
 	//채팅 모달 보이게
 	$('#myModal').modal("show");
 });
-</script>
