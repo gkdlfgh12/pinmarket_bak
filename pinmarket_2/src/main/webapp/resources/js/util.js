@@ -26,3 +26,32 @@ function dateComparison(){
 	var dateString = year + '-' + month  + '-' + day +' '+ hours + ':' + minutes  + ':' + seconds;
 	return dateString;
 }
+
+$(function(){
+	//우측 메뉴
+	$('#back-to-chat').addClass('show fa fa-commenting fa-3x');
+	$('#back-to-chat').on('click',function(e){
+		
+	});
+	
+	$('#back-to-top').addClass('show');
+	$('#back-to-top').on('click',function(e){
+		e.preventDefault();
+		$('html,body').animate({scrollTop:0},600);
+	});
+	
+	$('#back-to-write').addClass('show fa fa-plus fa-3x');
+	$('#back-to-write').on('click',function(e){
+		location.href="/auction/writeForm";
+		//e.preventDefault();
+		//$('html,body').animate({scrollTop:0},600);
+	});
+  
+  $(window).scroll(function() {
+    if ($(document).scrollTop() > 100) {
+      $('#back-to-top').addClass('show');
+    } else {
+      $('#back-to-top').removeClass('show');
+    }
+  });
+});

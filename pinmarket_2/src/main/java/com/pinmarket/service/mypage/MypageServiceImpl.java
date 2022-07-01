@@ -56,7 +56,7 @@ public class MypageServiceImpl implements MypageService{
 				
 				//만약 경매가 성사된 거라면 성사된 경매의 개수와 랭크 id GET
 				RankingVO compRankVO = mapper.getAuctionRankStatus(auctionVO.get(i).getId());
-				log.info("결과 값 0 - 1 "+compRankVO);
+				log.info("결과 값 0- 1 "+compRankVO);
 				
 				//경매가 성사된 것 과 안된것을 분기처리하여 저장
 				if(compRankVO == null) {
@@ -65,12 +65,14 @@ public class MypageServiceImpl implements MypageService{
 					map.put("rankId", 0);
 					rankVO = mapper.getAuctionRankList(map);
 				}else {
-					log.info("결과 값 1 이상 ");
+					log.info("결과 값 1 이상, 경매가 완료가 된 옥션  : "+compRankVO.getId());
+					log.info("결과 값 1 이상, 경매가 완료가 된 옥션  : "+auctionVO.get(i).getId());
 					map.put("id", auctionVO.get(i).getId());
 					map.put("rankId", compRankVO.getId());
 					rankVO = mapper.getAuctionRankList(map);
+					log.info("rankVOrankVOrankVO : :: "+rankVO);
 				}
-				
+				map.clear();
 				auctionVO.get(i).setRankingVO(rankVO);
 				
 				log.info("auctionVO : ~  ~~ "+auctionVO.get(i));
