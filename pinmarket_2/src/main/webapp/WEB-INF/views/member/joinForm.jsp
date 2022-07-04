@@ -116,7 +116,13 @@ $(function(){
 	//중복체크
 	$(".idDupleCheck").on("click",function(){
 		var str_id = $("#str_id").val();
-		alert(str_id);
+		if(str_id.length < 5){
+			alert("아이디는 5글자 이상이여야 합니다.");
+			$("#idDuplHelp").hide();
+			$("#idHelp").show();
+			return false;
+		}
+		
 		$.ajax({
 			url : "/api/idDupleCheck?str_id="+str_id,
 			type : "get",
@@ -125,6 +131,7 @@ $(function(){
 					alert("해당 아이디는 사용 가능합니다.");
 					$("#idDupleChk").val("true");
 					$("#idDuplHelp").hide();
+					$("#idHelp").hide();
 				}else{
 					alert("해당 아이디는 현재 사용중입니다.");
 					$("#idDuplHelp").show();
@@ -137,14 +144,27 @@ $(function(){
 	});
 	
 	$(".validation").on("click",function(){
+		//8 ~ 16자 영문, 숫자 조합
+		var passReg = new RegExp(/^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/);
+		//이메일 정규식
+		var emailReg = new RegExp(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i);
+		
 		if($("#idDupleChk").val() == "false"){ alert("id 중복체크가 필요합니다."); $("#idDupleChk").show(); return false; }
 		if($("#str_id").val() == ""){ alert("id를 입력하세요."); $("#idHelp").show(); return false; }
 		if($("#str_id").val().length < 5){ alert("id는 5글자 이상입력하세요."); $("#idHelp").show(); return false; }
 		if($("#password").val() == ""){ alert("비밀번호를 입력하세요."); $("#pwHelp").show(); return false; }
+		if(!passReg.test($("#password").val())){
+			alert("비밀번호 규칙이 일치하지 않습니다.");
+			return false;
+		}
 		if($("#password_chk").val() == ""){ alert("비밀번호 확인을 입력하세요."); $("#pwchHelp").show(); return false; }
 		if($("#password").val() != $("#password_chk").val()){ alert("비밀번호와 비밀번호 확인이 일치하지 않습니다."); $("#pwchHelp2").show(); return false; }
 		if($("#name").val() == ""){ alert("이름을 입력하세요."); $("#nameHelp").show(); return false; }
 		if($("#email").val() == ""){ alert("이메일을 입력하세요."); $("#emailHelp").show(); return false; }
+		if(!emailReg.test($("#email").val())){
+			alert("이메일 규칙이 일치 하지 않습니다.");
+			return false;
+		}
 		if($("#address1").val() == "" || $("#zipcode").val() == ""){ alert("주소를 입력하세요."); $("#emailHelp").show(); return false; }
 		if($("#address2").val() == ""){ alert("상세주소를 입력하세요."); $("#emailHelp").show(); return false; }
 		if($("#birth").val() == ""){ alert("생일을 입력하세요."); $("#birthHelp").show(); return false; }
