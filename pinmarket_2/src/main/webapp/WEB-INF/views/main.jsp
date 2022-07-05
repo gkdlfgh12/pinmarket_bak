@@ -10,14 +10,10 @@
         <header class="bg-dark py-5">
             <div class="container px-5">
                 <div class="row gx-5 justify-content-center">
-                    <div class="col-lg-6">
+                    <div class="col-lg-8">
                         <div class="text-center my-5">
                             <h1 class="display-5 fw-bolder text-white mb-2">당근 마켓을 뛰어 넘는 핀마켓</h1>
                             <p class="lead text-white-50 mb-4">머리핀으로 집까지 구할 수 있는 물물교환 사이트</p>
-                            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-                                <a class="btn btn-primary btn-lg px-4 me-sm-3" href="#features">Get Started</a>
-                                <a class="btn btn-outline-light btn-lg px-4" href="#!">Learn More</a>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -74,16 +70,17 @@
 		<div class="container px-4 px-lg-5">
 		<!-- Heading Row-->
             <div class="row gx-4 gx-lg-5 align-items-center my-5">
-                <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." /></div>
-                <div class="col-lg-5">
+                <!-- <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." /></div> -->
+                <div class="col-lg-5"><img class="img-fluid rounded mb-4 mb-lg-0" src="/resources/image/top15.png" alt="..." /></div>
+                <div class="col-lg-7">
                     <h1 class="font-weight-light">인기 결제 상품</h1>
-                    <p>물물교환 랭크 등록 시 top5에 나의 물건을 보여지게 할 수 있다.</p>
-                    <a class="btn btn-primary" href="#!">결제 상품 보기</a>
+                    <p>"TOP 5 경매 부스터 X 15" 상품은 경매에 랭크를 등록할 시 참여 순서와 상관 없이 상품을 사용할 유저의 순서별로 순위가 맺어진다.</p>
+                    <a class="btn btn-primary" href="/product/list">결제 상품 보기</a>
                 </div>
             </div>
             <!-- Call to Action-->
             <div class="card text-white bg-secondary my-5 py-4 text-center">
-                <div class="card-body"><p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>
+                <div class="card-body"><p class="text-white m-0">Finding a Prosperous Home with Hairpins</p></div>
             </div>
         </div>
 	</div>

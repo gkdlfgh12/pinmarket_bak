@@ -100,6 +100,8 @@ public class AuctionController {
         Date toDay = sdformat.parse(strToday);
         if (startDate.compareTo(toDay) > 0) {
         	auction.setStatus("wait");
+		}else {
+			auction.setStatus("open");
 		}
 		
 		//옥션 저장 시 세션으로 해당 id 저장

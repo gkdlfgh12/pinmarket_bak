@@ -8,8 +8,9 @@
 <a id="back-to-write"></a>
 	<div class="container ">
 	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-		<h1 class="display-4">핀 마켓 경매 상품</h1>
-		<p class="lead">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p>
+		<h1 class="display-5">핀 마켓 경매 상품</h1>
+		<p class="lead">경매의 랭크 등록시 랭크 등록 순서와 관계없이 각 상품의 기능별로 랭크가 등록 될 수 있다.</p>
+		<p class="small">( 같은 상품을 사용한 사용자들끼리는 랭크를 등록한 순서별로 순위가 맺어집니다. )</p>
 	</div>
 	
   <div class="card-deck mb-3 text-center">

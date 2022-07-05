@@ -186,7 +186,7 @@
   			<c:if test="${loginVO.item_cnt > 0}">
 	  			<!-- top 10 신청 여부 - 결제 시 생성 -->
 	  			<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="payment_status" id="payment_status" value="1">
+					<input class="form-check-input" type="checkbox" name="payment_status" id="payment_status" value="1">
 					<label class="form-check-label" for="payment_status">top 5 쿠폰 사용</label>
 				</div>
 			</c:if>

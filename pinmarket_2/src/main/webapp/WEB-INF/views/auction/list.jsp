@@ -401,6 +401,7 @@
 			success : function(result, status, xhr){ //result:리턴한 값, status:http상태 코드 값, xhr:통신 개체
 				console.log(result);
 				if(result.length != 0){
+					$(".auction-lists").addClass("row row-cols-1 row-cols-md-3");
 					var str_list = '';
 					var loop_flag;
 					console.log(result);

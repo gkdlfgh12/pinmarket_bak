@@ -76,11 +76,7 @@
 			<input type="file" id="file" name="profileImage">
 			<small id="fileHelp" class="form-text text-danger" style="display: none;">프로필 이미지를 입력하세요.</small>
 		</div>
-		<div class="form-group form-check">
-			<input type="checkbox" class="form-check-input" id="exampleCheck1">
-			<label class="form-check-label" for="exampleCheck1">Check me out</label>
-		</div>
-			<button type="button" class="btn btn-primary validation">Submit</button>
+		<button type="button" class="btn btn-primary validation">Submit</button>
 	</form>
 </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
