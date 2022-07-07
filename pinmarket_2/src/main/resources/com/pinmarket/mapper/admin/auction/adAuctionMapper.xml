@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pinmarket.mapper.admin.auction.adAuctionMapper">
+	<resultMap id="attachmentVO" type="com.pinmarket.vo.AttachmentVO">
+	  <result property="id" column="ATID"/>
+	  <result property="fk_id" column="FK_ID"/>
+	  <result property="file_type" column="FILE_TYPE"/>
+	  <result property="save_name" column="SAVE_NAME"/>
+	  <result property="real_name" column="REAL_NAME"/>
+	  <result property="file_path" column="FILE_PATH"/>
+	  <result property="file_size" column="FILE_SIZE"/>
+	  <result property="thumbnail_name" column="THUMBNAIL_NAME"/>
+	  <result property="file_ext" column="FILE_EXT"/>
+	</resultMap>
+	<resultMap id="getRankList" type="com.pinmarket.vo.RankingVO">
+	  <result property="id" column="ID" />
+	  <result property="member_id" column="MEMBER_ID"/>
+	  <result property="str_id" column="STR_ID"/>
+	  <result property="auction_id" column="AUCTION_ID"/>
+	  <result property="title" column="TITLE"/>
+	  <result property="content" column="CONTENT"/>
+	  <result property="payment_status" column="PAYMENT_STATUS"/>
+	  <result property="regDate" column="REGDATE"/>
+	  <collection property="attachmentVO" resultMap="attachmentVO" />
+	</resultMap>
+	<resultMap id="auctionVO" type="com.pinmarket.vo.AuctionVO">
+		<result property="id" column="ID" />
+		<result property="member_id" column="MEMBER_ID" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="address1" column="ADDRESS1" />
+		<result property="address2" column="ADDRESS2" />
+		<result property="status" column="STATUS" />
+		<result property="regDate" column="REGDATE" />
+		<result property="startDate" column="STARTDATE" />
+		<result property="endDate" column="ENDDATE" />
+		<result property="latitude" column="LATITUDE" />
+		<result property="longitude" column="LONGITUDE" />
+		<result property="str_id" column="STR_ID" />
+		<result property="rt_cnt" column="RT_CNT" />
+		<collection property="attachmentVO" resultMap="attachmentVO" />
+	</resultMap>
+	
+	<select id="getTotal" resultType="int">
+		SELECT count(*) FROM AUCTION_TB 
+		<where>
+			TITLE like '%' || #{title} || '%'
+		</where>
+	</select>
+	
+	<select id="getList" resultMap="auctionVO">
+		SELECT T2.*
+		FROM (
+			SELECT
+				ROWNUM RNUM, T1.*
+			FROM(
+				SELECT count(rt.ID) as RT_CNT ,at2.THUMBNAIL_NAME ,act.ID, act.MEMBER_ID, act.TITLE, SUBSTR(act.CONTENT,1, 15) as CONTENT, act.ADDRESS1, act.ADDRESS2, act.STATUS, act.REGDATE,
+				TO_CHAR(act.STARTDATE, 'YYYY-MM-DD') as startDate, TO_CHAR(act.ENDDATE, 'YYYY-MM-DD') as endDate, mt.STR_ID
+				FROM AUCTION_TB act LEFT JOIN MEMBER_TB mt ON act.MEMBER_ID = mt.ID 
+				LEFT JOIN ATTACHMENT_TB at2 ON act.ID = at2.FK_ID AND at2.FILE_TYPE = 'auction' AND at2.THUMBNAIL_NAME IS NOT NULL
+				LEFT JOIN RANKING_TB rt ON act.ID = rt.AUCTION_ID 
+				<where>
+					<if test="title != '' and title != null">
+					act.TITLE like '%' || #{title} || '%'
+					</if>
+				</where>
+				GROUP BY at2.THUMBNAIL_NAME ,act.ID, act.MEMBER_ID, act.TITLE, act.CONTENT, act.ADDRESS1, act.ADDRESS2, act.STATUS, act.REGDATE,
+				act.startDate, act.ENDDATE, mt.STR_ID
+				<choose>
+					<when  test="title == '' or title == null">
+						ORDER BY RT_CNT DESC, act.ID DESC
+					</when>
+					<when  test="title != '' and title != null">
+						ORDER BY act.ID DESC
+					</when>
+				</choose>
+			) T1
+		) T2
+		<where>
+			T2.RNUM between #{pc.startRow} and #{pc.endRow}
+		</where>
+	</select>
+	
+	<update id="deleteAuction">
+		UPDATE AUCTION_TB SET STATUS = 'del'
+		WHERE ID IN (
+		<foreach collection="array" separator="," item="no">
+			#{no.value}
+		</foreach>
+		)
+	</update>
+</mapper>
+
+
+
+

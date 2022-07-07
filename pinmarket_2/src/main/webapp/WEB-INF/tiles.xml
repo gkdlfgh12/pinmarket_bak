@@ -50,4 +50,23 @@
     <put-attribute name="body" value="/WEB-INF/views/mypage/{1}.jsp" />
     <put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp" />
   </definition>
+  
+  <!-- 관리자 tiles -->
+  <!-- dashboard -->
+  <definition name="admin.dashboard.*" template="/WEB-INF/views/admin/dashboard/inc/layout.jsp">
+    <put-attribute name="title" value="내 정보" />
+    <put-attribute name="header" value="/WEB-INF/views/admin/inc/header.jsp" />
+    <put-attribute name="aside" value="/WEB-INF/views/admin/inc/aside.jsp" />
+    <put-attribute name="body" value="/WEB-INF/views/admin/dashboard/{1}.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/views/admin/inc/footer.jsp" />
+  </definition>
+  
+  <!-- auction -->
+  <definition name="admin.auction.*" template="/WEB-INF/views/admin/auction/inc/layout.jsp">
+    <put-attribute name="title" value="내 정보" />
+    <put-attribute name="header" value="/WEB-INF/views/admin/inc/header.jsp" />
+    <put-attribute name="aside" value="/WEB-INF/views/admin/inc/aside.jsp" />
+    <put-attribute name="body" value="/WEB-INF/views/admin/auction/{1}.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/views/admin/inc/footer.jsp" />
+  </definition>
 </tiles-definitions>
