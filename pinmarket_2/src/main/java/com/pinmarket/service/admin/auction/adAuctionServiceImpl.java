@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.pinmarket.mapper.admin.auction.adAuctionMapper;
 import com.pinmarket.util.PageCreator;
+import com.pinmarket.vo.AttachmentVO;
 import com.pinmarket.vo.AuctionVO;
+import com.pinmarket.vo.RankingVO;
+import com.pinmarket.vo.SearchVO;
 
 @Service
 public class adAuctionServiceImpl implements adAuctionService{
@@ -35,5 +38,17 @@ public class adAuctionServiceImpl implements adAuctionService{
 		return mapper.deleteAuction(delChk);
 	}
 
+	@Override
+	public Map<String, Object> getDetail(Integer id) {
+		Map<String, Object> mapInfo = new HashMap<String, Object>();
+		mapInfo.put("auction",mapper.getDetail(id));
+		mapInfo.put("attach",mapper.getImageFile(id));
+		
+		return mapInfo;
+	}
 
+	@Override
+	public List<RankingVO> getRankList(SearchVO searchVO) {
+		return mapper.getRankList(searchVO);
+	}
 }

@@ -1,6 +1,8 @@
 package com.pinmarket.controller.admin.auction;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pinmarket.service.admin.auction.adAuctionService;
 import com.pinmarket.util.PageCreator;
+import com.pinmarket.vo.AttachmentVO;
 import com.pinmarket.vo.AuctionVO;
 import com.pinmarket.vo.PageVO;
 
@@ -67,7 +70,7 @@ public class adAuctionController {
 		}
 		log.info("auction del : "+str_no);
 		
-		int result = service.deleteAuction(delChk);
+		int result = service.deleteAuction(delChk); 
 		ra.addFlashAttribute("msg","완료");			
 		
 		log.info("result : ~~ "+result);
@@ -76,9 +79,14 @@ public class adAuctionController {
 	}
 	
 	@GetMapping("/detail")
-	public String detail(Model model, @RequestParam String id) {
+	public String detail(Model model, @RequestParam Integer id) {
 		
 		log.info("detail : "+id);
+		//옥션 글 과 이미지 파일 가져오기
+		Map<String, Object> mapInfo = service.getDetail(id);
+		model.addAttribute("auctionVO",mapInfo.get("auction"));
+		model.addAttribute("attachVO",mapInfo.get("attach"));
+		log.info("attach : ~~ "+mapInfo.get("rankList"));
 		
 		return "admin.auction.detail";
 	}

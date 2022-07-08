@@ -23,6 +23,7 @@
 	  <result property="content" column="CONTENT"/>
 	  <result property="payment_status" column="PAYMENT_STATUS"/>
 	  <result property="regDate" column="REGDATE"/>
+	  <result property="comp_status" column="COMP_STATUS"/>
 	  <collection property="attachmentVO" resultMap="attachmentVO" />
 	</resultMap>
 	<resultMap id="auctionVO" type="com.pinmarket.vo.AuctionVO">
@@ -91,6 +92,40 @@
 		</foreach>
 		)
 	</update>
+	
+	<select id="getImageFile" resultType="com.pinmarket.vo.AttachmentVO">
+		SELECT * 
+		FROM ATTACHMENT_TB 
+		WHERE FILE_TYPE = 'auction' AND FK_ID = #{id}
+	</select>
+	
+	<select id="getDetail" resultMap="auctionVO">
+		SELECT 
+		ATB.ID, ATB.MEMBER_ID, ATB.TITLE, ATB.CONTENT, ATB.ADDRESS1, ATB.ADDRESS2, ATB.STATUS, ATB.REGDATE, 
+		TO_CHAR(ATB.STARTDATE, 'YYYY-MM-DD') AS STARTDATE, TO_CHAR(ATB.ENDDATE, 'YYYY-MM-DD') AS ENDDATE, ATB.LATITUDE, ATB.LONGITUDE, MT.STR_ID 
+		FROM AUCTION_TB ATB LEFT JOIN MEMBER_TB MT ON ATB.MEMBER_ID = MT.ID 
+		WHERE ATB.ID = #{id}
+	</select>
+	
+	<select id="getRankList" resultMap="getRankList">
+		SELECT R2.* 
+		FROM (
+			SELECT ROWNUM RNUM, R1.*
+			FROM(
+				SELECT AST.ID AS COMP_STATUS, RT.ID, RT.MEMBER_ID, RT.AUCTION_ID, RT.TITLE, RT.CONTENT, RT.PAYMENT_STATUS, TO_CHAR(RT.REGDATE, 'YYYY-MM-DD') AS REGDATE,
+				AT.ID AS ATID, AT.FK_ID, AT.FILE_TYPE, AT.SAVE_NAME, AT.REAL_NAME, AT.FILE_PATH, AT.FILE_SIZE, AT.THUMBNAIL_NAME, AT.FILE_EXT,
+				MT.STR_ID 
+				FROM RANKING_TB RT LEFT JOIN ATTACHMENT_TB AT ON RT.ID = AT.FK_ID AND FILE_TYPE = 'rank' 
+				LEFT JOIN MEMBER_TB MT ON RT.MEMBER_ID = MT.ID
+				LEFT JOIN AUC_STATUS_TB AST ON AST.RANKING_ID = RT.ID AND AST.STATUS = 'comp'
+				WHERE RT.AUCTION_ID = #{auction_id}
+				ORDER BY AST.ID ASC, RT.PAYMENT_STATUS ASC, RT.ID ASC
+			) R1
+		) R2
+		<where>
+			R2.RNUM between #{startIndex} and #{endIndex}
+		</where>
+	</select>
 </mapper>
 
 
