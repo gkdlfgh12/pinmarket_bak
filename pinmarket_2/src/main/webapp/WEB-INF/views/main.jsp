@@ -69,11 +69,14 @@
 		
 		<div class="container px-4 px-lg-5">
 		<!-- Heading Row-->
+		<c:choose>
+		<c:when test="${productVO == null}">
             <div class="row gx-4 gx-lg-5 align-items-center my-5">
                 <!-- <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." /></div> -->
                 <div class="col-lg-5"><img class="img-fluid rounded mb-4 mb-lg-0" src="/resources/image/top15.png" alt="..." /></div>
                 <div class="col-lg-7">
                     <h1 class="font-weight-light">인기 결제 상품</h1>
+                    <h5 class="font-weight-light">TOP 5 경매 부스터 X 15</h5>
                     <p>"TOP 5 경매 부스터 X 15" 상품은 경매에 랭크를 등록할 시 참여 순서와 상관 없이 상품을 사용할 유저의 순서별로 순위가 맺어진다.</p>
                     <a class="btn btn-primary" href="/product/list">결제 상품 보기</a>
                 </div>
@@ -82,6 +85,24 @@
             <div class="card text-white bg-secondary my-5 py-4 text-center">
                 <div class="card-body"><p class="text-white m-0">Finding a Prosperous Home with Hairpins</p></div>
             </div>
+        </c:when>
+        <c:when test="${productVO != null}">
+            <div class="row gx-4 gx-lg-5 align-items-center my-5">
+                <!-- <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." /></div> -->
+                <div class="col-lg-5"><img class="img-fluid rounded mb-4 mb-lg-0" src="${productVO.attachmentVO.file_path}${productVO.attachmentVO.save_name}" alt="..." /></div>
+                <div class="col-lg-7">
+                    <h1 class="font-weight-light">인기 결제 상품</h1>
+                    <h5 class="font-weight-light">${productVO.product_name}</h5>
+                    <p>${productVO.descript}</p>
+                    <a class="btn btn-primary" href="/product/list">결제 상품 보기</a>
+                </div>
+            </div>
+            <!-- Call to Action-->
+            <div class="card text-white bg-secondary my-5 py-4 text-center">
+                <div class="card-body"><p class="text-white m-0">Finding a Prosperous Home with Hairpins</p></div>
+            </div>
+        </c:when>
+        </c:choose>
         </div>
 	</div>
 	</div>
