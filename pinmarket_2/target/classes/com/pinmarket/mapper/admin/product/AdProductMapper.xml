@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pinmarket.mapper.admin.product.AdProductMapper">
+	<resultMap id="attachmentVO" type="com.pinmarket.vo.AttachmentVO">
+	  <result property="id" column="ATID"/>
+	  <result property="fk_id" column="FK_ID"/>
+	  <result property="file_type" column="FILE_TYPE"/>
+	  <result property="save_name" column="SAVE_NAME"/>
+	  <result property="real_name" column="REAL_NAME"/>
+	  <result property="file_path" column="FILE_PATH"/>
+	  <result property="file_size" column="FILE_SIZE"/>
+	  <result property="thumbnail_name" column="THUMBNAIL_NAME"/>
+	  <result property="file_ext" column="FILE_EXT"/>
+	</resultMap>
+	<resultMap id="productVO" type="com.pinmarket.vo.ProductVO">
+	  <result property="id" column="ID"/>
+	  <result property="product_name" column="PRODUCT_NAME"/>
+	  <result property="product_price" column="PRODUCT_PRICE"/>
+	  <result property="descript" column="DESCRIPT"/>
+	  <result property="status" column="STATUS"/>
+	  <collection property="attachmentVO" resultMap="attachmentVO" />
+	</resultMap>
+	
+	<select id="list" resultMap="productVO">
+		SELECT PT.ID, PT.PRODUCT_NAME, PT.PRODUCT_PRICE, PT.STATUS, PT.DESCRIPT , ATT.SAVE_NAME, ATT.FILE_PATH 
+		FROM PRODUCT_TB PT LEFT JOIN ATTACHMENT_TB ATT ON PT.ID = ATT.FK_ID AND ATT.FILE_TYPE = 'product'
+		WHERE 1=1 OR PT.STATUS = 'ON'
+	</select>
+	
+	<update id="updateProduct">
+		UPDATE PRODUCT_TB SET PRODUCT_NAME = #{product_name}, PRODUCT_PRICE = #{product_price}, STATUS = #{status}
+		WHERE ID = #{id}
+	</update>
+	
+	<update id="changeImage">
+		UPDATE ATTACHMENT_TB 
+		SET SAVE_NAME = #{save_name}, REAL_NAME = #{real_name}, FILE_PATH = #{file_path}, FILE_SIZE = #{file_size},
+		FILE_EXT = #{file_ext}, REGDATE = sysdate, THUMBNAIL_NAME = #{thumbnail_name}
+		WHERE FK_ID = #{fk_id} AND FILE_TYPE = #{file_type}
+	</update>
+	
+	<insert id="insertProduct">
+		INSERT INTO PRODUCT_TB (ID,PRODUCT_NAME,PRODUCT_PRICE,DESCRIPT,STATUS)
+		VALUES (SEQ_PRODUCT_TB_ID.nextval,#{product_name},#{product_price},#{descript},#{status})
+		
+		<selectKey order="AFTER" resultType="int" keyProperty="id">
+			SELECT SEQ_PRODUCT_TB_ID.currval FROM dual
+		</selectKey>
+	</insert>
+	
+	<insert id="insertImage">
+	 	INSERT INTO ATTACHMENT_TB (ID, FK_ID, FILE_TYPE, SAVE_NAME, REAL_NAME, FILE_PATH, FILE_SIZE, FILE_EXT, REGDATE, THUMBNAIL_NAME)
+		VALUES(SEQ_ATTACHMENT_ID.nextval, #{fk_id}, #{file_type}, #{save_name},#{real_name},#{file_path},#{file_size},#{file_ext},sysdate, #{thumbnail_name})
+	</insert>
+	
+	<delete id="deleteProduct">
+		DELETE FROM PRODUCT_TB WHERE ID = #{id}
+	</delete>
+	
+	<delete id="deleteAttachment">
+		DELETE FROM ATTACHMENT_TB WHERE FK_ID = #{id} AND FILE_TYPE = #{type}
+	</delete>
+</mapper>
+
+
+
+
