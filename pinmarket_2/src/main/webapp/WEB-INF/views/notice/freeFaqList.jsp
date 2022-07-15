@@ -13,11 +13,9 @@
 <a id="back-to-chat"></a>
 <a id="back-to-write"></a>
 <div class="container">
-	<!-- <h1>게시판 리스트 </h1> -->
-	<h2 class="text-center mb-4 pb-2 text-primary fw-bold">FAQ</h2>
-  <p class="text-center mb-5">
-    	자유 질문
-  </p>
+	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+		<h1 class="display-5">FAQ - 자주 묻는 질문</h1>
+	</div>
 	<table class="table">
 		<thead>
 			<tr>
@@ -178,8 +176,8 @@ $(".dataRow").on("click",function(){
 	if(member_id == login_id || login_member_level == 0){
 		
 	}else{
-			alert("해당 게시글을 읽을 권한이 없습니다.");
-			return false;
+		alert("해당 게시글을 읽을 권한이 없습니다.");
+		return false;
 	}
 	
 	location.href="/notice/freeView?page=${pc.page}&countPerPage=${pc.countPerPage}&id="+id;

@@ -24,8 +24,9 @@
 	</resultMap>
 	
 	<select id="getProductList" resultMap="productVO">
-		select * from PRODUCT_TB PT 
+		SELECT * FROM PRODUCT_TB PT 
 		LEFT JOIN ATTACHMENT_TB AT2 ON PT.ID = AT2.FK_ID AND AT2.FILE_TYPE = 'product'
+		WHERE PT.STATUS = 'ON'
 	</select>
 	
 	<insert id="createOrder">
