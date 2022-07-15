@@ -8,60 +8,30 @@
 <a id="back-to-write"></a>
 	<div class="container ">
 	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-		<h1 class="display-4">핀 마켓 경매 상품</h1>
-		<p class="lead">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p>
+		<h1 class="display-5">핀 마켓 경매 상품</h1>
+		<p class="lead">경매의 랭크 등록시 랭크 등록 순서와 관계없이 각 상품의 기능별로 랭크가 등록 될 수 있다.</p>
+		<p class="small">( 같은 상품을 사용한 사용자들끼리는 랭크를 등록한 순서별로 순위가 맺어집니다. )</p>
 	</div>
-	
-  <div class="card-deck mb-3 text-center">
-	    <!-- <div class="card mb-4 shadow-sm" >
-	      <div class="card-header">
-	        <h4 class="my-0 font-weight-normal">Free</h4>
-	      </div>
-	      <div class="card-body">
-	        <h1 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h1>
-	        <ul class="list-unstyled mt-3 mb-4">
-	          <li>10 users included</li>
-	          <li>2 GB of storage</li>
-	          <li>Email support</li>
-	          <li>Help center access</li>
-	        </ul>
-	        <button type="button" class="btn btn-lg btn-block btn-outline-primary">Sign up for free</button>
-	      </div>
-	    </div> -->
-	   <!--  <div class="row"> -->
-	    <c:forEach items="${list}" var="vo">
-	    	<!-- <div class="col-4"> -->
-		    <div class="card mb-4 shadow-sm" >
-		      <div class="card-header">
-		        <h4 class="my-0 font-weight-normal">${vo.product_name}</h4>
-		      </div>
-		      <img class="card-img-top" src="${vo.attachmentVO.file_path}${vo.attachmentVO.save_name}" alt="Card image">
-		      <div class="card-body">
-		        <h1 class="card-title pricing-card-title"><small class="text-muted">￦</small>${vo.product_price}</h1>
-		        <ul class="list-unstyled mt-3 mb-4">
-		          <li>${vo.descript}</li>
-		        </ul>
-	        	<button type="button" class="btn btn-lg btn-block btn-primary" onclick="createOrder('${vo.product_name}','${vo.product_price}','${vo.id}')">결제하기</button>
-		      </div>
-		    </div>
-		    <!-- </div> -->
-	    </c:forEach>
-	    <!-- </div> -->
-	    <!-- <div class="card mb-4 shadow-sm">
-	      <div class="card-header">
-	        <h4 class="my-0 font-weight-normal">Enterprise</h4>
-	      </div>
-	      <div class="card-body">
-	        <h1 class="card-title pricing-card-title">$29 <small class="text-muted">/ mo</small></h1>
-	        <ul class="list-unstyled mt-3 mb-4">
-	          <li>30 users included</li>
-	          <li>15 GB of storage</li>
-	          <li>Phone and email support</li>
-	          <li>Help center access</li>
-	        </ul>
-	        <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
-	      </div>
-	    </div> -->
+	<div class="row">
+	<c:forEach items="${list}" var="vo">
+	<div class="col-md-4 mt-5 mb-3">
+		<div class="card-deck mb-3 text-center">
+			<div class="card mb-4 shadow-sm" >
+				<div class="card-header">
+					<h4 class="my-0 font-weight-normal">${vo.product_name}</h4>
+				</div>
+				<img class="card-img-top" src="${vo.attachmentVO.file_path}${vo.attachmentVO.save_name}" alt="Card image">
+				<div class="card-body">
+					<h1 class="card-title pricing-card-title"><small class="text-muted">￦</small>${vo.product_price}</h1>
+					<ul class="list-unstyled mt-3 mb-4">
+						<li>${vo.descript}</li>
+					</ul>
+					<button type="button" class="btn btn-lg btn-block btn-primary" onclick="createOrder('${vo.product_name}','${vo.product_price}','${vo.id}')">결제하기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</c:forEach>
 	  </div>
 	  
 	</div>

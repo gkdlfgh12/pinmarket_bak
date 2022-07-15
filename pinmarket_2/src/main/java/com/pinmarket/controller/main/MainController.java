@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.pinmarket.service.main.MainService;
 import com.pinmarket.vo.AuctionVO;
+import com.pinmarket.vo.ProductVO;
 
 import lombok.extern.log4j.Log4j;
 
@@ -29,6 +30,11 @@ public class MainController {
 		log.info("TOP10_2 : "+TOP10_2);
 		model.addAttribute("TOP10_1",TOP10_1);
 		model.addAttribute("TOP10_2",TOP10_2);
+		
+		//인기 상품 하나 출력
+		ProductVO productVO = service.getTopProduct();
+		log.info("productVO : ~~ "+productVO);
+		model.addAttribute("productVO",productVO);
 		
 		return "main.main";
 	}

@@ -21,4 +21,5 @@ public interface ProductService {
 
 	//검증 후 상태 값 변경
 	int OrderStatusUpdate(OrderVO vo);
+
 }

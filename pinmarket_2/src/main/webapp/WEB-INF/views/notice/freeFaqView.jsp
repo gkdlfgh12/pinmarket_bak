@@ -14,9 +14,13 @@
 			          	  <input type="hidden" name="page" value="1">
 			          	  <input type="hidden" name="countPerPage" value="10">
 			              <div class="form-group">
+			                  <label class="form-label" for="writer">작성자</label>
+			                  <input type="text" class="form-control" id="writer" name="writer" value="${boardVO.str_id}" readonly>                              
+			              </div>                        
+			              <div class="form-group">
 			                  <label class="form-label" for="name">제목</label>
 			                  <input type="text" class="form-control" id="title" name="title" value="${boardVO.title}" readonly>
-			              </div>                            
+			              </div>    
 			              <div class="form-group">
 			                  <label class="form-label" for="content">내용</label>
 			                  <textarea class="form-control" name="content" id="content" rows="10" cols="300" readonly>${boardVO.content}</textarea>                               
@@ -34,7 +38,7 @@
 			</div>
 	<c:if test="${loginVO.member_level == 0 }">
 	<div class="row" style="margin-top:15px">
-		<div class="fa fa-commenting-o">댓글 입력</div>
+		<div class="fa fa-commenting-o">답변 입력</div><br>
 		<textarea class="form-control" name="replyContent" id="replyContent"></textarea>
 		<div style="margin-top : 12px;"><button type="button" id="replySubmitBtn" class="btn btn-primary">글쓰기</button></div>
 	</div>
@@ -147,11 +151,11 @@
 					for(var i=0;i<result.length;i++){
 						reply_list += '<li class="mb-3 left clearfix list-group-item dataRow">';
 						reply_list += '	<div class="header">';
-						reply_list += '		<strong>관리자</strong>';
+						reply_list += '		<strong>'+result[i].str_id+' [관리자]</strong>';
 						reply_list += '		<small class="pull-right text-mute">'+result[i].regDate+'</small>';
 						reply_list += '	</div>';
 						reply_list += '	<p>'+result[i].content+'';
-						if("${loginVO.member_level}" == 0){
+						if("${loginVO.id}" == result[i].member_id){
 							reply_list += '	<small class="pull-right"><button class="btn btn-danger delBtn" onclick="replyDelete('+result[i].id+');" data-replyid="'+result[i].id+'">삭제</button></small>';
 						}
 						reply_list += '	</p>';

@@ -36,7 +36,7 @@ public class NoticeController {
 	public String freeFaqList(HttpServletRequest request, Model model, PageVO pageVO) throws Exception {
 		log.info("자유 질문 게시판!! ");
 		
-		//자유 질문에 맞게 페이징 정보 수정
+		//자유 질문에 맞게 페이징 정보 수정bb
 		if(pageVO.getPage() == 1) {
 			pageVO.setPaging("freeFaqList");
 		}

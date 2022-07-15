@@ -14,6 +14,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+		<h1 class="display-5">경매 등록</h1>
+	</div>
 	<div class="container mt-5 mb-5">
 	<form action="/auction/write" method="post" enctype="multipart/form-data">
 		<div class="input-group mb-3">
@@ -67,14 +70,6 @@
   		<div class="form-group">
 			<label for="endDate">경매 종료일</label>
 			<input type="text" class="form-control" name="endDate" id="endDate" name="endDate" readonly >
-		</div>
-		<div class="form-check form-check-inline">
-			<input class="form-check-input" type="radio" name="status" id="open" value="open">
-			<label class="form-check-label" for="open">공개</label>
-		</div>
-		<div class="form-check form-check-inline">
-			<input class="form-check-input" type="radio" name="status" id="private" value="private">
-			<label class="form-check-label" for="private">비공개</label>
 		</div>
 		<!-- <div class="form-check form-check-inline">
 			<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" disabled>

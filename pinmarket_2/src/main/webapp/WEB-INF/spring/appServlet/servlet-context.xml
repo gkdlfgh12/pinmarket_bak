@@ -71,6 +71,13 @@
 	<!-- servlet-context.xml -->
 	<interceptors>
 		<interceptor>
+			<mapping path="/admin/**"/>
+			<exclude-mapping path="/admin/member/loginForm"/>
+			<exclude-mapping path="/admin/member/login"/>
+			<exclude-mapping path="/admin/member/logout"/>
+			<beans:bean id="adminLoginCheckInterceptor" class="com.pinmarket.interceptor.AdminLoginCheckInterceptor"/>
+		</interceptor>
+		<interceptor>
 			<mapping path="/member/**"/>
 			<exclude-mapping path="/member/logout"/>
 			<beans:bean id="nonLoginInterceptor" class="com.pinmarket.interceptor.MemberInterceptor"/>

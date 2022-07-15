@@ -34,7 +34,9 @@
 	</insert>
 	
 	<select id="getFaq" resultType="com.pinmarket.vo.BoardVO">
-	SELECT * FROM BOARD_TB WHERE ID = #{id}
+	SELECT bt.*, mt.STR_ID 
+	FROM BOARD_TB bt LEFT JOIN MEMBER_TB mt ON bt.MEMBER_ID = mt.ID 
+	WHERE bt.ID = #{id}
 	</select>
 	
 	<update id="modifyFaq">
@@ -52,8 +54,10 @@
 		FROM (
 			SELECT ROWNUM RNUM, T1.* 
 			FROM(
-				SELECT * FROM REPLY_TB WHERE BOARD_ID = #{board_id} AND STATUS = 'none'
-				ORDER BY ID DESC
+				SELECT RT.*, MT.STR_ID 
+				FROM REPLY_TB RT LEFT JOIN MEMBER_TB MT ON RT.MEMBER_ID = MT.ID
+				WHERE RT.BOARD_ID = #{board_id} AND RT.STATUS = 'none'
+				ORDER BY RT.ID DESC
 		) T1
 	) T2
 	<where>
@@ -73,6 +77,11 @@
 	</update>
 	
 	<select id="getBestFaqList" resultType="com.pinmarket.vo.BoardVO">
-	SELECT * FROM BOARD_TB WHERE BOARD_TYPE = 'bestFaq'
+	SELECT * FROM BOARD_TB WHERE BOARD_TYPE = 'bestFaq' AND STATUS = 'none'
 	</select>
+	
+	<update id="updateHit">
+	UPDATE BOARD_TB SET HIT = HIT + 1
+	WHERE ID = #{id}
+	</update>
 </mapper>

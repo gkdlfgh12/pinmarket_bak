@@ -35,6 +35,7 @@ public class NoticeServiceImpl implements NoticeService{
 
 	@Override
 	public BoardVO getFaq(String id) {
+		int result = mapper.updateHit(id);
 		return mapper.getFaq(id);
 	}
 
