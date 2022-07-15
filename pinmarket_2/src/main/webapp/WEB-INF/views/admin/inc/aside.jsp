@@ -42,6 +42,22 @@
                     <span>결제상품 관리</span>
                 </a>
             </li>
+            
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/admin/notice/~~" data-toggle="collapse" data-target="#notice"
+                    aria-expanded="true" aria-controls="notice">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>FAQ 관리</span>
+                </a>
+                <div id="notice" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Custom Utilities:</h6>
+                        <a class="collapse-item" href="/admin/notice/freeList">자유 FAQ</a>
+                        <a class="collapse-item" href="/admin/notice/bestList">베스트 FAQ</a>
+                    </div>
+                </div>
+            </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">

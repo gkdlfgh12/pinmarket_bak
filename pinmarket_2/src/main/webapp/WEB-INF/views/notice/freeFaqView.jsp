@@ -151,11 +151,11 @@
 					for(var i=0;i<result.length;i++){
 						reply_list += '<li class="mb-3 left clearfix list-group-item dataRow">';
 						reply_list += '	<div class="header">';
-						reply_list += '		<strong>관리자</strong>';
+						reply_list += '		<strong>'+result[i].str_id+' [관리자]</strong>';
 						reply_list += '		<small class="pull-right text-mute">'+result[i].regDate+'</small>';
 						reply_list += '	</div>';
 						reply_list += '	<p>'+result[i].content+'';
-						if("${loginVO.member_level}" == 0){
+						if("${loginVO.id}" == result[i].member_id){
 							reply_list += '	<small class="pull-right"><button class="btn btn-danger delBtn" onclick="replyDelete('+result[i].id+');" data-replyid="'+result[i].id+'">삭제</button></small>';
 						}
 						reply_list += '	</p>';

@@ -11,4 +11,6 @@ public class ReplyVO {
 	private String status;
 	private String regDate;
 	private String updateDate;
+	
+	private String str_id;
 }

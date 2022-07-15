@@ -176,8 +176,8 @@ $(".dataRow").on("click",function(){
 	if(member_id == login_id || login_member_level == 0){
 		
 	}else{
-			alert("해당 게시글을 읽을 권한이 없습니다.");
-			return false;
+		alert("해당 게시글을 읽을 권한이 없습니다.");
+		return false;
 	}
 	
 	location.href="/notice/freeView?page=${pc.page}&countPerPage=${pc.countPerPage}&id="+id;
