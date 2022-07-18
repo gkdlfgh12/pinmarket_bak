@@ -43,7 +43,7 @@
 			) T1
 	) T2
 	<where>
-		T2.RNUM between #{startRow} and #{endRow}
+		T2.RNUM between #{startRow} and #{startRow}
 	</where>
 	</select>
 	

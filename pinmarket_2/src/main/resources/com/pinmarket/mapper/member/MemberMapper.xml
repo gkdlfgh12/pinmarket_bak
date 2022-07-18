@@ -44,4 +44,10 @@
 		UPDATE MEMBER_TB SET ITEM_CNT = ITEM_CNT - 1
 		WHERE ID = #{member_id}
 	</update>
+	
+	<select id="getItemCnt" resultType="int">
+		SELECT ITEM_CNT
+		FROM MEMBER_TB
+		WHERE ID = #{id}
+	</select>
 </mapper>

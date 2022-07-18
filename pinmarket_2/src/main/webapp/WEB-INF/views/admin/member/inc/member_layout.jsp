@@ -58,15 +58,12 @@
 				<tiles:insertAttribute name="header" />
 				<!-- //헤더 -->
                 <!-- End of Topbar -->
-                
-                
 
                 <!-- Begin Page Content -->
 				<tiles:insertAttribute name="body" />
                 <!-- /.container-fluid -->
             </div>
             <!-- End of Main Content -->
-
 
 
             <!-- Footer -->
@@ -103,7 +100,5 @@
             </div>
         </div>
     </div>
-
 </body>
-
 </html>

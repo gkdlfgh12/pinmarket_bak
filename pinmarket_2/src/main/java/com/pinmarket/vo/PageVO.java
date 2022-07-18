@@ -25,6 +25,9 @@ public class PageVO {
 		}else if(type.equals("adminAuctionList")) {
 			this.page = 1;
 			this.countPerPage = 10;
+		}else if(type.equals("adminMemberList")){
+			this.page = 1;
+			this.countPerPage = 20;
 		}else {
 			this.page = 1;
 			this.countPerPage = 10;
