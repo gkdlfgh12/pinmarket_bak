@@ -53,9 +53,18 @@
   
   <!-- 관리자 tiles -->
   <!-- admin 로그인 체크 -->
-  <definition name="admin.member.*" template="/WEB-INF/views/admin/member/inc/layout.jsp">
+  <definition name="admin.login.*" template="/WEB-INF/views/admin/member/inc/login_layout.jsp">
     <put-attribute name="title" value="내 정보" />
     <put-attribute name="header" value="/WEB-INF/views/admin/inc/header.jsp" />
+    <put-attribute name="body" value="/WEB-INF/views/admin/member/{1}.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/views/admin/inc/footer.jsp" />
+  </definition>
+  
+  <!-- 멤버 관리 -->
+  <definition name="admin.member.*" template="/WEB-INF/views/admin/member/inc/member_layout.jsp">
+    <put-attribute name="title" value="내 정보" />
+    <put-attribute name="header" value="/WEB-INF/views/admin/inc/header.jsp" />
+    <put-attribute name="aside" value="/WEB-INF/views/admin/inc/aside.jsp" />
     <put-attribute name="body" value="/WEB-INF/views/admin/member/{1}.jsp" />
     <put-attribute name="footer" value="/WEB-INF/views/admin/inc/footer.jsp" />
   </definition>
