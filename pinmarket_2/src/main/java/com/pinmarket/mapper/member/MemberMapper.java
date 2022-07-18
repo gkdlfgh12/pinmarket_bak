@@ -32,4 +32,7 @@ public interface MemberMapper {
 	
 	//랭크 등록 시 item 사용했으면 cnt - 1
 	public void minusItemCnt(int member_id);
+	
+	//아이템 개수 확인
+	public int getItemCnt(int member_id);
 }

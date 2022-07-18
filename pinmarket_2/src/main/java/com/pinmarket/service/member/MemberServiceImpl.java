@@ -87,6 +87,11 @@ public class MemberServiceImpl implements MemberService{
 		
 	}
 
+	@Override
+	public int getItemCnt(int member_id) {
+		return mapper.getItemCnt(member_id);
+	}
+
 
 
 

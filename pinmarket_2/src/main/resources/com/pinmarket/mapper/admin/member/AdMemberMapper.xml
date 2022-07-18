@@ -3,47 +3,111 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.pinmarket.mapper.admin.member.AdMemberMapper">
+	<resultMap id="attachmentVO" type="com.pinmarket.vo.AttachmentVO">
+	  <result property="id" column="ATID"/>
+	  <result property="fk_id" column="FK_ID"/>
+	  <result property="file_type" column="FILE_TYPE"/>
+	  <result property="save_name" column="SAVE_NAME"/>
+	  <result property="real_name" column="REAL_NAME"/>
+	  <result property="file_path" column="FILE_PATH"/>
+	  <result property="file_size" column="FILE_SIZE"/>
+	  <result property="thumbnail_name" column="THUMBNAIL_NAME"/>
+	  <result property="file_ext" column="FILE_EXT"/>
+	</resultMap>
+	<resultMap id="memberVO" type="com.pinmarket.vo.MemberVO">
+	  <result property="id" column="ID"/>
+	  <result property="pw" column="PW"/>
+	  <result property="name" column="NAME"/>
+	  <result property="birth" column="BIRTH"/>
+	  <result property="gender" column="GENDER"/>
+	  <result property="address1" column="ADDRESS1"/>
+	  <result property="address2" column="ADDRESS2"/>
+	  <result property="zipcode" column="ZIPCODE"/>
+	  <result property="tel" column="TEL"/>
+	  <result property="email" column="EMAIL"/>
+	  <result property="login_type" column="LOGIN_TYPE"/>
+	  <result property="status" column="STATUS"/>
+	  <result property="member_level" column="MEMBER_LEVEL"/>
+	  <result property="str_id" column="STR_ID"/>
+	  <result property="item_cnt" column="ITEM_CNT"/>
+	  <result property="regdate" column="REGDATE"/>
+	  <collection property="attachmentVO" resultMap="attachmentVO" />
+	</resultMap>
 	<select id="login" resultType="com.pinmarket.vo.MemberVO">
-		SELECT ID,STR_ID,NAME,GENDER,EMAIL,ITEM_CNT,MEMBER_LEVEL
-		FROM MEMBER_TB 
-		WHERE STR_ID = #{str_id} AND PW = #{pw}
+	SELECT ID,STR_ID,NAME,GENDER,EMAIL,ITEM_CNT,MEMBER_LEVEL
+	FROM MEMBER_TB 
+	WHERE STR_ID = #{str_id} AND PW = #{pw}
 	</select>
-	<!-- <insert id="join">
-		INSERT INTO MEMBER_TB (ID, STR_ID, PW, NAME, BIRTH, GENDER, ADDRESS1, ADDRESS2, ZIPCODE,TEL, EMAIL) 
-		VALUES(SEQ_MEMBER_TB_ID.nextval,#{str_id},#{pw},#{name},#{birth},#{gender},#{address1},#{address2},#{zipcode},#{tel},#{email})
+	
+	<select id="memberTotal" resultType="int">
+	SELECT COUNT(*) FROM MEMBER_TB
+	</select>
+	
+	<select id="getList" resultMap="memberVO">
+	SELECT T2.*
+		FROM (
+			SELECT ROWNUM RNUM, T1.* 
+			FROM(
+				SELECT MT.ID, MT.NAME, TO_CHAR(MT.BIRTH,'YYYY-MM-DD') AS BIRTH, MT.GENDER, MT.ADDRESS1, MT.ADDRESS2, MT.ZIPCODE, MT.TEL, MT.EMAIL, MT.LOGIN_TYPE,
+				MT.STATUS, MT.MEMBER_LEVEL, MT.STR_ID, MT.ITEM_CNT, TO_CHAR(MT.REGDATE,'YYYY-MM-DD') AS REGDATE
+				FROM MEMBER_TB MT LEFT JOIN ATTACHMENT_TB ATT ON MT.ID = ATT.FK_ID AND ATT.FILE_TYPE = 'member'
+				ORDER BY MT.ID DESC
+		) T1
+	) T2
+	<where>
+		T2.RNUM between #{startRow} and #{endRow}
+	</where>
+	</select>
+	
+	<select id="detailInfo" resultMap="memberVO">
+	SELECT
+		MT.ID,MT.PW,MT.STR_ID,MT.NAME,MT.GENDER,MT.EMAIL,MT.ADDRESS1, MT.ADDRESS2, MT.ZIPCODE,MT.TEL, MT.EMAIL, 
+		TO_CHAR(MT.BIRTH,'YYYY-MM-DD') AS BIRTH, MT.LOGIN_TYPE, MT.STATUS, MT.MEMBER_LEVEL, MT.ITEM_CNT, MT.SNS_ID, TO_CHAR(MT.REGDATE, 'YYYY-MM-DD') AS REGDATE
+		,ATT.SAVE_NAME ,ATT.FILE_PATH
+	FROM 
+		MEMBER_TB MT LEFT JOIN ATTACHMENT_TB ATT ON MT.ID = ATT.FK_ID AND ATT.FILE_TYPE = 'member'
+	WHERE 
+		MT.ID = #{id}
+	</select>
+	
+	<update id="memberDelete">
+	UPDATE MEMBER_TB SET STATUS = '탈퇴'
+	WHERE ID IN (
+	<foreach collection="array" separator="," item="id">
+		#{id.value}
+	</foreach>
+	)
+	</update>
+	
+	<update id="updateMember">
+	UPDATE MEMBER_TB SET NAME = #{name}, ADDRESS1 = #{address1}, ADDRESS2 = #{address2}, ZIPCODE = #{zipcode},
+	TEL = #{tel}, EMAIL = #{email}, MEMBER_LEVEL = #{member_level}, ITEM_CNT = #{item_cnt}, STATUS = #{status}
+	<if test="pw != ''">
+		,pw = #{pw}
+	</if>
+	<where>
+		ID = #{id}
+	</where>
+	</update>
+	
+	<update id="changeImage">
+		UPDATE ATTACHMENT_TB 
+		SET SAVE_NAME = #{save_name}, REAL_NAME = #{real_name}, FILE_PATH = #{file_path}, FILE_SIZE = #{file_size},
+		FILE_EXT = #{file_ext}, REGDATE = sysdate, THUMBNAIL_NAME = #{thumbnail_name}
+		WHERE FK_ID = #{fk_id} AND FILE_TYPE = #{file_type}
+	</update>
+	
+	<insert id="writeMember">
+		INSERT INTO MEMBER_TB (ID, STR_ID, PW, NAME, BIRTH, GENDER, ADDRESS1, ADDRESS2, ZIPCODE,TEL, EMAIL, REGDATE) 
+		VALUES(SEQ_MEMBER_TB_ID.nextval,#{str_id},#{pw},#{name},#{birth},#{gender},#{address1},#{address2},#{zipcode},#{tel},#{email},sysdate)
 		<selectKey resultType="int" keyProperty="id" order="AFTER">
         	SELECT SEQ_MEMBER_TB_ID.currval FROM dual
     	</selectKey>  
 	</insert>
-	<insert id="profileSave">
-	 	INSERT INTO ATTACHMENT_TB (ID, FK_ID, FILE_TYPE, SAVE_NAME, REAL_NAME, FILE_PATH, FILE_SIZE, FILE_EXT, REGDATE,THUMBNAIL_NAME)
-		VALUES(SEQ_ATTACHMENT_ID.nextval, #{fk_id}, #{file_type}, #{save_name},#{real_name},#{file_path},#{file_size},#{file_ext},sysdate,#{thumbnail_name})
+	
+	<insert id="insertImage">
+	 	INSERT INTO ATTACHMENT_TB (ID, FK_ID, FILE_TYPE, SAVE_NAME, REAL_NAME, FILE_PATH, FILE_SIZE, FILE_EXT, REGDATE, THUMBNAIL_NAME)
+		VALUES(SEQ_ATTACHMENT_ID.nextval, #{fk_id}, #{file_type}, #{save_name},#{real_name},#{file_path},#{file_size},#{file_ext},sysdate, #{thumbnail_name})
 	</insert>
 	
-	네아로 callback 처리
-	id 중복 처리
-	<select id="joinCheck" resultType="com.pinmarket.vo.MemberVO">
-		SELECT ID,STR_ID,NAME,GENDER,EMAIL,ITEM_CNT,MEMBER_LEVEL
-		FROM MEMBER_TB
-		WHERE STATUS = '정상' AND (STR_ID = #{str_id} AND LOGIN_TYPE = 'naver' AND SNS_ID = #{sns_id})
-	</select>
-	<insert id="snsjoin">
-		INSERT INTO MEMBER_TB (ID, STR_ID, NAME, GENDER, BIRTH, TEL, EMAIL, LOGIN_TYPE, STATUS, SNS_ID) 
-		VALUES(SEQ_MEMBER_TB_ID.nextval,#{str_id},#{name},#{gender},#{birth},#{tel}, #{email}, 'naver', '정상', #{sns_id})
-	</insert>
-	
-	rest
-	<select id="idDupleCheck" resultType="int">
-		SELECT COUNT(*) FROM MEMBER_TB WHERE STR_ID = #{str_id}
-	</select>
-	
-	<update id="addItemCnt">
-		UPDATE MEMBER_TB SET ITEM_CNT = ITEM_CNT + #{cnt}
-		WHERE ID = #{member_id}
-	</update>
-	
-	<update id="minusItemCnt">
-		UPDATE MEMBER_TB SET ITEM_CNT = ITEM_CNT - 1
-		WHERE ID = #{member_id}
-	</update> -->
 </mapper>

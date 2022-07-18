@@ -51,7 +51,7 @@ public class SNSLogin {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode rootNode = mapper.readTree(body);
-		
+		System.out.println("rootNode : ~ "+rootNode);
 		/*String id = rootNode.get("id").asText();
 		user.setUname(rootNode.get("displayName").asText());
 		JsonNode nameNode = rootNode.path("name");
@@ -63,9 +63,9 @@ public class SNSLogin {
 			//responseNode.get("nickname").asText();
 			//responseNode.get("profile_image").asText();
 			if(responseNode.get("gender").asText().equals("M")) {
-				user.setGender("남자");
+				user.setGender("man");
 			}else {
-				user.setGender("여자");
+				user.setGender("woman");
 			}
 			user.setEmail(responseNode.get("email").asText());
 			user.setTel(responseNode.get("mobile").asText());
