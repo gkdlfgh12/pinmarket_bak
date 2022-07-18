@@ -183,13 +183,13 @@
 	    		<label for="content">내용</label>
 	    		<textarea class="form-control" id="content" rows="3" name="content" style="resize:none;"></textarea>
   			</div>
-  			<c:if test="${loginVO.item_cnt > 0}">
+  			<%-- <c:if test="${loginVO.item_cnt > 0}"> --%>
 	  			<!-- top 10 신청 여부 - 결제 시 생성 -->
-	  			<div class="form-check form-check-inline">
-					<input class="form-check-input" type="checkbox" name="payment_status" id="payment_status" value="1">
-					<label class="form-check-label" for="payment_status">top 5 쿠폰 사용</label>
-				</div>
-			</c:if>
+  			<div class="form-check form-check-inline" id="item">
+				<!-- <input class="form-check-input" type="checkbox" name="payment_status" id="payment_status" value="1">
+				<label class="form-check-label" for="payment_status">top 5 쿠폰 사용</label> -->
+			</div>
+			<%-- </c:if> --%>
 		    <div class="modal-footer mt-3">
 		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 		        <button type="submit" class="btn btn-primary">Save changes</button>
@@ -238,7 +238,7 @@ var circle = new kakao.maps.Circle({
 	strokeColor: '#FF0000', // 선 색
 	strokeOpacity: 0.9, // 선 투명도 
 	strokeStyle: 'solid' // 선 스타일
-});	
+});
 
 function goList(){
 	location.href="/auction/list";
@@ -250,11 +250,22 @@ $("#rankInputModal").on("click",function(){
 		type : "get",
 		success : function(result, status, xhr){ //result:리턴한 값, status:http상태 코드 값, xhr:통신 개체
 			console.log(result);
-			if(result == 'permit'){
+			alert(result.split("_"));
+			var result1 = result.split("_")[0];
+			var item_cnt = result.split("_")[1];
+			var str_top5 = '';
+			if(result1 == 'permit'){
 				$('#myModal').modal("show");
 			}else{
 				alert("이미 랭크를 등록했습니다.");
 			}
+			alert(item_cnt);
+			if(item_cnt > 0){
+				str_top5 += '<input class="form-check-input" type="checkbox" name="payment_status" id="payment_status" value="1">';
+				str_top5 += '<label class="form-check-label" for="payment_status">top 5 쿠폰 사용</label>';
+			}
+			$("#item").empty();
+			$("#item").append(str_top5);
 		},
 		error : function(xhr, status, err){ //xhr:통신개체, status:http상태 코드 값, err:오류 내용
 			alert('실패');

@@ -44,17 +44,17 @@
 		<div class="row">
 			<div class="col">
 				<label for="address1">주소</label>
-				<input type="text" id="address1" class="form-control mb-3" value="${memberVO.address1}" readonly>
+				<input type="text" id="address1" name="address1" class="form-control mb-3" value="${memberVO.address1}" readonly>
 			</div>
 			<div class="col">
 				<label for="address2">상세 주소</label>
-				<input type="text" id="address2" class="form-control mb-3" value="${memberVO.address2}">
+				<input type="text" id="address2" name="address2" class="form-control mb-3" value="${memberVO.address2}">
 			</div>
 		</div>
 			<div class="row">
 				<div class="col">
 					<label for="zipcode">zipCode</label>
-					<input type="text" id="zipcode" class="form-control mb-3" style="width: 200px;" value="${memberVO.zipcode}" readonly>
+					<input type="text" id="zipcode" name="zipcode" class="form-control mb-3" style="width: 200px;" value="${memberVO.zipcode}" readonly>
 				</div>
 			</div>
 			<div class="row">
@@ -66,6 +66,12 @@
 					<label for="email">이메일</label>
 					<input type="text" id="email" class="form-control mb-3" value="${memberVO.email}">
 				</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<label for="item_cnt">남은 아이템</label>
+				<input type="text" id="item_cnt" class="form-control mb-3" style="width: 200px;" value="${memberVO.item_cnt}" readonly>
+			</div>
 		</div>
 		<div class="row float-right mt-3">
 			<div class="col">

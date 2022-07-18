@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pinmarket.service.auction.AuctionService;
+import com.pinmarket.service.member.MemberService;
 import com.pinmarket.vo.AuctionVO;
 import com.pinmarket.vo.DistrictVO;
 import com.pinmarket.vo.RankingVO;
@@ -33,6 +34,9 @@ public class ApiAuctionController {
 	@Autowired
 	@Qualifier("auctionServiceImpl")
 	AuctionService service;
+	
+	@Autowired
+	MemberService memberService;
 
 	@PostMapping("/auction/list")
 	public ResponseEntity<List<AuctionVO>> list(Model model, @RequestBody SearchVO vo) throws JsonProcessingException {
@@ -85,6 +89,11 @@ public class ApiAuctionController {
 			result = "permit";
 		}
 		log.info("result : "+result);
+		
+		int itemCnt = memberService.getItemCnt(member_id);
+		result = result+"_"+itemCnt;
+		log.info("itemCnt : ~ "+result);
+		
 		return new ResponseEntity<String>(result,HttpStatus.OK);
 	}
 	
