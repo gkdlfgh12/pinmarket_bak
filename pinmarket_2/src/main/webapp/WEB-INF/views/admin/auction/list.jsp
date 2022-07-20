@@ -5,10 +5,7 @@
 <div class="container-fluid">
 
    <!-- Page Heading -->
-   <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-   <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-       For more information about DataTables, please visit the <a target="_blank"
-           href="https://datatables.net">official DataTables documentation</a>.</p>
+   <h1 class="h3 mb-2 text-gray-800">옥션 관리</h1>
 	<!-- Topbar Search -->
 	<div class="mb-3">
     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
@@ -48,7 +45,16 @@
                     <tbody class="auction-list">
                     	<c:forEach items="${list}" var="vo">
                         <tr>
-                        	<td><input type="checkbox" name="delChk" value="${vo.id}"></td>
+                        	<td>
+                        		<c:choose>
+                        		<c:when test="${vo.status != 'del'}">
+                        			<input type="checkbox" name="delChk" value="${vo.id}">
+                        		</c:when>
+                        		<c:when test="${vo.status == 'del'}">
+                        			<!-- <input type="checkbox" disabled name="delChk" value="0"> -->
+                        		</c:when>
+                        		</c:choose>
+                        	</td>
                             <td>${vo.str_id}</td>
                             <td>${vo.title}</td>
                             <td>${vo.startDate} ~ ${vo.endDate}</td>
@@ -108,7 +114,6 @@
 
 <script type="text/javascript">
 function goDetail(id){
-	alert(id);
 	location.href="/admin/auction/detail?id="+id;
 }
 

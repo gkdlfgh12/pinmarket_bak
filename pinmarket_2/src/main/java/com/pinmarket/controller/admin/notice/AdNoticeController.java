@@ -53,6 +53,8 @@ public class AdNoticeController {
 		pc.setArticleTotalCount(totalCnt);
 		model.addAttribute("pc",pc);
 		log.info("pageObject : ~ "+pc);
+		log.info("StartRow : ~ "+pc.getStartRow());
+		log.info("EndRow : ~ "+pc.getEndRow());
 		log.info("pageVO : ~ "+pageVO);
 		
 		List<BoardVO> list = service.freeList(pc);

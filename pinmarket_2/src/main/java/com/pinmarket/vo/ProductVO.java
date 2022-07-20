@@ -12,6 +12,7 @@ public class ProductVO {
 	private String descript;
 	private String status;
 	private MultipartFile product_file;
+	private int item_cnt;
 	
 	private AttachmentVO attachmentVO;
 }

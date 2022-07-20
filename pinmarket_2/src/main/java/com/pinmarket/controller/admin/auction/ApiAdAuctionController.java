@@ -35,6 +35,10 @@ public class ApiAdAuctionController {
 		log.info("/rank/list");
 		//랭크 리스트 가져오기
 		List<RankingVO> rankList = service.getRankList(searchVO);
+		//개행문자 -> html태그로 변경 (줄바꿈)
+		for(int i=0;i<rankList.size();i++) {
+			rankList.get(i).setContent(rankList.get(i).getContent().replace("\r\n", "</br>"));
+		}
 		log.info("rankList : "+rankList);
 		log.info("searchVO : "+searchVO);
 		

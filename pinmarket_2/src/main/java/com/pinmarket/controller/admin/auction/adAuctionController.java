@@ -84,6 +84,10 @@ public class adAuctionController {
 		log.info("detail : "+id);
 		//옥션 글 과 이미지 파일 가져오기
 		Map<String, Object> mapInfo = service.getDetail(id);
+		
+		//개행문자 -> html태그로 변경 (줄바꿈)
+		((AuctionVO) mapInfo.get("auction")).setContent(((AuctionVO) mapInfo.get("auction")).getContent().replace("\n", "</br>"));
+		
 		model.addAttribute("auctionVO",mapInfo.get("auction"));
 		model.addAttribute("attachVO",mapInfo.get("attach"));
 		log.info("attach : ~~ "+mapInfo.get("rankList"));

@@ -7,7 +7,7 @@
 
     <!-- Page Heading -->
    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-       <h1 class="h3 mb-0 text-gray-800">Cards</h1>
+       <h1 class="h3 mb-0 text-gray-800">자주묻는 질문 게시판 관리</h1>
    </div>
 
    <div class="row">
@@ -48,7 +48,7 @@
     	</div>
     </div>
 </div>
-<!-- 상품  Modal -->
+<!-- 자주묻는질문 입력  Modal -->
 <div class="modal fade" id="bestFaqModal" tabindex="-1" aria-labelledby="bestFaqModal" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
@@ -61,7 +61,7 @@
       <div class="modal-body">
       		<div class="container">
 			  <div class="row mt-3">
-			        <h2>상품 수정</h2>
+			        <h2>자주묻는 질문 작성</h2>
 			  </div>
 			  <div class="row mt-5">
 		          <form action="/admin/notice/bestFaqWrite" id="product-form" class="product-form" method="POST">

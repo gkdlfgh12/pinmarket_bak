@@ -53,6 +53,10 @@ public class MypageController {
 		MemberVO loginVO = SessionCreater.getSession(request);
 		log.info("loginVO : ~~ "+loginVO);
 		List<OrderVO> orderVO = service.getPaymentInfo(loginVO.getId());
+		//개행문자 -> html태그로 변경 (줄바꿈)
+		for(int i=0;i<orderVO.size();i++) {
+			orderVO.get(i).getProductVO().setDescript((orderVO.get(i).getProductVO().getDescript().replace("\r\n", "</br>")));
+		}
 		model.addAttribute("orderVO",orderVO);
 		log.info("orderVO : ~ "+orderVO);
 		return "mypage.paymentInfo";
@@ -80,6 +84,7 @@ public class MypageController {
 		//---------------------------
 		
 		List<AuctionVO> listSet = service.getMyAutionList(loginVO.getId(),pc);
+		
 		log.info("listSet.size() : ~ "+listSet.size());
 		model.addAttribute("listSet",listSet);
 		log.info("myAutionList list : ~ "+listSet);

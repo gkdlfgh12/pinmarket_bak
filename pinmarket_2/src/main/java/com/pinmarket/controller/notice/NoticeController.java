@@ -166,6 +166,10 @@ public class NoticeController {
 		model.addAttribute("loginVO",memberVO);
 		
 		List<BoardVO> list = service.getBestFaqList();
+		//개행문자 -> html태그로 변경 (줄바꿈)
+		for(int i=0;i<list.size();i++) {
+			list.get(i).setContent(list.get(i).getContent().replace("\n", "</br>"));
+		}
 		model.addAttribute("list", list);
 		log.info("listlist : ~ "+list);
 		

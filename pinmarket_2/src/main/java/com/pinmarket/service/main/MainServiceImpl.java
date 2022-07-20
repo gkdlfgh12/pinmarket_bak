@@ -32,7 +32,7 @@ public class MainServiceImpl implements MainService{
 	@Override
 	public ProductVO getTopProduct() {
 		//상품을 구매한 개수 출력
-		int topCnt = mapper.getTopProductCnt();
+		Integer topCnt = mapper.getTopProductCnt();
 		List<OrderVO> topProductList = mapper.getTopProductList();
 		log.info("topCnt : ~ "+topCnt);
 		int product_id = 0;
