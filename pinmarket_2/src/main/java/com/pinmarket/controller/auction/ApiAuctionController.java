@@ -43,6 +43,10 @@ public class ApiAuctionController {
 		log.info("vo.StartIndex()"+vo);
 		//게시글 정보 뽑아오기
 		List<AuctionVO> list = service.list(vo);
+		//개행문자 -> html태그로 변경 (줄바꿈)
+		for(int i=0;i<list.size();i++) {
+			list.get(i).setContent(list.get(i).getContent().replace("\r\n", "</br>"));
+		}
 		log.info("list 결과지 ~ "+list);
 		model.addAttribute("searchVO",vo);
 		/*log.info("list : ~ "+list);
@@ -68,6 +72,10 @@ public class ApiAuctionController {
 	public ResponseEntity<List<RankingVO>> rankList(HttpServletRequest request, Model model, @RequestBody SearchVO searchVO){
 		
 		List<RankingVO> rankList = service.getRankList(searchVO);
+		//개행문자 -> html태그로 변경 (줄바꿈)
+		for(int i=0;i<rankList.size();i++) {
+			rankList.get(i).setContent(rankList.get(i).getContent().replace("\r\n", "</br>"));
+		}
 		log.info("rankList : "+rankList);
 		
 		return new ResponseEntity<List<RankingVO>>(rankList,HttpStatus.OK);

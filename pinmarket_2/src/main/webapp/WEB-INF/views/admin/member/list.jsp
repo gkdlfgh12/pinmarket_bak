@@ -6,14 +6,11 @@
 
    <!-- Page Heading -->
    <h1 class="h3 mb-2 text-gray-800">회원 관리</h1>
-   <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-       For more information about DataTables, please visit the <a target="_blank"
-           href="https://datatables.net">official DataTables documentation</a>.</p>
 	<!-- Topbar Search -->
 	<div class="mb-3">
-    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+    <form action="/admin/member/list" method="get" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
         <div class="input-group">
-            <input type="text" name="title" id="title" class="form-control border-0 small" value="" placeholder="제목 검색"
+            <input type="text" name="strId" id="strId" class="form-control border-0 small" placeholder="아이디 검색"
                 aria-label="Search" aria-describedby="basic-addon2">
             <div class="input-group-append">
                 <button class="btn btn-primary" type="submit">
@@ -102,12 +99,12 @@
     </div>
 </div>
 
-<!-- 상품  Modal -->
+<!-- 멤버 수정  Modal -->
 <div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="memberModal" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">멤버 생성</h5>
+        <h5 class="modal-title" id="exampleModalLabel">멤버 수정</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -220,7 +217,7 @@
 										type="radio" id="withdrawal" name="status" value="탈퇴">
 								</div>
 								<div class="text-center">
-									<button type="submit" class="btn btn-start-order">등록</button>
+									<button type="submit" class="btn btn-primary">수정</button>
 								</div>
 							</form>
 						</div>
@@ -334,7 +331,7 @@
 										type="radio" name="status" value="정상" checked> 
 								</div>
 								<div class="text-center">
-									<button type="submit" class="btn btn-start-order">등록</button>
+									<button type="submit" class="btn btn-primary">생성</button>
 								</div>
 							</form>
 						</div>
@@ -467,6 +464,7 @@ $(".detail-view").on("click",function(){
 			$("#member_level").val(result.member_level);
 			$("#item_cnt").val(result.item_cnt);
 			$("#regdate").val(result.regdate);
+			$(".member-btn").text("수정");
 			if(result.status == '정상'){
 				$("#nomal").prop("checked","true");
 			}else if(result.status == '탈퇴'){

@@ -36,14 +36,14 @@ public class AdminLoginCheckInterceptor implements HandlerInterceptor{
         System.out.println("[admin preHandle1][" + handler.toString() + "]");
         
         HttpSession session = request.getSession();
-		/* MemberVO memberVO = (MemberVO) session.getAttribute("loginVO"); */
+		MemberVO memberVO = (MemberVO) session.getAttribute("loginVO");
         
         //개발용으로 임시로 만들어논것
-        MemberVO memberVO = new MemberVO();
+        /*MemberVO memberVO = new MemberVO();
         memberVO.setId(28);
         memberVO.setStr_id("qweqwe123");
         memberVO.setMember_level(0);
-        session.setAttribute("loginVO", memberVO);
+        session.setAttribute("loginVO", memberVO);*/
 		// -----------------------
         if(memberVO == null) {
         	response.setCharacterEncoding("UTF-8");

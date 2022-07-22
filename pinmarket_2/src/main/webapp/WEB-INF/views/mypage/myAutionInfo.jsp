@@ -45,7 +45,7 @@
 			        <h5 class="card-title h4">${vo.str_id}님의 경매</h5>
 			        <small class="text-muted">제목 : ${vo.title}</small><br>
 					<%-- <c:out value="${vo.RankingVO}"></c:out> --%>
-					<small class="text-muted">내용 : ${vo.content}</small><br>
+					<small class="text-muted">내용 : ${vo.content}.....</small><br>
 					<small class="text-muted">등록 날짜 : ${vo.regDate}</small><br>
 					<small class="text-muted">기간 : ${vo.startDate} ~ ${vo.endDate}</small><br>
 					<c:choose>

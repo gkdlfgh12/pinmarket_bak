@@ -12,7 +12,7 @@ public interface MainMapper {
 	List<AuctionVO> getTopAuction(Map<String, Integer> row);
 	
 	//상품을 구매한 개수 출력
-	int getTopProductCnt();
+	Integer getTopProductCnt();
 
 	//인기 상품 출력
 	ProductVO getTopProduct(int product_id);

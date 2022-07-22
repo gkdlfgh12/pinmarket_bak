@@ -106,7 +106,6 @@ function createOrder(name, price, product_id){
 		url : "/api/product/createOrder?product_id="+product_id,
 		type : "get",
 		success : function(result){
-			console.log("result : ~1 ");
 			console.log(result);
 			var order_id = result.order_id;
 			var member_id = result.member_id;
@@ -180,7 +179,6 @@ function bootPayOn(name, price, product_id, order_id, member_id){
 		    
 		    //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
 		    //location.href="/bootPay/veri?receipt_id="+data.receipt_id;
-		    alert(member_id);
 		    $.ajax({
 		    	url : "/api/product/veri?receipt_id="+data.receipt_id+"&member_id="+member_id,
 		    	type : "get",

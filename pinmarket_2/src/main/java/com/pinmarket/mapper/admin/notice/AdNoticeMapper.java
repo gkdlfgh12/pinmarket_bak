@@ -1,6 +1,7 @@
 package com.pinmarket.mapper.admin.notice;
 
 import java.util.List;
+import java.util.Map;
 
 import com.pinmarket.util.PageCreator;
 import com.pinmarket.vo.BoardVO;
@@ -10,10 +11,10 @@ import com.pinmarket.vo.SearchVO;
 public interface AdNoticeMapper {
 	
 	//자유 질문 게시글 개수
-	public int freeTotal();
+	public int freeTotal(String title);
 	
 	//자유 질문 게시판
-	public List<BoardVO> freeList(PageCreator pc);
+	public List<BoardVO> freeList(Map<String, Object> map);
 	
 	//자유질문 게시판 자세히 보기
 	public BoardVO freeView(String id);

@@ -20,17 +20,18 @@
 	  <result property="product_price" column="PRODUCT_PRICE"/>
 	  <result property="descript" column="DESCRIPT"/>
 	  <result property="status" column="STATUS"/>
+	  <result property="item_cnt" column="ITEM_CNT"/>
 	  <collection property="attachmentVO" resultMap="attachmentVO" />
 	</resultMap>
 	
 	<select id="list" resultMap="productVO">
-		SELECT PT.ID, PT.PRODUCT_NAME, PT.PRODUCT_PRICE, PT.STATUS, PT.DESCRIPT , ATT.SAVE_NAME, ATT.FILE_PATH 
+		SELECT PT.ID, PT.PRODUCT_NAME, PT.PRODUCT_PRICE, PT.STATUS, PT.DESCRIPT,PT.ITEM_CNT, ATT.SAVE_NAME, ATT.FILE_PATH 
 		FROM PRODUCT_TB PT LEFT JOIN ATTACHMENT_TB ATT ON PT.ID = ATT.FK_ID AND ATT.FILE_TYPE = 'product'
 		WHERE 1=1 OR PT.STATUS = 'ON'
 	</select>
 	
 	<update id="updateProduct">
-		UPDATE PRODUCT_TB SET PRODUCT_NAME = #{product_name}, PRODUCT_PRICE = #{product_price}, STATUS = #{status}
+		UPDATE PRODUCT_TB SET PRODUCT_NAME = #{product_name}, DESCRIPT = #{descript}, PRODUCT_PRICE = #{product_price}, STATUS = #{status}, ITEM_CNT = #{item_cnt}
 		WHERE ID = #{id}
 	</update>
 	
@@ -42,8 +43,8 @@
 	</update>
 	
 	<insert id="insertProduct">
-		INSERT INTO PRODUCT_TB (ID,PRODUCT_NAME,PRODUCT_PRICE,DESCRIPT,STATUS)
-		VALUES (SEQ_PRODUCT_TB_ID.nextval,#{product_name},#{product_price},#{descript},#{status})
+		INSERT INTO PRODUCT_TB (ID,PRODUCT_NAME,PRODUCT_PRICE,DESCRIPT,STATUS,ITEM_CNT)
+		VALUES (SEQ_PRODUCT_TB_ID.nextval,#{product_name},#{product_price},#{descript},#{status},#{item_cnt})
 		
 		<selectKey order="AFTER" resultType="int" keyProperty="id">
 			SELECT SEQ_PRODUCT_TB_ID.currval FROM dual

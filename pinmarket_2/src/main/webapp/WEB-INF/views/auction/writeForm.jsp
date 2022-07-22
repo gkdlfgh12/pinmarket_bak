@@ -76,7 +76,7 @@
 			<label class="form-check-label" for="inlineRadio3">3 (disabled)</label>
 		</div> -->
 		<br>
-	  	<button type="submit" class="btn btn-primary mt-3">Submit</button>
+	  	<button type="submit" class="btn btn-primary mt-3">작성</button>
 	</form>
 	</div>
 	

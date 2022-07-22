@@ -1,8 +1,9 @@
 package com.pinmarket.mapper.admin.member;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.pinmarket.util.PageCreator;
 import com.pinmarket.vo.AttachmentVO;
 import com.pinmarket.vo.MemberVO;
 
@@ -11,10 +12,10 @@ public interface AdMemberMapper {
 	public MemberVO login(MemberVO memberVO);
 	
 	//멤버 총 수 가져오기
-	public int memberTotal();
+	public int memberTotal(String str_id);
 
 	//멤버 리스트 출력
-	public List<MemberVO> getList(PageCreator pc);
+	public List<MemberVO> getList(Map<String, Object> map);
 	
 	//멤버 정보 가져오기
 	public MemberVO detailInfo(int id);
