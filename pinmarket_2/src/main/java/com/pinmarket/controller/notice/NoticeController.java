@@ -36,7 +36,7 @@ public class NoticeController {
 	public String freeFaqList(HttpServletRequest request, Model model, PageVO pageVO) throws Exception {
 		log.info("자유 질문 게시판!! ");
 		
-		//자유 질문에 맞게 페이징 정보 수정
+		//자유 질문에 맞게 페이징 정보 수정bb
 		if(pageVO.getPage() == 1) {
 			pageVO.setPaging("freeFaqList");
 		}
@@ -166,6 +166,10 @@ public class NoticeController {
 		model.addAttribute("loginVO",memberVO);
 		
 		List<BoardVO> list = service.getBestFaqList();
+		//개행문자 -> html태그로 변경 (줄바꿈)
+		for(int i=0;i<list.size();i++) {
+			list.get(i).setContent(list.get(i).getContent().replace("\n", "</br>"));
+		}
 		model.addAttribute("list", list);
 		log.info("listlist : ~ "+list);
 		

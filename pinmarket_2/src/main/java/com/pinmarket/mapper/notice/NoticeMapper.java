@@ -37,4 +37,7 @@ public interface NoticeMapper {
 	
 	//best faq 리스트 겟
 	List<BoardVO> getBestFaqList();
+
+	//게시글 조회수 증가
+	int updateHit(String id);
 }

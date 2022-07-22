@@ -14,7 +14,7 @@
 	  <result property="thumbnail_name" column="THUMBNAIL_NAME"/>
 	  <result property="file_ext" column="FILE_EXT"/>
 	</resultMap>
-	<resultMap id="auctionList" type="com.pinmarket.vo.AuctionVO">
+	<resultMap id="auctionVO" type="com.pinmarket.vo.AuctionVO">
 		<result property="id" column="ID" />
 		<result property="member_id" column="MEMBER_ID" />
 		<result property="title" column="TITLE" />
@@ -31,7 +31,15 @@
 		<result property="rt_cnt" column="RT_CNT" />
 		<collection property="attachmentVO" resultMap="attachmentVO" />
 	</resultMap>
-	<select id="getTopAuction" resultMap="auctionList">
+	<resultMap id="productVO" type="com.pinmarket.vo.ProductVO">
+	  <result property="id" column="ID"/>
+	  <result property="product_name" column="PRODUCT_NAME"/>
+	  <result property="product_price" column="PRODUCT_PRICE"/>
+	  <result property="descript" column="DESCRIPT"/>
+	  <result property="status" column="STATUS"/>
+	  <collection property="attachmentVO" resultMap="attachmentVO" />
+	</resultMap>
+	<select id="getTopAuction" resultMap="auctionVO">
 	SELECT T2.*
 		FROM (
 			SELECT
@@ -43,8 +51,8 @@
 				FROM 
 					AUCTION_TB AT2 LEFT JOIN RANKING_TB RT ON AT2.ID = RT.AUCTION_ID 
 					LEFT JOIN ATTACHMENT_TB ATT ON AT2.ID = ATT.FK_ID AND ATT.FILE_TYPE = 'auction' AND ATT.THUMBNAIL_NAME IS NOT NULL
-				<!-- WHERE 
-					AT2.STATUS = 'open' -->
+				WHERE 
+					AT2.STATUS = 'open'
 				GROUP BY 
 					ATT.THUMBNAIL_NAME,AT2.ID,AT2.MEMBER_ID,AT2.TITLE,AT2.CONTENT,AT2.ADDRESS1,AT2.REGDATE,
 					AT2.STARTDATE, AT2.ENDDATE
@@ -55,5 +63,21 @@
 	<where>
 		T2.RNUM between #{startRow} and #{endRow}
 	</where>
+	</select>
+	
+	<select id="getTopProductCnt" resultType="int">
+		SELECT MAX(CNT) AS MAXID
+		FROM (SELECT COUNT(*) AS CNT,PRODUCT_ID FROM ORDER_TB GROUP BY PRODUCT_ID)
+	</select>
+	
+	<select id="getTopProductList" resultType="com.pinmarket.vo.OrderVO">
+		SELECT COUNT(*) AS ORDER_CNT, PRODUCT_ID FROM ORDER_TB
+		GROUP BY PRODUCT_ID
+	</select>
+	
+	<select id="getTopProduct" resultMap="productVO">
+		SELECT PT.*, ATT.SAVE_NAME, ATT.FILE_PATH 
+		FROM PRODUCT_TB PT LEFT JOIN ATTACHMENT_TB ATT ON PT.ID = ATT.FK_ID AND ATT.FILE_TYPE = 'product'
+		WHERE PT.ID = #{prodict_id}
 	</select>
 </mapper>

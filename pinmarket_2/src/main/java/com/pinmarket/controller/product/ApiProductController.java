@@ -105,8 +105,10 @@ public class ApiProductController {
 		log.info("rootNode.get(\"status\").asInt() : "+rootNode.get("status").asInt());
 		log.info("rootNode.path(\"data\").get(\"price\").asInt() : "+rootNode.path("data").get("price").asInt());
 		log.info("rootNode.get(\"status\").asInt() : "+rootNode.get("status").asInt());
-		if(rootNode.get("status").asInt() == 2000) {
+		if(rootNode.get("status").asInt() == 200) {
+			log.info("1차 !!!!  "+rootNode.get("status").asInt());
 			if(rootNode.path("data").get("price").asInt() == Integer.parseInt(orderView.getPrice()) && rootNode.path("data").get("status").asInt() == 1) {
+				log.info("2차 !!!!");
 				//주문 상태 값 comp로 변경
 				vo.setReceipt_id(receipt_id);
 				vo.setStatus("comp");
@@ -115,10 +117,10 @@ public class ApiProductController {
 				//결제 완료 후 해당 유저의 member_tb에서 item count 추가
 				log.info("getMember_id() : "+orderView.getMember_id());
 				//이건 상품 별로 아이템 개수 분기 처리 강제로 함
-				int cnt=0;
-				if(orderView.getProduct_id() == 1) cnt = 5;
+				int cnt= orderView.getItem_cnt();
+				/*if(orderView.getProduct_id() == 1) cnt = 5;
 				else if(orderView.getProduct_id() == 2) cnt = 10;
-				else if(orderView.getProduct_id() == 3) cnt = 15;
+				else if(orderView.getProduct_id() == 3) cnt = 15;*/
 				//멤버에 item 등록
 				log.info("addItemCnt : "+memberService.addItemCnt(orderView.getMember_id(), cnt));
 				

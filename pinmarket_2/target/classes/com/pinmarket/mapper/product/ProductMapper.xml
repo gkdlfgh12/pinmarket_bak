@@ -24,14 +24,14 @@
 	</resultMap>
 	
 	<select id="getProductList" resultMap="productVO">
-		select * from PRODUCT_TB PT 
+		SELECT * FROM PRODUCT_TB PT 
 		LEFT JOIN ATTACHMENT_TB AT2 ON PT.ID = AT2.FK_ID AND AT2.FILE_TYPE = 'product'
+		WHERE PT.STATUS = 'ON'
 	</select>
 	
 	<insert id="createOrder">
 		INSERT INTO ORDER_TB (ID, MEMBER_ID, PRODUCT_ID, STATUS) 
 		VALUES(SEQ_ORDER_TB_ID.nextval,#{member_id},#{product_id},'wait')
-		
 		<selectKey order="AFTER" resultType="int" keyProperty="id">
 			SELECT SEQ_ORDER_TB_ID.currval FROM dual
 		</selectKey>
@@ -56,7 +56,9 @@
 	</update>
 	
 	<select id="getOrder" resultType="com.pinmarket.vo.OrderVO">
-		SELECT * FROM ORDER_TB WHERE RECEIPT_ID = #{receipt_id}
+		SELECT OT.*, PT.ITEM_CNT 
+		FROM ORDER_TB OT LEFT JOIN PRODUCT_TB PT ON OT.PRODUCT_ID = PT.ID  
+		WHERE OT.RECEIPT_ID = #{receipt_id}
 	</select>
 	
 	<update id="OrderStatusUpdate">

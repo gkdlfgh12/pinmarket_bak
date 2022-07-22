@@ -27,6 +27,10 @@ public class ProductController {
 		log.info("product list : ~ ");
 		
 		List<ProductVO> list = service.getProductList();
+		//개행문자 -> html태그로 변경 (줄바꿈)
+		for(int i=0;i<list.size();i++) {
+			list.get(i).setDescript(list.get(i).getDescript().replace("\r\n", "</br>"));
+		}
 		model.addAttribute("list",list);
 		log.info("list :~~ "+list);
 		

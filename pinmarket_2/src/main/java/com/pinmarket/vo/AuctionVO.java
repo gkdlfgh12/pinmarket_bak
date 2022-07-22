@@ -26,7 +26,9 @@ public class AuctionVO {
 	private String str_id;
 	//각 옥션에 붙은 랭크의 개수
 	private int rt_cnt;
+	
 	private AttachmentVO attachmentVO;
 	
+	//이거 안스는듯? 어차피 사용도 안될거 같은데 확인 후 삭제하기
 	private List<RankingVO> rankingVO;
 }

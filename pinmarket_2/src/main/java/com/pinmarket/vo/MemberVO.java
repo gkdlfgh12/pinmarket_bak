@@ -23,6 +23,7 @@ public class MemberVO {
 	private MultipartFile profileImage;
 	private String sns_id;
 	private int item_cnt;
+	private String regdate;
 	
 	private AttachmentVO attachmentVO;
 	//private int member_id;

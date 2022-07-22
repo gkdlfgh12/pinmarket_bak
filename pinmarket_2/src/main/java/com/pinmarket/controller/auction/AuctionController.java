@@ -100,11 +100,14 @@ public class AuctionController {
         Date toDay = sdformat.parse(strToday);
         if (startDate.compareTo(toDay) > 0) {
         	auction.setStatus("wait");
+		}else {
+			auction.setStatus("open");
 		}
 		
 		//옥션 저장 시 세션으로 해당 id 저장
 		HttpSession session = request.getSession();
 		MemberVO member= (MemberVO)session.getAttribute("loginVO");
+		log.info("member 11: ~ "+member);
 		auction.setMember_id(member.getId());
 		int result = service.write(auction);
 		log.info("result : "+result);
@@ -143,23 +146,19 @@ public class AuctionController {
 		log.info("detailForm ~~ 데이터 가져오기");
 		if(id != "0") {
 			Map<String, Object> auctionInfo = service.view(id);
+			((AuctionVO) auctionInfo.get("auction")).setContent(((AuctionVO) auctionInfo.get("auction")).getContent().replace("\n", "</br>"));
 			model.addAttribute("auctionInfo",auctionInfo);
-			log.info("auctionInfo : "+auctionInfo);
 			//옥션 id를 이용해서 status_tb 조회 후 guest_id를 구해 온다.
 			AuctionVO vo = (AuctionVO)auctionInfo.get("auction");
-			log.info("auctionInfo vo : "+vo);
 			//경매 완료시 여기서 guest_id 구함
 			if(vo.getStatus().equals("comp")) {
 				MemberVO statusVO = service.getAucStatus(vo.getId());
 				model.addAttribute("guest_id",statusVO.getStr_id());
-				log.info("여긴 오나??? ~ 22");
 			}
 		}
 		HttpSession session = request.getSession();
 		MemberVO memberVO = (MemberVO) session.getAttribute("loginVO");
-		log.info("memberVO : "+memberVO);
 		model.addAttribute("loginVO",memberVO);
-		log.info("222");
 		//랭킹 목록 가져오기
 		/*List<RankingVO> rank = service.getRankList(id);
 		log.info("ranking : "+rank);

@@ -15,12 +15,15 @@ public class OrderVO {
 	private String pg_type;
 	private String receipt_id;
 	private String status;
+	private int item_cnt;
 	
 	private String price;
 	
 	private String requested_at;
 	private String purchased_at;
 	
+	//메인에서 사용할 인기 상품의 주문 개수
+	private int order_cnt;
 	
 	//상품
 	private ProductVO productVO;

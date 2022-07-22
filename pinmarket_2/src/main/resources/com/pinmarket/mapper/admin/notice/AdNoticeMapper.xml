@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pinmarket.mapper.admin.notice.AdNoticeMapper">
+	<resultMap id="attachmentVO" type="com.pinmarket.vo.AttachmentVO">
+	  <result property="id" column="ATID"/>
+	  <result property="fk_id" column="FK_ID"/>
+	  <result property="file_type" column="FILE_TYPE"/>
+	  <result property="save_name" column="SAVE_NAME"/>
+	  <result property="real_name" column="REAL_NAME"/>
+	  <result property="file_path" column="FILE_PATH"/>
+	  <result property="file_size" column="FILE_SIZE"/>
+	  <result property="thumbnail_name" column="THUMBNAIL_NAME"/>
+	  <result property="file_ext" column="FILE_EXT"/>
+	</resultMap>
+	<resultMap id="productVO" type="com.pinmarket.vo.ProductVO">
+	  <result property="id" column="ID"/>
+	  <result property="product_name" column="PRODUCT_NAME"/>
+	  <result property="product_price" column="PRODUCT_PRICE"/>
+	  <result property="descript" column="DESCRIPT"/>
+	  <result property="status" column="STATUS"/>
+	  <collection property="attachmentVO" resultMap="attachmentVO" />
+	</resultMap>
+	
+	<select id="freeTotal" resultType="int">
+		SELECT count(*) 
+		FROM BOARD_TB 
+		<where>
+			BOARD_TYPE = 'freeFaq' AND STATUS = 'none' AND TITLE LIKE '%' || #{title} || '%'
+		</where>
+	</select>
+
+	<select id="freeList" resultType="com.pinmarket.vo.BoardVO">
+	SELECT T2.*
+		FROM (
+			SELECT ROWNUM RNUM, T1.* 
+			FROM(
+				SELECT 
+					mt.STR_ID, bt.ID, bt.MEMBER_ID, bt.CONTENT, bt.TITLE, bt.BOARD_TYPE, bt.HIT, bt.STATUS, TO_CHAR(bt.REGDATE,'YYYY-MM-DD') AS REGDATE
+				FROM 
+					BOARD_TB bt LEFT JOIN MEMBER_TB mt ON bt.MEMBER_ID = mt.ID
+				<where> 
+					bt.BOARD_TYPE = 'freeFaq' AND bt.status = 'none'
+					<if test="title != '' and title != null">
+						AND bt.TITLE LIKE '%' || #{title} || '%'
+					</if>
+				</where>
+				ORDER BY 
+					bt.ID DESC
+			) T1
+	) T2
+	<where>
+		T2.RNUM between #{pc.startRow} and #{pc.endRow}
+	</where>
+	</select>
+	
+	<select id="freeView" resultType="com.pinmarket.vo.BoardVO">
+	SELECT BT.*, MT.STR_ID FROM BOARD_TB BT LEFT JOIN MEMBER_TB MT ON BT.MEMBER_ID = MT.ID
+	WHERE BT.ID = #{id}
+	</select>
+	
+	<update id="selectFreeDel">
+	UPDATE BOARD_TB SET STATUS = 'del' 
+	WHERE ID IN (
+		<foreach collection="array" separator="," item="no">
+			#{no.value}
+		</foreach>
+		)
+	</update>
+	
+	<select id="getFreeReplyList" resultType="com.pinmarket.vo.ReplyVO">
+	SELECT T2.*
+		FROM (
+			SELECT ROWNUM RNUM, T1.* 
+			FROM(
+				SELECT RT.*, MT.STR_ID 
+				FROM REPLY_TB RT LEFT JOIN MEMBER_TB MT ON RT.MEMBER_ID = MT.ID
+				WHERE RT.BOARD_ID = #{board_id} AND RT.STATUS = 'none'
+				ORDER BY RT.ID DESC
+		) T1
+	) T2
+	<where>
+		T2.RNUM between #{startIndex} and #{endIndex}
+	</where>
+	</select>
+	
+	<!-- 답변 달기 -->
+	<insert id="freeReplyWrite">
+	INSERT INTO REPLY_TB (ID, BOARD_ID, MEMBER_ID, CONTENT, REGDATE)
+	VALUES (SEQ_REPLY_TB_ID.nextval, #{board_id}, #{member_id}, #{content}, sysdate)
+	</insert>
+	
+	<update id="freeReplyDel">
+	UPDATE REPLY_TB SET STATUS = 'del'
+	WHERE ID = #{reply_id}
+	</update>
+	
+	<select id="bestList" resultType="com.pinmarket.vo.BoardVO">
+	SELECT * FROM BOARD_TB WHERE BOARD_TYPE = 'bestFaq' AND STATUS = 'none'
+	</select>
+	
+	<insert id="writeBestFaq">
+	INSERT INTO BOARD_TB (ID, MEMBER_ID, CONTENT, TITLE, BOARD_TYPE, HIT, STATUS, REGDATE)
+	VALUES(SEQ_BOARD_TB_ID.nextval, #{member_id}, #{content}, #{title}, #{board_type}, 0, 'none', sysdate)
+	</insert>
+	
+	<update id="bestDel">
+	UPDATE BOARD_TB SET STATUS = 'del'
+	WHERE ID = #{id}
+	</update>
+	
+	<update id="updateBestFaq">
+	UPDATE BOARD_TB SET MEMBER_ID = #{member_id}, TITLE = #{title}, CONTENT = #{content}
+	WHERE ID = #{id}
+	</update>
+	
+</mapper>
+
+
+
+

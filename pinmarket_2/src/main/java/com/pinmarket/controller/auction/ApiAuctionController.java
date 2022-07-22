@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pinmarket.service.auction.AuctionService;
+import com.pinmarket.service.member.MemberService;
 import com.pinmarket.vo.AuctionVO;
 import com.pinmarket.vo.DistrictVO;
 import com.pinmarket.vo.RankingVO;
@@ -33,12 +34,19 @@ public class ApiAuctionController {
 	@Autowired
 	@Qualifier("auctionServiceImpl")
 	AuctionService service;
+	
+	@Autowired
+	MemberService memberService;
 
 	@PostMapping("/auction/list")
 	public ResponseEntity<List<AuctionVO>> list(Model model, @RequestBody SearchVO vo) throws JsonProcessingException {
 		log.info("vo.StartIndex()"+vo);
 		//게시글 정보 뽑아오기
 		List<AuctionVO> list = service.list(vo);
+		//개행문자 -> html태그로 변경 (줄바꿈)
+		for(int i=0;i<list.size();i++) {
+			list.get(i).setContent(list.get(i).getContent().replace("\r\n", "</br>"));
+		}
 		log.info("list 결과지 ~ "+list);
 		model.addAttribute("searchVO",vo);
 		/*log.info("list : ~ "+list);
@@ -64,6 +72,10 @@ public class ApiAuctionController {
 	public ResponseEntity<List<RankingVO>> rankList(HttpServletRequest request, Model model, @RequestBody SearchVO searchVO){
 		
 		List<RankingVO> rankList = service.getRankList(searchVO);
+		//개행문자 -> html태그로 변경 (줄바꿈)
+		for(int i=0;i<rankList.size();i++) {
+			rankList.get(i).setContent(rankList.get(i).getContent().replace("\r\n", "</br>"));
+		}
 		log.info("rankList : "+rankList);
 		
 		return new ResponseEntity<List<RankingVO>>(rankList,HttpStatus.OK);
@@ -85,6 +97,11 @@ public class ApiAuctionController {
 			result = "permit";
 		}
 		log.info("result : "+result);
+		
+		int itemCnt = memberService.getItemCnt(member_id);
+		result = result+"_"+itemCnt;
+		log.info("itemCnt : ~ "+result);
+		
 		return new ResponseEntity<String>(result,HttpStatus.OK);
 	}
 	

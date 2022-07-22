@@ -13,12 +13,21 @@ public class PageVO {
 	}
 	
 	public void setPaging(String type) {
-		if(type == "freeFaqList") {
+		if(type.equals("freeFaqList")) {
 			this.page = 1;
 			this.countPerPage = 10;
-		}else if(type == "myAutionList") {
+		}else if(type.equals("myAutionList")) {
 			this.page = 1;
 			this.countPerPage = 4;
+		}else if(type.equals("myRankList")){
+			this.page = 1;
+			this.countPerPage = 4;
+		}else if(type.equals("adminAuctionList")) {
+			this.page = 1;
+			this.countPerPage = 10;
+		}else if(type.equals("adminMemberList")){
+			this.page = 1;
+			this.countPerPage = 20;
 		}else {
 			this.page = 1;
 			this.countPerPage = 10;
