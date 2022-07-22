@@ -12,10 +12,10 @@ import com.pinmarket.vo.SearchVO;
 public interface AdNoticeService {
 	
 	//자유 질문 게시글 개수
-	public int freeTotal();
+	public int freeTotal(String title);
 
 	//자유 질문 게시판
-	public List<BoardVO> freeList(PageCreator pc);
+	public List<BoardVO> freeList(PageCreator pc, String title);
 
 	//자유질문 게시판 자세히 보기
 	public BoardVO freeView(String id);

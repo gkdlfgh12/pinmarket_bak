@@ -1,6 +1,8 @@
 package com.pinmarket.service.admin.member;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +12,10 @@ import com.pinmarket.util.PageCreator;
 import com.pinmarket.vo.AttachmentVO;
 import com.pinmarket.vo.MemberVO;
 
+import lombok.extern.log4j.Log4j;
+
 @Service
+@Log4j
 public class AdMemberServiceImpl implements AdMemberService{
 
 	//여기에 메퍼 만들기ㅣ
@@ -23,13 +28,16 @@ public class AdMemberServiceImpl implements AdMemberService{
 	}
 
 	@Override
-	public int memberTotal() {
-		return mapper.memberTotal();
+	public int memberTotal(String str_id) {
+		return mapper.memberTotal(str_id);
 	}
 	
 	@Override
-	public List<MemberVO> getList(PageCreator pc) {
-		return mapper.getList(pc);
+	public List<MemberVO> getList(PageCreator pc, String str_id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pc", pc);
+		map.put("str_id", str_id);
+		return mapper.getList(map);
 	}
 
 	@Override

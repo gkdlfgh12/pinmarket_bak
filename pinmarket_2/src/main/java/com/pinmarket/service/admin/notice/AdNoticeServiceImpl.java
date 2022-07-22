@@ -1,6 +1,8 @@
 package com.pinmarket.service.admin.notice;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,13 +20,16 @@ public class AdNoticeServiceImpl implements AdNoticeService{
 	AdNoticeMapper mapper;
 	
 	@Override
-	public int freeTotal() {
-		return mapper.freeTotal();
+	public int freeTotal(String title) {
+		return mapper.freeTotal(title);
 	}
 	
 	@Override
-	public List<BoardVO> freeList(PageCreator pc) {
-		return mapper.freeList(pc);
+	public List<BoardVO> freeList(PageCreator pc, String title) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pc", pc);
+		map.put("title", title);
+		return mapper.freeList(map);
 	}
 
 	@Override

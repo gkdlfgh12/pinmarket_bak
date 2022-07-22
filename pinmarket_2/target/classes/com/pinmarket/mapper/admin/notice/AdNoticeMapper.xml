@@ -24,7 +24,11 @@
 	</resultMap>
 	
 	<select id="freeTotal" resultType="int">
-		select count(*) from BOARD_TB WHERE BOARD_TYPE = 'freeFaq' and STATUS = 'none'
+		SELECT count(*) 
+		FROM BOARD_TB 
+		<where>
+			BOARD_TYPE = 'freeFaq' AND STATUS = 'none' AND TITLE LIKE '%' || #{title} || '%'
+		</where>
 	</select>
 
 	<select id="freeList" resultType="com.pinmarket.vo.BoardVO">
@@ -36,14 +40,18 @@
 					mt.STR_ID, bt.ID, bt.MEMBER_ID, bt.CONTENT, bt.TITLE, bt.BOARD_TYPE, bt.HIT, bt.STATUS, TO_CHAR(bt.REGDATE,'YYYY-MM-DD') AS REGDATE
 				FROM 
 					BOARD_TB bt LEFT JOIN MEMBER_TB mt ON bt.MEMBER_ID = mt.ID
-				WHERE 
-					bt.BOARD_TYPE = 'freeFaq' and bt.status = 'none'
+				<where> 
+					bt.BOARD_TYPE = 'freeFaq' AND bt.status = 'none'
+					<if test="title != '' and title != null">
+						AND bt.TITLE LIKE '%' || #{title} || '%'
+					</if>
+				</where>
 				ORDER BY 
 					bt.ID DESC
 			) T1
 	) T2
 	<where>
-		T2.RNUM between #{startRow} and #{endRow}
+		T2.RNUM between #{pc.startRow} and #{pc.endRow}
 	</where>
 	</select>
 	

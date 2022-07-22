@@ -8,7 +8,7 @@
    <h1 class="h3 mb-2 text-gray-800">자유질문 게시판 관리</h1>
 	<!-- Topbar Search -->
 	<div class="mb-3">
-    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+    <form action="/admin/notice/freeList" method="get" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
         <div class="input-group">
             <input type="text" name="title" id="title" class="form-control border-0 small" value="" placeholder="제목 검색"
                 aria-label="Search" aria-describedby="basic-addon2">

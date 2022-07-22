@@ -31,9 +31,10 @@ public class AdNoticeController {
 	AdNoticeService service;
 
 	@GetMapping("/freeList")
-	public String list(HttpServletRequest request, Model model, PageVO pageVO) {
+	public String list(HttpServletRequest request, Model model, PageVO pageVO, 
+			@RequestParam(required = false, defaultValue = "") String title) {
 		
-		log.info("freeList : ");
+		log.info("freeList : "+title);
 		
 		//자유 질문에 맞게 페이징 정보 수정
 		if(pageVO.getPage() == 1) {
@@ -45,7 +46,7 @@ public class AdNoticeController {
 		model.addAttribute("loginVO",memberVO);
 		
 		//게시글 총 개수 겟
-		int totalCnt = service.freeTotal();
+		int totalCnt = service.freeTotal(title);
 		log.info("totalCnt : "+totalCnt);
 		model.addAttribute("totalCnt",totalCnt);
 		PageCreator pc = new PageCreator();
@@ -57,7 +58,7 @@ public class AdNoticeController {
 		log.info("EndRow : ~ "+pc.getEndRow());
 		log.info("pageVO : ~ "+pageVO);
 		
-		List<BoardVO> list = service.freeList(pc);
+		List<BoardVO> list = service.freeList(pc, title);
 		log.info("list : ~ "+list);
 		model.addAttribute("list",list);
 		

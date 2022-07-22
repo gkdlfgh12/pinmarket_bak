@@ -8,9 +8,9 @@
    <h1 class="h3 mb-2 text-gray-800">회원 관리</h1>
 	<!-- Topbar Search -->
 	<div class="mb-3">
-    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+    <form action="/admin/member/list" method="get" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
         <div class="input-group">
-            <input type="text" name="title" id="title" class="form-control border-0 small" value="" placeholder="제목 검색"
+            <input type="text" name="strId" id="strId" class="form-control border-0 small" placeholder="아이디 검색"
                 aria-label="Search" aria-describedby="basic-addon2">
             <div class="input-group-append">
                 <button class="btn btn-primary" type="submit">

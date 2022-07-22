@@ -26,3 +26,21 @@
         </div>
     </div>
 </footer>
+
+<script type="text/javascript">
+var pathname = $(location).attr('pathname');
+if(pathname == '/admin/member/list'){
+	$(".member-menu").addClass("active");
+}else if(pathname == '/admin/auction/list'){
+	$(".auction-menu").addClass("active");
+}else if(pathname == '/admin/product/list'){
+	$(".product-menu").addClass("active");
+}else if(pathname == '/admin/notice/freeList' || pathname == '/admin/notice/bestList'){
+	$(".notice-menu").addClass("active");
+	if(pathname == '/admin/notice/freeList'){
+		$(".freeList-menu").addClass("active");
+	}else if(pathname == '/admin/notice/bestList'){
+		$(".bestList-menu").addClass("active");
+	}
+}
+</script>

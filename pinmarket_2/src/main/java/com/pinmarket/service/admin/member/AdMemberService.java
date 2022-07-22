@@ -12,10 +12,10 @@ public interface AdMemberService {
 	public MemberVO login(MemberVO memberVO);
 	
 	//멤버 총 수 가져오기
-	public int memberTotal();
+	public int memberTotal(String str_id);
 	
 	//멤버 리스트 출력
-	public List<MemberVO> getList(PageCreator pc);
+	public List<MemberVO> getList(PageCreator pc, String str_id);
 
 	//멤버 정보 가져오기
 	public MemberVO detailInfo(int id);

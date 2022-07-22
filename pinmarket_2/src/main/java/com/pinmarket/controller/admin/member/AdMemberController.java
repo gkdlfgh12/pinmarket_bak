@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,7 +66,7 @@ public class AdMemberController {
 			//세션 생성
 			HttpSession session = request.getSession();
 			session.setAttribute("loginVO", saveVO);
-			return "redirect:/admin/auction/list";
+			return "redirect:/admin/member/list";
 		}
 	}
 	
@@ -80,15 +81,14 @@ public class AdMemberController {
 	}
 	
 	@GetMapping("/list")
-	public String list(HttpServletRequest request, Model model, PageVO pageVO) {
-		
-		log.info("관리자 멤버 관리");
+	public String list(HttpServletRequest request, Model model, PageVO pageVO, @RequestParam(required = false, defaultValue = "") String strId) {
+		log.info("관리자 멤버 관리 : "+strId);
 		//자유 질문에 맞게 페이징 정보 수정
 		if(pageVO.getPage() == 1) {
 			pageVO.setPaging("adminMemberList");
 		}
 		//게시글 총 개수 겟
-		int totalCnt = service.memberTotal();
+		int totalCnt = service.memberTotal(strId);
 		log.info("totalCnt : "+totalCnt);
 		model.addAttribute("totalCnt",totalCnt);
 		PageCreator pc = new PageCreator();
@@ -98,7 +98,7 @@ public class AdMemberController {
 		log.info("pageObject : ~ "+pc);
 		log.info("pageVO : ~ "+pageVO);
 		
-		List<MemberVO> list = service.getList(pc);
+		List<MemberVO> list = service.getList(pc, strId);
 		model.addAttribute("list",list);
 		log.info("list : ~~~ "+list);
 		
