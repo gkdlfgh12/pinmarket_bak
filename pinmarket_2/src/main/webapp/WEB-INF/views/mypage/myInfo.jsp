@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<div id="wrapper">
+<section id="wrapper">
 <a id="back-to-top"></a>
 <a id="back-to-chat"></a>
 <a id="back-to-write"></a>
@@ -73,14 +73,14 @@
 				<input type="text" id="item_cnt" class="form-control mb-3" style="width: 200px;" value="${memberVO.item_cnt}" readonly>
 			</div>
 		</div>
-		<div class="row float-right mt-3">
+		<div class="row mt-3 mb-3">
 			<div class="col">
 				<button type="button" id="pwdChange" class="btn btn-secondary validation">비밀번호 변경</button>
 				<button type="button" id="saveBtn" class="btn btn-primary validation">변경 저장</button>
 			</div>
 		</div>
 	</div>
-</div>
+</section>
 <!-- 채팅 Modal -->
 <div class="modal fade" id="myPwdModal" tabindex="-1" aria-labelledby="myPwdModal" aria-hidden="true">
 	<div class="modal-dialog">
