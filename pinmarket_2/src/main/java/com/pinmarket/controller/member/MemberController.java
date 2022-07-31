@@ -47,20 +47,17 @@ public class MemberController {
 		SNSLogin snsLogin = new SNSLogin(naverSns);
 		// 2.access_token을 이용해서 사용자 profile 정보 가져오기
 		MemberVO profile = snsLogin.getUserProfile(code);
-		log.info("profile : "+profile);
 		// 3.DB 해당 유저가 존재하는지 체크(access_token값 비교 - 그럴려면 db에 naver_id컬럼 하나 추가해야함)
 		if(profile != null) {
+			//db에 naver에서 가져온 값이 저장되어 있는지 체크
 			MemberVO vo = service.joinCheck(profile.getStr_id(), profile.getSns_id());
 			HttpSession session = requset.getSession();
 			if(vo != null) {
 				//세션에 저장
-				log.info("여긴 로그인 : ");
 				session.setAttribute("loginVO", vo);
 			}else{
-				//log.info("profile 정보 : "+profile);
 				//회원 없을때는 회원가입 시키기
 				int joinResult = service.snsjoin(profile);
-				log.info("여긴 회원가입 : ");
 				//회원정보 꺼내서 세션 등록
 				session.setAttribute("loginVO", service.joinCheck(profile.getStr_id(), profile.getSns_id()));
 				return "redirect:/main";

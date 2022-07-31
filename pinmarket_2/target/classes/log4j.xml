@@ -10,6 +10,23 @@
 		</layout>
 	</appender>
 	
+		<!-- <param name="Threshold" value="ERROR"></param> -->
+	<appender name="fileLogger" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="c://logs//spring//exception.Log"/>
+        <param name="Append" value="true"/>
+        <param name="dataPattern" value=".yyyy"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p: %F:%L - %m%n" />
+        </layout>
+	</appender>
+	
+	<!-- aop 용 -->
+	<logger name="com.pinmarket.util.LogAdvice">
+		<level value="ERROR" />
+		<appender-ref ref="fileLogger"/>
+	</logger>
+	
+	
 	<!-- Application Loggers -->
 	<logger name="com">
 		<level value="info" />
@@ -37,5 +54,5 @@
 		<priority value="warn" />
 		<appender-ref ref="console" />
 	</root>
-	
+
 </log4j:configuration>
