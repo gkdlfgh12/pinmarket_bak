@@ -5,7 +5,7 @@
 <mapper namespace="com.pinmarket.mapper.notice.NoticeMapper">
 	
 	<select id="getFreeFaqTotal" resultType="int">
-		select count(*) from BOARD_TB WHERE BOARD_TYPE = 'freeFaq' and STATUS = 'none'
+		select * from BOARD_TB WHERE BOARD_TYPE = 'freeFaq' and STATUS = 'none'
 	</select>
 
 	<select id="getFreeFaqList" resultType="com.pinmarket.vo.BoardVO">

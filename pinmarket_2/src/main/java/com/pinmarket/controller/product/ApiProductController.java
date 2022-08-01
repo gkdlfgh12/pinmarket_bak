@@ -88,7 +88,6 @@ public class ApiProductController {
 		try {
 		    HttpResponse res = api.verify(receipt_id);
 		    str = IOUtils.toString(res.getEntity().getContent(), "UTF-8");
-		    System.out.println("여기엔 뭐가 들어서 올가? : "+str);
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}

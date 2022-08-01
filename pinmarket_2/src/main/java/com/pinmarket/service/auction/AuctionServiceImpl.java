@@ -37,7 +37,6 @@ public class AuctionServiceImpl implements AuctionService{
 
 	@Override
 	public List<AuctionVO> list(SearchVO searchVO) {
-		log.info("들어옴? list");
 		return mapper.list(searchVO);
 	}
 
@@ -85,8 +84,6 @@ public class AuctionServiceImpl implements AuctionService{
 		Map<String, String> compMap = new HashMap<String, String>();
 		compMap.put("auction_id", auction_id);
 		compMap.put("rank_id", rank_id);
-		log.info("auction_id : "+compMap.get("auction_id"));
-		log.info("rank_id : "+compMap.get("rank_id"));
 		//옥션의 상태 값 변경
 		mapper.auctionComp(auction_id);
 		//랭크 상태 값 변경

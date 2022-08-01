@@ -12,10 +12,11 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class LogAdvice {
 	
-	//throwing = "exception"은 exception이라는 변수명의 타입에 맞는 객체를 던져줘라! 라는 의미가 된다.
+	//throwing = "exception"은 exception이라는 변수명의 타입에 맞는 객체를 던져줘라! 라는 의미가 된다. || execution(* com.pinmarket.service.product.*.*(..))
 	@AfterThrowing(value = "execution(* com.pinmarket.service.auction.*.*(..)) || execution(* com.pinmarket.service.product.*.*(..))",throwing = "exception")
 	public void afterThrowing(JoinPoint joinPoint, Exception exception) {
 		
+		log.info("aop info");
 		log.error("<< 여기는 aop afterThrowing >>");
 		log.error("joinPoint toString : "+joinPoint.toString());
 		log.error("joinPoint Signature : "+joinPoint.getSignature());

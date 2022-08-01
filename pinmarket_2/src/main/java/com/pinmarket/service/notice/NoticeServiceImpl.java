@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.pinmarket.mapper.notice.NoticeMapper;
 import com.pinmarket.util.PageCreator;
@@ -33,6 +34,7 @@ public class NoticeServiceImpl implements NoticeService{
 		return mapper.wrtieFreeFaq(boardVO);
 	}
 
+	@Transactional
 	@Override
 	public BoardVO getFaq(String id) {
 		int result = mapper.updateHit(id);
