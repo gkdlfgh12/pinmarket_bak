@@ -250,7 +250,6 @@ $("#rankInputModal").on("click",function(){
 		type : "get",
 		success : function(result, status, xhr){ //result:리턴한 값, status:http상태 코드 값, xhr:통신 개체
 			console.log(result);
-			alert(result.split("_"));
 			var result1 = result.split("_")[0];
 			var item_cnt = result.split("_")[1];
 			var str_top5 = '';
@@ -259,7 +258,6 @@ $("#rankInputModal").on("click",function(){
 			}else{
 				alert("이미 랭크를 등록했습니다.");
 			}
-			alert(item_cnt);
 			if(item_cnt > 0){
 				str_top5 += '<input class="form-check-input" type="checkbox" name="payment_status" id="payment_status" value="1">';
 				str_top5 += '<label class="form-check-label" for="payment_status">top 5 쿠폰 사용</label>';

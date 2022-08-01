@@ -6,7 +6,7 @@
 <div class="container-fluid">
 
 	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-		<h1 class="display-5">핀 마켓 경매 상품</h1>
+		<h1 class="display-5">핀 마켓 상품 관리</h1>
 		<p class="lead">경매의 랭크 등록시 랭크 등록 순서와 관계없이 각 상품의 기능별로 랭크가 등록 될 수 있다.</p>
 		<p class="small">( 같은 상품을 사용한 사용자들끼리는 랭크를 등록한 순서별로 순위가 맺어집니다. )</p>
 	</div>
@@ -18,7 +18,7 @@
 		    <div class="card" style="width: 18rem;">
 			  <img class="card-img-top" src="${vo.attachmentVO.file_path}${vo.attachmentVO.save_name}" alt="Card image cap">
 			  <div class="card-body">
-			    <h5 class="card-title">${vo.product_name}</h5>
+			    <h5 class="card-title">${vo.product_name} X ${vo.item_cnt}</h5>
 			    <h5>가격 : <span class="price">${vo.product_price} (￦)</span></h5>
 			    <c:if test="${vo.status == 'ON'}">
 			    	<h5>(공개)</h5>
@@ -27,7 +27,7 @@
 			    	<h5>(비공개)</h5>
 			    </c:if>
 			    <p class="card-text">${vo.descript}</p>
-			    <a href="#" onclick="updateProduct('${vo.id}','${vo.product_name}','${vo.product_price}','${vo.descript}','${vo.attachmentVO.save_name}','${vo.status}');" class="btn btn-primary">수정하기</a>
+			    <a href="#" onclick="updateProduct('${vo.id}','${vo.product_name}','${vo.product_price}','${vo.descript}','${vo.attachmentVO.save_name}','${vo.status}','${vo.item_cnt}');" class="btn btn-primary">수정하기</a>
 			    <button id="deleteBtn" onclick="delProduct('${vo.id}');" class="btn btn-danger">삭제</button>
 			  </div>
 			</div>
@@ -45,7 +45,7 @@
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">자유 질문</h5>
+        <h5 class="modal-title" id="exampleModalLabel">상품 관리</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -53,7 +53,7 @@
       <div class="modal-body">
       		<div class="container">
 			  <div class="row mt-3">
-			        <h2>상품 수정</h2>
+			        <h2 class="sub-title">상품 수정</h2>
 			  </div>
 			  <div class="row mt-5">
 			          <form id="product-form" class="product-form" method="POST" enctype="multipart/form-data">
@@ -72,7 +72,11 @@
 			              </div>                            
 			              <div class="form-group">
 			                  <label class="form-label" for="descript">내용</label>
-			                  <textarea class="form-control" name="descript" id="descript" rows="10" cols="300" placeholder="내용을 입력하세요." required></textarea>                               
+			                  <textarea class="form-control" name="descript" id="descript" rows="10" cols="300" wrap="hard" placeholder="내용을 입력하세요." required></textarea>                               
+			              </div>
+			              <div class="form-group mt-3">
+			                  <label class="form-label" for="item_cnt">아이템 개수</label>
+			                  <input type="text" class="form-control" id="item_cnt" name="item_cnt" placeholder="개수" tabindex="1" required>
 			              </div>
 			              <div class="form-group mt-3">
 			                  <label class="form-label" for="product_price">가격 (￦)</label>
@@ -85,7 +89,7 @@
 			                  <input type="radio" id="private" name="status" value="OFF">
 			              </div>
 			              <div class="text-center">
-			                  <button type="submit" class="btn btn-start-order">등록</button>
+			                  <button type="submit" class="btn btn-primary product-btn">등록</button>
 			              </div>
 			          </form>
 			  </div>
@@ -103,22 +107,27 @@ $("#insertBtn").click(function(){
 	$("#descript").val("");
 	$("#product_price").val("");
 	$("#open").prop("checked","true");
+	$(".sub-title").text("상품 생성");
 	
 	$("#product-form").attr("action","/admin/product/insertProduct");
 	$("#product_file").attr("required","true");
-	
+	$(".product-btn").text("등록");
 	$('#productModal').modal("show");
 });
 //상품 수정 모달 보이게
-function updateProduct(id,product_name,product_price,descript,save_file,status){
+function updateProduct(id,product_name,product_price,descript,save_file,status,item_cnt){
+	$(".sub-title").text("상품 수정");
 	$(".save-file").text("저장된 파일 : "+save_file);
 	$("#id").val(id);
 	$("#product_name").val(product_name);
+	//줄바꿈 
+	descript = descript.replaceAll("</br>", "\r\n");
 	$("#descript").val(descript);
 	$("#product_price").val(product_price);
-	
+	$("#item_cnt").val(item_cnt);
 	$("#product-form").attr("action","/admin/product/updateProduct");
-	$("#product_file").attr("required","false");
+	$("#product_file").removeAttr("required");
+	$(".product-btn").text("수정");
 	
 	console.log(id+" : "+product_name+" : "+descript+" : "+product_price);
 	if(status == 'ON'){
@@ -137,7 +146,6 @@ function delProduct(id){
 		success : function(result){
 			console.log("result : ~1 ");
 			console.log(result);
-			
 		},
 		error : function(){
 		}

@@ -5,8 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.DailyRollingFileAppender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,11 +34,12 @@ public class NoticeController {
 	@Autowired
 	NoticeService service;
 	
+	@Transactional
 	@GetMapping("/freeFaqList")
 	public String freeFaqList(HttpServletRequest request, Model model, PageVO pageVO) throws Exception {
 		log.info("자유 질문 게시판!! ");
 		
-		//자유 질문에 맞게 페이징 정보 수정bb
+		//자유 질문에 맞게 페이징 정보 수정
 		if(pageVO.getPage() == 1) {
 			pageVO.setPaging("freeFaqList");
 		}
@@ -166,6 +169,10 @@ public class NoticeController {
 		model.addAttribute("loginVO",memberVO);
 		
 		List<BoardVO> list = service.getBestFaqList();
+		//개행문자 -> html태그로 변경 (줄바꿈)
+		for(int i=0;i<list.size();i++) {
+			list.get(i).setContent(list.get(i).getContent().replace("\n", "</br>"));
+		}
 		model.addAttribute("list", list);
 		log.info("listlist : ~ "+list);
 		

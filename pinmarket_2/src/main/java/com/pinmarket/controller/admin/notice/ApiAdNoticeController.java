@@ -45,6 +45,11 @@ public class ApiAdNoticeController {
 		log.info("searchVO : ~ "+searchVO);
 		
 		List<ReplyVO> replyList = service.getFreeReplyList(searchVO);
+		//개행문자 -> html태그로 변경 (줄바꿈)
+		for(int i=0;i<replyList.size();i++) {
+			log.info("들어오나?? ");
+			replyList.get(i).setContent(replyList.get(i).getContent().replace("\n", "</br>"));
+		}
 		
 		log.info("replyList : ~ "+replyList);
 		

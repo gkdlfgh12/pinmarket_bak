@@ -35,6 +35,10 @@ public class AdProductController {
 		log.info("product : ");
 		
 		List<ProductVO> list = service.list();
+		//개행문자 -> html태그로 변경 (줄바꿈)
+		for(int i=0;i<list.size();i++) {
+			list.get(i).setDescript(list.get(i).getDescript().replace("\r\n", "</br>"));
+		}
 		log.info("list : ~ "+list);
 		model.addAttribute("list",list);
 		
@@ -48,7 +52,7 @@ public class AdProductController {
 		int result = service.updateProduct(productVO);
 		log.info("result : "+result);
 		
-		if(productVO.getProduct_file() != null) {
+		if(productVO.getProduct_file().getOriginalFilename() != "") {
 			log.info("상품 !! ");
 			AttachmentVO attach = new AttachmentVO();
 			attach.setFk_id(productVO.getId());

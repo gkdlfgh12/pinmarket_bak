@@ -22,7 +22,7 @@
     <!-- pricing -->
 	<div class="container">
 		<div class="text-center">
-			<h3 class="display-5 mt-5 mb-5"><a href="/auction/list">거래 랭킹 탑 10</a></h3>
+			<h3 class="display-5 mt-5 mb-5"><a href="/auction/list">거래 랭킹 탑 5</a></h3>
 		</div>
 	</div>
 	<div class="container mt-5">
@@ -47,7 +47,7 @@
 		</c:forEach>
 		</div>
 		<hr>
-		<div class="row mt-5">
+		<%-- <div class="row mt-5">
 		<c:set var="TOP10Size2" value="${fn:length(TOP10_2)}" />
 		<c:forEach items="${TOP10_2}" var="vo" varStatus="status">
 			<div class="card-group ml-3">
@@ -65,7 +65,7 @@
 					</div>
 		</c:forEach>
 		</div>
-		<hr>
+		<hr> --%>
 		
 		<div class="container px-4 px-lg-5">
 		<!-- Heading Row-->

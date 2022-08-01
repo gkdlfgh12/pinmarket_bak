@@ -41,6 +41,9 @@
 	
 	<select id="memberTotal" resultType="int">
 	SELECT COUNT(*) FROM MEMBER_TB
+	<where>
+		STR_ID like '%' || #{str_id} || '%'
+	</where>
 	</select>
 	
 	<select id="getList" resultMap="memberVO">
@@ -51,11 +54,16 @@
 				SELECT MT.ID, MT.NAME, TO_CHAR(MT.BIRTH,'YYYY-MM-DD') AS BIRTH, MT.GENDER, MT.ADDRESS1, MT.ADDRESS2, MT.ZIPCODE, MT.TEL, MT.EMAIL, MT.LOGIN_TYPE,
 				MT.STATUS, MT.MEMBER_LEVEL, MT.STR_ID, MT.ITEM_CNT, TO_CHAR(MT.REGDATE,'YYYY-MM-DD') AS REGDATE
 				FROM MEMBER_TB MT LEFT JOIN ATTACHMENT_TB ATT ON MT.ID = ATT.FK_ID AND ATT.FILE_TYPE = 'member'
+				<where>
+					<if test="str_id != '' and str_id != null">
+						MT.STR_ID like '%' || #{str_id} || '%'
+					</if>
+				</where>
 				ORDER BY MT.ID DESC
 		) T1
 	) T2
 	<where>
-		T2.RNUM between #{startRow} and #{endRow}
+		T2.RNUM between #{pc.startRow} and #{pc.endRow}
 	</where>
 	</select>
 	

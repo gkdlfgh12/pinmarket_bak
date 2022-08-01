@@ -95,7 +95,7 @@
 			                  <textarea class="form-control" name="content" id="content" rows="10" cols="300" placeholder="내용을 입력하세요." required></textarea>                               
 			              </div>
 			              <div class="text-center">
-			                  <button type="submit" class="btn btn-start-order">Send Message</button>
+			                  <button type="submit" class="btn btn-primary">작성</button>
 			              </div>
 			          </form>
 			  </div>

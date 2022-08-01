@@ -107,6 +107,7 @@ public class AuctionController {
 		//옥션 저장 시 세션으로 해당 id 저장
 		HttpSession session = request.getSession();
 		MemberVO member= (MemberVO)session.getAttribute("loginVO");
+		log.info("member 11: ~ "+member);
 		auction.setMember_id(member.getId());
 		int result = service.write(auction);
 		log.info("result : "+result);
@@ -145,6 +146,7 @@ public class AuctionController {
 		log.info("detailForm ~~ 데이터 가져오기");
 		if(id != "0") {
 			Map<String, Object> auctionInfo = service.view(id);
+			((AuctionVO) auctionInfo.get("auction")).setContent(((AuctionVO) auctionInfo.get("auction")).getContent().replace("\n", "</br>"));
 			model.addAttribute("auctionInfo",auctionInfo);
 			//옥션 id를 이용해서 status_tb 조회 후 guest_id를 구해 온다.
 			AuctionVO vo = (AuctionVO)auctionInfo.get("auction");

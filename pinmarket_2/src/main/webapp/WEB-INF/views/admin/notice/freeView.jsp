@@ -56,7 +56,7 @@
     
 	<div class="row" style="margin-top:15px">
 		<div class="fa fa-commenting-o">답변 입력</div><br>
-		<textarea class="form-control" name="replyContent" id="replyContent"></textarea>
+		<textarea class="form-control" name="replyContent" id="replyContent" cols="100" wrap="hard"></textarea>
 		<div style="margin-top : 12px;"><button type="button" id="replySubmitBtn" class="btn btn-primary">글쓰기</button></div>
 	</div>
 	<!-- 댓글 뿌려질 공간 -->
@@ -147,7 +147,6 @@ function moreList(startIndex){
 
 $("#replySubmitBtn").on("click",function(){
 	var board_id = "${boardVO.id}";
-	alert(board_id);
 	var content = $("#replyContent").val();
 	var param = {
 			'board_id' : board_id,
@@ -172,8 +171,6 @@ $("#replySubmitBtn").on("click",function(){
 });
 
 function replyDelete(id){
-	//alert($(this).data("replyid"));
-	alert(id);
 	$.ajax({
 		url : "/api/notice/freeReplyDel?reply_id="+id,
 		type : "get",

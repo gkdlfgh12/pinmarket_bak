@@ -15,6 +15,7 @@ public class OrderVO {
 	private String pg_type;
 	private String receipt_id;
 	private String status;
+	private int item_cnt;
 	
 	private String price;
 	

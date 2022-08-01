@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.pinmarket.mapper.product.ProductMapper;
 import com.pinmarket.vo.OrderVO;
@@ -24,9 +25,9 @@ public class ProductServiceImpl implements ProductService{
 		return mapper.getProductList();
 	}
 
+	@Transactional
 	@Override
 	public int createOrder(OrderVO orderVO) {
-		
 		int result = mapper.createOrder(orderVO);
 		
 		//주문 컬럼 생성 후 해당 id 값으로 order_id 만들어서 추가

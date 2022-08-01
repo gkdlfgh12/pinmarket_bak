@@ -7,8 +7,8 @@
 		SELECT ID,STR_ID,NAME,GENDER,EMAIL,ITEM_CNT,MEMBER_LEVEL FROM MEMBER_TB WHERE STATUS = '정상' AND (STR_ID = #{str_id} AND PW = #{pw})
 	</select>
 	<insert id="join">
-		INSERT INTO MEMBER_TB (ID, STR_ID, PW, NAME, BIRTH, GENDER, ADDRESS1, ADDRESS2, ZIPCODE,TEL, EMAIL) 
-		VALUES(SEQ_MEMBER_TB_ID.nextval,#{str_id},#{pw},#{name},#{birth},#{gender},#{address1},#{address2},#{zipcode},#{tel},#{email})
+		INSERT INTO MEMBER_TB (ID, STR_ID, PW, NAME, BIRTH, GENDER, ADDRESS1, ADDRESS2, ZIPCODE,TEL, EMAIL, REGDATE) 
+		VALUES(SEQ_MEMBER_TB_ID.nextval,#{str_id},#{pw},#{name},#{birth},#{gender},#{address1},#{address2},#{zipcode},#{tel},#{email},sysdate)
 		<selectKey resultType="int" keyProperty="id" order="AFTER">
         	SELECT SEQ_MEMBER_TB_ID.currval FROM dual
     	</selectKey>  
