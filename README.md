@@ -25,3 +25,29 @@ https://ovenapp.io/view/Ntd1KnyhgbNzXo9tqhX7V03tHz7taMpm/bpi5I
 ##### db 설계
 <img width="658" alt="db설계" src="https://user-images.githubusercontent.com/78103044/184116011-e81768d7-786e-418f-ad37-c122840b1254.PNG">
 
+## 3.구조 및 핵심 공통 모듈
+#####사용자 와이어프레임
+<img width="937" alt="사용자 와이어프레임" src="https://user-images.githubusercontent.com/78103044/184116594-c8372e68-4f23-47a9-bd0d-a577da7e9bdc.PNG">
+#####관리자 와이어프레임
+<img width="847" alt="관리자 와이어프레임" src="https://user-images.githubusercontent.com/78103044/184116617-0d268dc6-4e3a-4041-be9c-aa2b00c99144.PNG">
+
+#####핵심 공통 모듈
+**interceptor**
+-로그인 전용 사이트로 세션이 성립되지 않은 상태의 유저 접근을 차단했습니다.
+
+**tiles**
+페이지를 header, body, aside, footer, layout으로 모듈화 했습니다.
+
+**aop**
+핵심 서비스인 옥션과 상품결제 페이지에서 예외 발생 시 발생한 예외 메시지를 날짜별로 파일에 로깅 할 때 사용했습니다.
+
+**transaction**
+옥션 게시글과 랭크 상품의 관계 성립 시 그리고 결제 진행 과정에서 주문 데이터를 추가할 때 설정했습니다.
+
+**scheduler**
+매일 00시에 옥션의 기간을 현재 날짜와 비교하여 유효하면 진행 중, 유효하지 않다면 마감으로 변경되게 설정했습니다.
+
+**예외처리**
+@ControllerAdvice 어노테이션을 이용하여 404, 500등의 예외처리를 진행했습니다.
+
+##
