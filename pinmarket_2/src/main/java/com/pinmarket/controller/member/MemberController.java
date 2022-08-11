@@ -74,12 +74,9 @@ public class MemberController {
 	@GetMapping("/loginForm")
 	public String loginForm(Model model) throws ParseException {
 		
-		log.info("loginForm 1");
 		SNSLogin snsLogin = new SNSLogin(naverSns);
-		log.info("loginForm 2");
 		//로그인 버튼 링크 전달
 		model.addAttribute("naver_url", snsLogin.getNaverAuthURL());
-		log.info("loginForm 3");
 		
 		return "member.loginForm";
 	}
@@ -87,7 +84,6 @@ public class MemberController {
 	@PostMapping("/login")
 	public String login(HttpServletRequest request, RedirectAttributes ra, MemberVO vo){
 		
-		log.info("로그인 실행 ~~");
 		vo.setPw(DigestUtils.sha256Hex(vo.getPw()));
 		MemberVO dbvo = service.login(vo);
 		
@@ -107,7 +103,6 @@ public class MemberController {
 	@GetMapping("/logout")
 	public String logout(HttpServletRequest request, RedirectAttributes ra, MemberVO vo) {
 		
-		log.info("로그아웃 실행 ~~");
 		//세션 생성
 		HttpSession session = request.getSession();
 		session.removeAttribute("loginVO");
