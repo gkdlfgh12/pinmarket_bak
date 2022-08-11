@@ -1,4 +1,4 @@
-# pinmarket 결매시스템을 결합한 물물교환 사이트 - 하일호
+# pinmarket 경매시스템을 결합한 물물교환 사이트 - 하일호
 
 ## 사용 기술 스택 : java, jQuery, spring framework, BootStrap, mybatis, oracle
 ## ppt : [PIN-MARKET-하일호 포트폴리오.pptx](https://github.com/gkdlfgh12/pinmarket_bak/files/9308131/PIN-MARKET-.pptx)
