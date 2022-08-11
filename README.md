@@ -1,8 +1,13 @@
-# pinmarket_bak
+# pinmarket 결매시스템을 결합한 물물교환 사이트 - 하일호
 
-ㅇㄴㄻ
+## 사용 기술 스택 : java, jQuery, spring framework, BootStrap, mybatis, oracle
 
-test API : 하일호
-사용 기술 스택 : java, spring , mybatis, oracle
-빌드 방법
-WORK_DIR : ㅇㅇㅇㅇ
+## 핀 마켓 
+##### 프로젝트 소개
+스프링의 전반적인 기능을 활용하여 평소에 생각만 하고 있던 콘텐츠를 직접 만들어보고 싶어서 해당 프로젝트를 진행하였습니다.
+
+##### 프로젝트 내용
+물건을 경매에 올려 물건을 사고 파는것이 아닌 직접 만나 물물교환을 하도록 도와주는 사이트입니다.
+
+##### 주요 업무
+ui기획, db모델링, 요구사항 명세서, Back/Front까지 혼자 개발해보았습니다.
