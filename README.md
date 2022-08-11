@@ -50,7 +50,7 @@ https://ovenapp.io/view/Ntd1KnyhgbNzXo9tqhX7V03tHz7taMpm/bpi5I
 **예외처리**
 @ControllerAdvice 어노테이션을 이용하여 404, 500등의 예외처리를 진행했습니다.
 
-## 핵심 기능
+## 4.핵심 기능
 ##### 네이버 아이디 로그인 api 사용
 ##### 당근 마켓과 유사한 위치 기반 경매 시스템
 ##### 경매완료 시 경매등록자와 경매참여자간의 채팅방 생성
