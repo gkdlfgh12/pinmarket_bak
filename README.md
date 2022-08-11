@@ -15,10 +15,10 @@ ui기획, db모델링, 요구사항 명세서, Back/Front까지 혼자 개발해
 
 ## 2.개발환경 및 설계
 ##### 개발환경
-language : java 1.8, javaScript, HTML5/CSS
-FrameWork : Sprign Framework, BootStrap
-DataBase : Oracle
-Other : Git Hub, SourceTree, Notion, ovenApp.io, diagrams
+language : java 1.8, javaScript, HTML5/CSS \
+FrameWork : Sprign Framework, BootStrap\
+DataBase : Oracle\
+Other : Git Hub, SourceTree, Notion, ovenApp.io, diagrams\
 
 ##### ui 설계
 https://ovenapp.io/view/Ntd1KnyhgbNzXo9tqhX7V03tHz7taMpm/bpi5I
