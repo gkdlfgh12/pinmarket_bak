@@ -1,6 +1,7 @@
 # pinmarket 결매시스템을 결합한 물물교환 사이트 - 하일호
 
 ## 사용 기술 스택 : java, jQuery, spring framework, BootStrap, mybatis, oracle
+## ppt : [PIN-MARKET-하일호 포트폴리오.pptx](https://github.com/gkdlfgh12/pinmarket_bak/files/9308131/PIN-MARKET-.pptx)
 
 ## 1.소개 
 ##### 프로젝트 목적
@@ -28,6 +29,7 @@ https://ovenapp.io/view/Ntd1KnyhgbNzXo9tqhX7V03tHz7taMpm/bpi5I
 ## 3.구조 및 핵심 공통 모듈
 ##### 사용자 와이어프레임
 <img width="937" alt="사용자 와이어프레임" src="https://user-images.githubusercontent.com/78103044/184116594-c8372e68-4f23-47a9-bd0d-a577da7e9bdc.PNG">
+
 ##### 관리자 와이어프레임
 <img width="847" alt="관리자 와이어프레임" src="https://user-images.githubusercontent.com/78103044/184116617-0d268dc6-4e3a-4041-be9c-aa2b00c99144.PNG">
 
@@ -55,3 +57,4 @@ https://ovenapp.io/view/Ntd1KnyhgbNzXo9tqhX7V03tHz7taMpm/bpi5I
 ##### 당근 마켓과 유사한 위치 기반 경매 시스템
 ##### 경매완료 시 경매등록자와 경매참여자간의 채팅방 생성
 ##### BootPay를 이용하여 nicepay pg사를 연동해 결정
+
