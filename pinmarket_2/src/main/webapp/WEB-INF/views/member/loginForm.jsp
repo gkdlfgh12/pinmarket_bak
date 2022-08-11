@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <section id="wrapper">
-    <a href="/member/logout">로그아웃</a>
       <div class="container mt-5 pt-5">
         <div class="row">
           <div class="col-12 col-sm-7 col-md-6 m-auto">
@@ -36,6 +35,7 @@
       </div>
     </section>
 <script type="text/javascript">
+
 var isMsg = true;
 <c:if test="${!empty msg}">
 	if(isMsg){

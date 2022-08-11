@@ -99,9 +99,12 @@
 	<beans:bean id="ChatEchochoHandler" class="com.pinmarket.util.ChatEchoHandler" />
 	
 	<!-- 해당 경로로 들어 올때  ChatEchochoHandler 클래스와 매핑 시키고-->
-	<!-- interceptors로  HttpSessionHandshakeInterceptor를 실행 시켜 http 세션과 webSocket 세션을 동기화 시킨다.-->
 	<websocket:handlers>
 		<websocket:mapping handler="ChatEchochoHandler" path="/chatEcho" />
+		<!-- interceptors로  HttpSessionHandshakeInterceptor를 실행 시켜 http 세션과 webSocket 세션을 동기화 시킨다.-->
+		<!-- websocket:handlers 태그안에서 아래처럼 websocket:handshake-interceptors에
+             HttpSessionHandshakeInterceptor를 추가해주면 WebSocketHandler에 접근하기 전에 먼저 HttpSession에 접근하여
+              HttpSession에 저장된 값을 읽어 들여 WebSocketHandler에서 사용할 수 있도록 처리해줌. -->
 		<websocket:handshake-interceptors>
 			<beans:bean	class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
 		</websocket:handshake-interceptors>
