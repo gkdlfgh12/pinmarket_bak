@@ -13,7 +13,13 @@
 ##### 주요 업무
 ui기획, db모델링, 요구사항 명세서, Back/Front까지 혼자 개발해보았습니다.
 
-## 2.개발환경 및 설계
+## 2.핵심 기능
+##### 네이버 아이디 로그인 api 사용
+##### 당근 마켓과 유사한 위치 기반 경매 시스템
+##### 경매완료 시 경매등록자와 경매참여자간의 채팅방 생성
+##### BootPay를 이용하여 nicepay pg사를 연동한 결제 
+
+## 3.개발환경 및 설계
 ##### 개발환경
 **language** : java 1.8, javaScript, HTML5/CSS \
 **FrameWork** : Spring Framework, BootStrap\
@@ -26,7 +32,7 @@ https://ovenapp.io/view/Ntd1KnyhgbNzXo9tqhX7V03tHz7taMpm/bpi5I
 ##### db 설계
 <img width="658" alt="db설계" src="https://user-images.githubusercontent.com/78103044/184116011-e81768d7-786e-418f-ad37-c122840b1254.PNG">
 
-## 3.구조 및 핵심 공통 모듈
+## 4.구조 및 핵심 공통 모듈
 ##### 사용자 와이어프레임
 <img width="937" alt="사용자 와이어프레임" src="https://user-images.githubusercontent.com/78103044/184116594-c8372e68-4f23-47a9-bd0d-a577da7e9bdc.PNG">
 
@@ -51,10 +57,4 @@ https://ovenapp.io/view/Ntd1KnyhgbNzXo9tqhX7V03tHz7taMpm/bpi5I
 
 **예외처리**
  - @ControllerAdvice 어노테이션을 이용하여 404, 500등의 예외처리를 진행했습니다.
-
-## 4.핵심 기능
-##### 네이버 아이디 로그인 api 사용
-##### 당근 마켓과 유사한 위치 기반 경매 시스템
-##### 경매완료 시 경매등록자와 경매참여자간의 채팅방 생성
-##### BootPay를 이용하여 nicepay pg사를 연동한 결제 
 
