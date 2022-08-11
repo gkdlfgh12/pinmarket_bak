@@ -26,12 +26,12 @@ https://ovenapp.io/view/Ntd1KnyhgbNzXo9tqhX7V03tHz7taMpm/bpi5I
 <img width="658" alt="db설계" src="https://user-images.githubusercontent.com/78103044/184116011-e81768d7-786e-418f-ad37-c122840b1254.PNG">
 
 ## 3.구조 및 핵심 공통 모듈
-#####사용자 와이어프레임
+##### 사용자 와이어프레임
 <img width="937" alt="사용자 와이어프레임" src="https://user-images.githubusercontent.com/78103044/184116594-c8372e68-4f23-47a9-bd0d-a577da7e9bdc.PNG">
-#####관리자 와이어프레임
+##### 관리자 와이어프레임
 <img width="847" alt="관리자 와이어프레임" src="https://user-images.githubusercontent.com/78103044/184116617-0d268dc6-4e3a-4041-be9c-aa2b00c99144.PNG">
 
-#####핵심 공통 모듈
+##### 핵심 공통 모듈
 **interceptor**
 -로그인 전용 사이트로 세션이 성립되지 않은 상태의 유저 접근을 차단했습니다.
 
@@ -50,4 +50,8 @@ https://ovenapp.io/view/Ntd1KnyhgbNzXo9tqhX7V03tHz7taMpm/bpi5I
 **예외처리**
 @ControllerAdvice 어노테이션을 이용하여 404, 500등의 예외처리를 진행했습니다.
 
-##
+## 핵심 기능
+##### 네이버 아이디 로그인 api 사용
+##### 당근 마켓과 유사한 위치 기반 경매 시스템
+##### 경매완료 시 경매등록자와 경매참여자간의 채팅방 생성
+##### BootPay를 이용하여 nicepay pg사를 연동해 결정
