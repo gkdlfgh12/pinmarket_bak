@@ -1,6 +1,5 @@
 package com.pinmarket.service.mypage;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,28 +14,27 @@ import com.pinmarket.vo.AttachmentVO;
 import com.pinmarket.vo.AuctionVO;
 import com.pinmarket.vo.MemberVO;
 import com.pinmarket.vo.OrderVO;
-import com.pinmarket.vo.ProductVO;
 import com.pinmarket.vo.RankingVO;
 
-import lombok.extern.log4j.Log4j;
-
 @Service
-@Log4j
 public class MypageServiceImpl implements MypageService{
 
 	@Autowired
 	MypageMapper mapper;
 	
+	//내 정보 추출
 	@Override
 	public MemberVO getMyInfo(int id) {
 		return mapper.getMyInfo(id);
 	}
 
+	//내 결제 정보 추출
 	@Override
 	public List<OrderVO> getPaymentInfo(int id) {
 		return mapper.getPaymentInfo(id);
 	}
 
+	//내가 올린 옥션 리스트
 	@Override
 	public List<AuctionVO> getMyAutionList(int id, PageCreator pc) {
 		//경매 리스트 가져오기
@@ -56,41 +54,32 @@ public class MypageServiceImpl implements MypageService{
 				
 				//만약 경매가 성사된 거라면 성사된 경매의 개수와 랭크 id GET
 				RankingVO compRankVO = mapper.getAuctionRankStatus(auctionVO.get(i).getId());
-				log.info("결과 값 0- 1 "+compRankVO);
 				
 				//경매가 성사된 것 과 안된것을 분기처리하여 저장
 				if(compRankVO == null) {
-					log.info("결과 값 0 "+auctionVO.get(i));
 					map.put("id", auctionVO.get(i).getId());
 					map.put("rankId", 0);
 					rankVO = mapper.getAuctionRankList(map);
 				}else {
-					log.info("결과 값 1 이상, 경매가 완료가 된 옥션  : "+compRankVO.getId());
-					log.info("결과 값 1 이상, 경매가 완료가 된 옥션  : "+auctionVO.get(i).getId());
 					map.put("id", auctionVO.get(i).getId());
 					map.put("rankId", compRankVO.getId());
 					rankVO = mapper.getAuctionRankList(map);
-					log.info("rankVOrankVOrankVO : :: "+rankVO);
 				}
 				map.clear();
 				auctionVO.get(i).setRankingVO(rankVO);
-				
-				log.info("auctionVO : ~  ~~ "+auctionVO.get(i));
 				
 				/*List<Object> dataSet = new ArrayList<Object>();
 				dataSet.add(auctionVO.get(i));
 				dataSet.add(rankVO);
 				mapVO.put("auction"+i, dataSet);*/
 				//mapVO.put(i, dataSet);
-				
-				//log.info("rankVO : ~ "+mapVO.get(auctionVO.get(i).getId()));
 			}
 		}
 		
-		log.info("auctionVO : ~ "+auctionVO);
 		return auctionVO;
 	}
 	
+	//비밀번호 변경시 기존 비밀번호 체크
 	@Override
 	public int chkPwd(String password, int id) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -99,6 +88,7 @@ public class MypageServiceImpl implements MypageService{
 		return mapper.chkPwd(map);
 	}
 
+	//변경된 비밀번호 저장
 	@Override
 	public int changePwd(String newPassword, int id) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -107,11 +97,13 @@ public class MypageServiceImpl implements MypageService{
 		return mapper.changePwd(map);
 	}
 
+	//정보 변경
 	@Override
 	public int changeInfo(MemberVO memberVO) {
 		return mapper.changeInfo(memberVO);
 	}
 
+	//프로필 정보 변경
 	@Override
 	public int changeProfile(MultipartFile profileImg, AttachmentVO attachmentVO) {
 		attachmentVO.setFile_type("member");
@@ -122,6 +114,7 @@ public class MypageServiceImpl implements MypageService{
 		return mapper.changeProfile(attachmentVO);
 	}
 
+	//프로필 없을 시 추가
 	@Override
 	public void insertProfile(MultipartFile profileImg, AttachmentVO attachmentVO) {
 		attachmentVO.setFile_type("member");
@@ -132,16 +125,19 @@ public class MypageServiceImpl implements MypageService{
 		mapper.insertProfile(attachmentVO);
 	}
 
+	//내가 올린 경매 총 게시글 수
 	@Override
 	public int getMyAutionTotal(int member_id) {
 		return mapper.getMyAutionTotal(member_id);
 	}
 
+	//내가 올린 랭크의 수
 	@Override
 	public int getMyRankTotal(int member_id) {
 		return mapper.getMyRankTotal(member_id);
 	}
 
+	//내가 올린 랭크와 옥션 정보 겟
 	@Override
 	public List<RankingVO> getMyRankList(int member_id, PageCreator pc) {
 		
@@ -151,7 +147,6 @@ public class MypageServiceImpl implements MypageService{
 		HashMap<String, Object> mapVO = new HashMap<String, Object>();
 		mapVO.put("member_id", member_id);
 		mapVO.put("pc", pc);
-		log.info("rankVO : rankVO ~~ rankVO : rankVO ~~  ");
 		List<RankingVO> rankVO = mapper.getMyRankList(mapVO);
 		
 		if(rankVO != null) {
@@ -159,14 +154,9 @@ public class MypageServiceImpl implements MypageService{
 				
 				AuctionVO tmpAuctionVO = mapper.getAuctionInfo(rankVO.get(i).getAuction_id());
 				
-				//log.info("tmpAuctionVO : ~ tmpAuctionVO : "+tmpAuctionVO);
-				
 				int result = mapper.checkAucRankStatus(rankVO.get(i));
-				log.info("result : `  ~~ "+rankVO.get(i));
-				log.info("result : `  ~~ "+result);
 				rankVO.get(i).setAuctionVO(tmpAuctionVO);
 				rankVO.get(i).setAucResult(result);
-				log.info("rankVO : rankVOrankVOrankVO : ~~ "+rankVO.get(i));
 				
 			}
 		}

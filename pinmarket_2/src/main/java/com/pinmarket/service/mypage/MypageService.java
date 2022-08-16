@@ -1,6 +1,5 @@
 package com.pinmarket.service.mypage;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -10,7 +9,6 @@ import com.pinmarket.vo.AttachmentVO;
 import com.pinmarket.vo.AuctionVO;
 import com.pinmarket.vo.MemberVO;
 import com.pinmarket.vo.OrderVO;
-import com.pinmarket.vo.ProductVO;
 import com.pinmarket.vo.RankingVO;
 
 public interface MypageService {

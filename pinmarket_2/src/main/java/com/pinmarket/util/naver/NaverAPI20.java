@@ -2,7 +2,6 @@ package com.pinmarket.util.naver;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
 
-//subscrib�� Ȱ���� ���� ����� �����ϴ� class
 public class NaverAPI20 extends DefaultApi20 implements SnsUrls{
 	
 	private NaverAPI20() {

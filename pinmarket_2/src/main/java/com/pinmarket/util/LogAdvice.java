@@ -16,7 +16,6 @@ public class LogAdvice {
 	@AfterThrowing(value = "execution(* com.pinmarket.service.auction.*.*(..)) || execution(* com.pinmarket.service.product.*.*(..))",throwing = "exception")
 	public void afterThrowing(JoinPoint joinPoint, Exception exception) {
 		
-		log.info("aop info");
 		log.error("<< 여기는 aop afterThrowing >>");
 		log.error("joinPoint toString : "+joinPoint.toString());
 		log.error("joinPoint Signature : "+joinPoint.getSignature());
