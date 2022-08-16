@@ -14,35 +14,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pinmarket.service.admin.auction.adAuctionService;
-import com.pinmarket.vo.AuctionVO;
-import com.pinmarket.vo.PageVO;
 import com.pinmarket.vo.RankingVO;
 import com.pinmarket.vo.SearchVO;
 
-import lombok.extern.log4j.Log4j;
-
 @RestController
 @RequestMapping("/api/admin")
-@Log4j
 public class ApiAdAuctionController {
 	
 	@Autowired
 	adAuctionService service;
 	
+	//랭크 리스트 가져오기
 	@PostMapping("/rank/list")
 	public ResponseEntity<List<RankingVO>> rankList(HttpServletRequest request, Model model, @RequestBody SearchVO searchVO){
 		
-		log.info("/rank/list");
 		//랭크 리스트 가져오기
 		List<RankingVO> rankList = service.getRankList(searchVO);
+		
 		//개행문자 -> html태그로 변경 (줄바꿈)
 		for(int i=0;i<rankList.size();i++) {
 			rankList.get(i).setContent(rankList.get(i).getContent().replace("\r\n", "</br>"));
 		}
-		log.info("rankList : "+rankList);
-		log.info("searchVO : "+searchVO);
-		
-		//
 		
 		return new ResponseEntity<List<RankingVO>>(rankList,HttpStatus.OK);
 	}

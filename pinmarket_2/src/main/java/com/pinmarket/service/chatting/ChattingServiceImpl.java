@@ -22,6 +22,7 @@ public class ChattingServiceImpl implements ChattingService{
 	@Qualifier("chattingMapper")
 	ChattingMapper mapper;
 
+	//room 정보 get
 	@Override
 	public List<RoomVO> getRoomList(Integer host_id,String auction_title) {
 		log.info("getRoomService 진입 : ~ "+host_id);
@@ -31,11 +32,13 @@ public class ChattingServiceImpl implements ChattingService{
 		return mapper.getRoomList(roomInfoMap);
 	}
 
+	//메시지 받기
 	@Override
 	public List<MsgVO> getMsgList(Integer room_id) {
 		return mapper.getMsgList(room_id);
 	}
 
+	//메시지 저장
 	@Override
 	public int insertMsg(String room_id, String real_msg, Integer member_id) {
 		log.info("insertMsg : ");
@@ -46,6 +49,7 @@ public class ChattingServiceImpl implements ChattingService{
 		return mapper.insertMsg(msgMap);
 	}
 
+	//채팅 방 나가기
 	@Override
 	public int roomDelete(Integer room_id) {
 		return mapper.roomDelete(room_id);

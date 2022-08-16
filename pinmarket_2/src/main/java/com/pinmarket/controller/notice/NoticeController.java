@@ -28,16 +28,15 @@ import lombok.extern.log4j.Log4j;
 
 @Controller
 @RequestMapping("/notice")
-@Log4j
 public class NoticeController {
 	
 	@Autowired
 	NoticeService service;
 	
+	//자유 질문 게시판
 	@Transactional
 	@GetMapping("/freeFaqList")
 	public String freeFaqList(HttpServletRequest request, Model model, PageVO pageVO) throws Exception {
-		log.info("자유 질문 게시판!! ");
 		
 		//자유 질문에 맞게 페이징 정보 수정
 		if(pageVO.getPage() == 1) {
@@ -54,29 +53,25 @@ public class NoticeController {
 		pc.setPaging(pageVO);
 		pc.setArticleTotalCount(totalCnt);
 		model.addAttribute("pc",pc);
-		log.info("pageObject : ~ "+pc);
-		log.info("pageVO : ~ "+pageVO);
 		
 		//게시글 겟
 		List<BoardVO> list = service.getFreeFaqList(pc);
-		log.info("getFreeFaqList : "+list);
 		model.addAttribute("list",list);
 		
 		return "notice.freeFaqList";
 	}
 
+	//자유질문 작성
 	@PostMapping("/wrtieFreeFaq")
 	public String wrtieFreeFaq(HttpServletRequest request, RedirectAttributes ra, Model model, PageVO pageVO,
 			BoardVO boardVO) {
 		
-		log.info("wrtieFreeFaq : ~");
 		//세션정보로 id 값 얻기
 		MemberVO memberVO = SessionCreater.getSession(request);
 		boardVO.setBoard_type("freeFaq");
 		boardVO.setMember_id(memberVO.getId());
 		
 		int result = service.wrtieFreeFaq(boardVO);
-		log.info("result : ~"+result);
 		
 		ra.addAttribute("page",pageVO.getPage());
 		ra.addAttribute("countPerPage",pageVO.getCountPerPage());
@@ -84,23 +79,18 @@ public class NoticeController {
 		return "redirect:/notice/freeFaqList";
 	}
 	
+	//자유질문 자세히 보기
 	@GetMapping("/freeView")
 	public String freeView(HttpServletRequest request, RedirectAttributes ra, Model model, PageVO pageVO,
 			@RequestParam String id) {
 		
-		log.info("freeView : ~");
-		log.info("id : ~"+id);
-		log.info("pageVO : ~"+pageVO);
-		
 		//세션정보로 id 값 얻기
 		MemberVO memberVO = SessionCreater.getSession(request);
 		model.addAttribute("loginVO", memberVO);
-		log.info("memberVO"+memberVO);
 		
 		//자유 질문 입력
 		BoardVO boardVO = service.getFaq(id);
 		model.addAttribute("boardVO",boardVO);
-		log.info("boardVO"+boardVO);
 		
 		//페이징 정보 전달
 		model.addAttribute("pageVO",pageVO);
@@ -108,12 +98,10 @@ public class NoticeController {
 		return "notice.freeFaqView";
 	}
 	
-	
+	//자유질문 수정
 	@GetMapping("/freeModifyForm")
 	public String freeModifyForm(HttpServletRequest request, RedirectAttributes ra, Model model, PageVO pageVO,
 			@RequestParam String board_id) {
-		
-		log.info("freeModifyForm : ~ "+board_id);
 		
 		//세션정보로 id 값 얻기
 		MemberVO memberVO = SessionCreater.getSession(request);
@@ -123,16 +111,15 @@ public class NoticeController {
 		//자유 질문 입력
 		BoardVO boardVO = service.getFaq(board_id);
 		model.addAttribute("boardVO",boardVO);
-		log.info("boardVO"+boardVO);
 		
 		return "notice.freeFaqModify";
 	}
 	
+	//자유질문 수정
 	@PostMapping("/freeModify")
 	public String freeModify(HttpServletRequest request, RedirectAttributes ra, Model model, PageVO pageVO,
 			BoardVO boardVO) {
 		
-		log.info("freeModifyForm : ~ "+boardVO);
 		//세션정보로 id 값 얻기
 		MemberVO memberVO = SessionCreater.getSession(request);
 		model.addAttribute("loginVO", memberVO);
@@ -140,7 +127,6 @@ public class NoticeController {
 		
 		//여기에 수정한거 저장하는 로직 구현
 		int result = service.modifyFaq(boardVO);
-		log.info("result : "+result);
 		ra.addAttribute("page",pageVO.getPage());
 		ra.addAttribute("countPerPage",pageVO.getCountPerPage());
 		ra.addAttribute("id", boardVO.getId());
@@ -148,11 +134,12 @@ public class NoticeController {
 		return "redirect:/notice/freeView";
 	}
 	
+	//자유질문 삭제
 	@GetMapping("/freeDel")
 	public String freeDel(HttpServletRequest request, RedirectAttributes ra, Model model, PageVO pageVO,
 			BoardVO boardVO) {
 		//여기에 수정한거 저장하는 로직 구현
-		int result = service.deleteFaq(boardVO);
+		service.deleteFaq(boardVO);
 		
 		ra.addAttribute("page",pageVO.getPage());
 		ra.addAttribute("countPerPage",pageVO.getCountPerPage());
@@ -160,10 +147,9 @@ public class NoticeController {
 		return "redirect:/notice/freeFaqList";
 	}
 	
-	//best faq
+	//자주묻는질문 
 	@GetMapping("/bestFaqList")
 	public String bestFaqList(HttpServletRequest request, Model model, PageVO pageVO) throws Exception {
-		log.info("자주묻는 질문 게시판!! ");
 		
 		MemberVO memberVO = SessionCreater.getSession(request);
 		model.addAttribute("loginVO",memberVO);
@@ -174,7 +160,6 @@ public class NoticeController {
 			list.get(i).setContent(list.get(i).getContent().replace("\n", "</br>"));
 		}
 		model.addAttribute("list", list);
-		log.info("listlist : ~ "+list);
 		
 		return "notice.bestFaqList";
 	}

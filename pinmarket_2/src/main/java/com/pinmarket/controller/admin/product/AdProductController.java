@@ -29,31 +29,27 @@ public class AdProductController {
 	@Autowired
 	AdProductService service;
 
+	//상품 목록 가져오기
 	@GetMapping("/list")
 	public String list(Model model) {
-		
-		log.info("product : ");
 		
 		List<ProductVO> list = service.list();
 		//개행문자 -> html태그로 변경 (줄바꿈)
 		for(int i=0;i<list.size();i++) {
 			list.get(i).setDescript(list.get(i).getDescript().replace("\r\n", "</br>"));
 		}
-		log.info("list : ~ "+list);
 		model.addAttribute("list",list);
 		
 		return "admin.product.list";
 	}
 	
+	//상품 수정
 	@PostMapping("/updateProduct")
 	public String updateProduct(HttpServletRequest request, Model model, ProductVO productVO) throws Exception {
 		
-		log.info("list : ~~ "+productVO);
-		int result = service.updateProduct(productVO);
-		log.info("result : "+result);
+		service.updateProduct(productVO);
 		
 		if(productVO.getProduct_file().getOriginalFilename() != "") {
-			log.info("상품 !! ");
 			AttachmentVO attach = new AttachmentVO();
 			attach.setFk_id(productVO.getId());
 			attach.setFile_type("product");
@@ -64,23 +60,19 @@ public class AdProductController {
 			attach.setSave_name(FileUtil.upload("/upload/productImage", productVO.getProduct_file(), request).split("/")[3]);
 			//attach.setThumbnail_name(FileUtil.thumbnailUpload("/upload/thumbProductImage", productVO.getProduct_file(), request));
 			attach.setThumbnail_name("");
-			log.info("attach : ~`~ "+attach);
 			service.changeImage(attach);
 		}
 		
 		return "redirect:/admin/product/list";
 	}
 	
+	//상품 입력
 	@PostMapping("/insertProduct")
 	public String insertProduct(HttpServletRequest request, Model model, ProductVO productVO) throws Exception {
 		
-		log.info("insertProduct : ~~ "+productVO);
-		int result = service.insertProduct(productVO);
-		log.info("insertProduct id : ~~ "+productVO.getId());
-		log.info("result : "+result);
+		service.insertProduct(productVO);
 		
 		if(productVO.getProduct_file() != null) {
-			log.info("상품 !! ");
 			AttachmentVO attach = new AttachmentVO();
 			attach.setFk_id(productVO.getId());
 			attach.setFile_type("product");
@@ -90,7 +82,6 @@ public class AdProductController {
 			attach.setFile_ext(productVO.getProduct_file().getContentType().split("/")[1]);
 			attach.setSave_name(FileUtil.upload("/upload/productImage", productVO.getProduct_file(), request).split("/")[3]);
 			attach.setThumbnail_name("");
-			log.info("attach : ~`~ "+attach);
 			service.insertImage(attach);
 		}
 		

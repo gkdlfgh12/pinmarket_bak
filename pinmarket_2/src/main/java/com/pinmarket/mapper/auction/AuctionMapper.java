@@ -30,6 +30,7 @@ public interface AuctionMapper {
 	//rank 등록
 	public int rankInsert(RankingVO rank);
 
+	//rank 리스트 가져오기
 	public List<RankingVO> getRankList(SearchVO searchVO);
 	
 	//랭크에 이미 등록된 계정이 있는지 체크

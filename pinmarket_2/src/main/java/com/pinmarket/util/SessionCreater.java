@@ -16,8 +16,6 @@ public class SessionCreater {
 	public static MemberVO getSession(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		MemberVO memberVO= (MemberVO)session.getAttribute("loginVO");
-		log.info("memberVO : ~ "+memberVO);
-		//model.addAttribute("loginVO",memberVO);
 		
 		return memberVO;
 	}
