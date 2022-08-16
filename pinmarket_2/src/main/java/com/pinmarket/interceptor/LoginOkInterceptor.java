@@ -24,10 +24,6 @@ public class LoginOkInterceptor implements HandlerInterceptor{
 	    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 	            throws Exception {
 	        boolean result = true;
-			//요청 타입(get/post)및 사용자의 request url 정보 출력
-			System.out.println("preHandle1");
-	        System.out.println("[preHandle][" + request + "]" + "[" + request.getMethod() + "]" + request.getRequestURI());
-	        System.out.println("[handler][" + handler.toString() + "]");
 	        
 	        HttpSession session = request.getSession();
 	        if(session.getAttribute("loginVO") == null) {

@@ -20,11 +20,13 @@ public class adAuctionServiceImpl implements adAuctionService{
 	@Autowired
 	adAuctionMapper mapper;
 	
+	//옥션의 개수
 	@Override
 	public int getTotal(String title) {
 		return mapper.getTotal(title);
 	}
 	
+	//옥션 리스트 겟
 	@Override
 	public List<AuctionVO> getList(PageCreator pc, String title) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -33,11 +35,13 @@ public class adAuctionServiceImpl implements adAuctionService{
 		return mapper.getList(map);
 	}
 
+	//옥션 삭제
 	@Override
 	public int deleteAuction(Integer[] delChk) {
 		return mapper.deleteAuction(delChk);
 	}
 
+	//옥션 정보, 이미지 파일, 가져오기
 	@Override
 	public Map<String, Object> getDetail(Integer id) {
 		Map<String, Object> mapInfo = new HashMap<String, Object>();
@@ -47,6 +51,7 @@ public class adAuctionServiceImpl implements adAuctionService{
 		return mapInfo;
 	}
 
+	//옥션에 대응되는 랭크 정보 가져오기
 	@Override
 	public List<RankingVO> getRankList(SearchVO searchVO) {
 		return mapper.getRankList(searchVO);

@@ -58,6 +58,7 @@ public class MemberServiceImpl implements MemberService{
 		return mapper.joinCheck(map);
 	}
 	
+	//sns 회원가입
 	@Override
 	public int snsjoin(MemberVO profile) {
 		
@@ -71,6 +72,7 @@ public class MemberServiceImpl implements MemberService{
 		return mapper.idDupleCheck(str_id);
 	}
 
+	//상품 결제 후 item cnt 추가
 	@Override
 	public int addItemCnt(int member_id,int cnt) {
 		Map<String, Integer> param = new HashMap<String, Integer>();
@@ -81,12 +83,14 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 
+	//랭크 등록 시 item 사용했으면 cnt - 1
 	@Override
 	public void minusItemCnt(int member_id) {
 		mapper.minusItemCnt(member_id);
 		
 	}
 
+	//아이템 개수 확인
 	@Override
 	public int getItemCnt(int member_id) {
 		return mapper.getItemCnt(member_id);

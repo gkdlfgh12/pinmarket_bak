@@ -15,12 +15,12 @@ import com.pinmarket.vo.ProductVO;
 import lombok.extern.log4j.Log4j;
 
 @Service
-@Log4j
 public class MainServiceImpl implements MainService{
 
 	@Autowired
 	MainMapper mapper;
 	
+	//메인 화면 TOP10 게시글 출력
 	@Override
 	public List<AuctionVO> getTopAuction(int startRow, int endRow) {
 		Map<String, Integer> row = new HashMap<String, Integer>();
@@ -29,6 +29,7 @@ public class MainServiceImpl implements MainService{
 		return mapper.getTopAuction(row);
 	}
 
+	//인기 상품 출력
 	@Override
 	public ProductVO getTopProduct() {
 		//상품을 구매한 개수 출력

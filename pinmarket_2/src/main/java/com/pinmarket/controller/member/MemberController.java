@@ -40,6 +40,7 @@ public class MemberController {
 	@Qualifier("naverSns")
 	SnsValue naverSns;
 	
+	//네아로 콜백 주소
 	@RequestMapping(value = "/auth/naver/callback", method = {RequestMethod.GET, RequestMethod.POST})
 	public String snsLoginCallback(Model model, @RequestParam String code, HttpServletRequest requset) throws Exception {
 		
@@ -57,7 +58,7 @@ public class MemberController {
 				session.setAttribute("loginVO", vo);
 			}else{
 				//회원 없을때는 회원가입 시키기
-				int joinResult = service.snsjoin(profile);
+				service.snsjoin(profile);
 				//회원정보 꺼내서 세션 등록
 				session.setAttribute("loginVO", service.joinCheck(profile.getStr_id(), profile.getSns_id()));
 				return "redirect:/main";
@@ -71,6 +72,7 @@ public class MemberController {
 		return "redirect:/main";
 	}
 	
+	//로그인 폼
 	@GetMapping("/loginForm")
 	public String loginForm(Model model) throws ParseException {
 		
@@ -81,6 +83,7 @@ public class MemberController {
 		return "member.loginForm";
 	}
 	
+	//로그인 처리
 	@PostMapping("/login")
 	public String login(HttpServletRequest request, RedirectAttributes ra, MemberVO vo){
 		
@@ -92,7 +95,7 @@ public class MemberController {
 			//세션 생성
 			HttpSession session = request.getSession();
 			session.setAttribute("loginVO", dbvo);
-			return "redirect:/main"; // 메인으로
+			return "redirect:/main"; 
 		}else {
 			//실패 처리
 			ra.addFlashAttribute("msg", "해당 계정은 존재 하지 않습니다.");
@@ -100,6 +103,7 @@ public class MemberController {
 		}
 	}
 	
+	//로그아웃 처리
 	@GetMapping("/logout")
 	public String logout(HttpServletRequest request, RedirectAttributes ra, MemberVO vo) {
 		
@@ -110,19 +114,16 @@ public class MemberController {
 		return "redirect:/member/loginForm";
 	}
 	
+	//회원가입 폼
 	@GetMapping("joinForm")
 	public String joinForm() {
 		
-		log.info("회원가입 폼 ~~");
-
 		return "member.joinForm";
 	}
 	
+	//회원가입 처리
 	@PostMapping("/join")
 	public String join(HttpServletRequest request, MemberVO vo, Model model) throws Exception {
-		
-		log.info("회원가입 실행 ~~");
-		log.info("MemberVO vo : "+vo);
 		
 		//파일 업로드
 		AttachmentVO attachmentVO = new AttachmentVO();
@@ -130,13 +131,6 @@ public class MemberController {
 		attachmentVO.setThumbnail_name(FileUtil.thumbnailUpload("/upload/memberImage/thumbMemberImage", vo.getProfileImage(), request));
 		vo.setPw(DigestUtils.sha256Hex(vo.getPw()));
 		int result = service.join(vo, attachmentVO);
-		log.info("member");
-		log.info("vo.getId() : "+vo.getId());
-		log.info("save_name : "+vo.getProfileImage().getOriginalFilename());
-		log.info("real_name : "+vo.getProfileImage().getOriginalFilename());
-		log.info("file_path : "+"/upload/image/"+vo.getProfileImage().getOriginalFilename());
-		log.info("file_size : "+vo.getProfileImage().getSize());
-		log.info("file_ext : "+vo.getProfileImage().getContentType());
 		
 		if(result == 1) return "redirect:/member/loginForm";
 		else return "redirect:/member/joinForm";

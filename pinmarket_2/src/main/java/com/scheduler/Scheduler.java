@@ -29,11 +29,11 @@ public class Scheduler {
 					// 초 뷴     시  날  달 요일
 	@Scheduled(cron = "0 0/5 0 * * *")
 	public void auctionStatusChange() {
-		System.out.println("옥션의 날짜 값에 따라 상태 값 변경");
+		log.info("옥션의 날짜 값에 따라 상태 값 변경");
 		Date toDay = new Date();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
 		String toDate = simpleDateFormat.format(toDay);
 		int result = service.updateStatus(toDate);
-		System.out.println("result : "+result);
+		log.info("result : "+result);
 	}
 }
