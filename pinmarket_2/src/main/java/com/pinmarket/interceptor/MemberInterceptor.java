@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.log4j.Log4j;
 
-@Log4j
 public class MemberInterceptor implements HandlerInterceptor{
 	//컨트롤러를 찾은 후 실행
 	/*@Override
@@ -28,10 +27,6 @@ public class MemberInterceptor implements HandlerInterceptor{
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         boolean result = true;
-		//요청 타입(get/post)및 사용자의 request url 정보 출력
-		System.out.println("preHandle1");
-        System.out.println("[preHandle][" + request + "]" + "[" + request.getMethod() + "]" + request.getRequestURI());
-        System.out.println("[handler][" + handler.toString() + "]");
         
         HttpSession session = request.getSession();
         if(session.getAttribute("loginVO") != null) {

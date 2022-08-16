@@ -1,20 +1,14 @@
 package com.pinmarket.util;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.extern.log4j.Log4j;
 import net.coobird.thumbnailator.Thumbnailator;
 
-@Log4j
 public class FileUtil {
 	// 파일이 존재하는지 확인하는 메서드
 	public static boolean exist(File file) throws Exception{
@@ -23,7 +17,6 @@ public class FileUtil {
 	
 	// 파일이 존재하는지 확인하는 메서드
 	public static boolean exist(String fileName) throws Exception{
-		log.info("파일 이름 : "+fileName);
 		return toFile(fileName).exists();
 	}
 	
@@ -90,15 +83,9 @@ public class FileUtil {
 		
 		File file = null;
 		int dotPos = fileFullName.lastIndexOf(".");
-		//log.info("dotPos : "+dotPos);
-		// image.jpg - fileName : image, ext : .jpg
 		String fileName = fileFullName.substring(0, dotPos); // image
 		String ext = fileFullName.substring(dotPos); // .jpg
 		int cnt = 0; // 중복이 됐을 때 카운트를 중간에 넣는다. fileName + cnt + ext. 중복이 되면 cnt++ 한다.
-		//log.info("fileName : "+fileName);
-		//log.info("ext : "+ext);
-		// 파일 정보확인
-		//System.out.println("FileUtil.noDuplicate().fileName = " + fileName + ", ext = " + ext);
 		
 		while(true) {
 			if(cnt == 0)
@@ -147,8 +134,6 @@ public class FileUtil {
 			fileFullName = PATH + "/" + saveFile.getName();
 
 			if(extCheck(getExt(fileName))) {
-				//File thSaveFile = noDuplicate(getRealPath("/upload/thumbAuctionImage", fileName, request));
-				///upload/auctionImage에 있는 파일을 리사이징 하는거임 파일을 새로 만든다는 개념이 아닌!
 				File thSaveFile = noDuplicate(getRealPath(PATH, fileName, request));
 				FileOutputStream thumbnail = new FileOutputStream(thSaveFile);
 				Thumbnailator.createThumbnail(multiFile.getInputStream(),thumbnail,250,210);

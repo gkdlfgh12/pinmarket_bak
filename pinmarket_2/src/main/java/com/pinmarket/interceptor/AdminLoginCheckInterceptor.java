@@ -13,16 +13,11 @@ import com.pinmarket.vo.MemberVO;
 
 import lombok.extern.log4j.Log4j;
 
-@Log4j
 public class AdminLoginCheckInterceptor implements HandlerInterceptor{
 	//컨트롤러를 찾은 후 실행
 	/*@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
-		//modelAndView()로 모델에 저장된 데이터와 사용사에 리턴할 뷰 이름은 출력할 수 있다.
-		log.info("[ postHandle ]");
-		log.info("getModel() : "+modelAndView.getModel());
-		log.info("getViewName() : "+modelAndView.getViewName());
 	}*/
 	
 	//컨트롤러 작업 전 실행
@@ -30,21 +25,10 @@ public class AdminLoginCheckInterceptor implements HandlerInterceptor{
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         boolean result = true;
-		//요청 타입(get/post)및 사용자의 request url 정보 출력
-		System.out.println("admin preHandle1");
-        System.out.println("[admin preHandle1][" + request + "]" + "[" + request.getMethod() + "]" + request.getRequestURI());
-        System.out.println("[admin preHandle1][" + handler.toString() + "]");
         
         HttpSession session = request.getSession();
 		MemberVO memberVO = (MemberVO) session.getAttribute("loginVO");
         
-        //개발용으로 임시로 만들어논것
-        /*MemberVO memberVO = new MemberVO();
-        memberVO.setId(28);
-        memberVO.setStr_id("qweqwe123");
-        memberVO.setMember_level(0);
-        session.setAttribute("loginVO", memberVO);*/
-		// -----------------------
         if(memberVO == null) {
         	response.setCharacterEncoding("UTF-8");
         	response.setContentType("text/html; charset=UTF-8");
@@ -63,7 +47,6 @@ public class AdminLoginCheckInterceptor implements HandlerInterceptor{
         	printwriter.close();
         }
         
-        //여기서 세션이나 로그인 정보를 얻어내서 유무값 확인후 리다이렉트 할지 정함
         return result;
     }
 	
