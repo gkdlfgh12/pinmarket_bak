@@ -13,17 +13,15 @@ import lombok.extern.log4j.Log4j;
 
 @RestController
 @RequestMapping("/api")
-@Log4j
 public class apiMemberController {
 	
 	@Autowired
 	MemberService service;
 	
+	//id중복 체크
 	@GetMapping("/idDupleCheck")
 	public ResponseEntity<String> idDupleCheck(String str_id) {
-		log.info("idDupleCheck ~~");
 		int cnt = service.idDupleCheck(str_id);
-		log.info("cnt : "+cnt);
 		if(cnt == 0) return new ResponseEntity<String>("success", HttpStatus.OK);
 		else return new ResponseEntity<String>("fail", HttpStatus.OK);
 	}

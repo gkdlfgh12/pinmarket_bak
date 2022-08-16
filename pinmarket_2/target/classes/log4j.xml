@@ -12,9 +12,9 @@
 	
 		<!-- <param name="Threshold" value="ERROR"></param> -->
 	<appender name="fileLogger" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="file" value="c://logs//spring//exception.Log"/>
+		<param name="file" value="c://logs//spring//AucPro-exception.Log"/>
         <param name="Append" value="true"/>
-        <param name="dataPattern" value=".yyyy"/>
+        <param name="dataPattern" value=".yyyy-MM-dd"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p: %F:%L - %m%n" />
         </layout>
